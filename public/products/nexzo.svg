@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="ui-monospace, Menlo, monospace">
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8ad8ff" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#4f7cff" stop-opacity="0.06"/>
+    </linearGradient>
+    <linearGradient id="salesFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ad8ff" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#8ad8ff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="#0a0c12"/>
+  <rect width="1200" height="800" fill="url(#glow)"/>
+  <g stroke="#ffffff" stroke-opacity="0.03">
+    <path d="M0 200H1200M0 400H1200M0 600H1200M300 0V800M600 0V800M900 0V800"/>
+  </g>
+
+  <!-- top bar -->
+  <rect x="44" y="36" width="28" height="28" rx="8" fill="#4f7cff"/>
+  <text x="92" y="56" fill="#ffffff" fill-opacity="0.85" font-size="17" letter-spacing="5">NEXZO · RESTAURANT OPS</text>
+  <rect x="920" y="34" width="236" height="40" rx="20" fill="#10131c" stroke="#ffffff" stroke-opacity="0.10"/>
+  <circle cx="948" cy="54" r="6" fill="#34d399"/>
+  <text x="966" y="59" fill="#ffffff" fill-opacity="0.6" font-size="14" letter-spacing="3">3 OUTLETS LIVE</text>
+
+  <!-- live sales chart -->
+  <g>
+    <rect x="44" y="104" width="700" height="410" rx="20" fill="#10131c" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="76" y="152" fill="#ffffff" fill-opacity="0.55" font-size="13" letter-spacing="4">LIVE SALES — TODAY</text>
+    <text x="76" y="212" fill="#ffffff" fill-opacity="0.92" font-size="42">₹1,84,320</text>
+    <rect x="330" y="184" width="82" height="26" rx="13" fill="#34d399" fill-opacity="0.14" stroke="#34d399" stroke-opacity="0.4"/>
+    <text x="344" y="202" fill="#34d399" font-size="13">+12%</text>
+    <g stroke="#ffffff" stroke-opacity="0.05">
+      <path d="M76 300H712M76 380H712M76 460H712"/>
+    </g>
+    <path d="M76 452 L156 430 L236 444 L316 396 L396 412 L476 348 L556 372 L636 306 L712 322 V486 H76 Z" fill="url(#salesFill)"/>
+    <path d="M76 452 L156 430 L236 444 L316 396 L396 412 L476 348 L556 372 L636 306 L712 322" fill="none" stroke="#8ad8ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="636" cy="306" r="7" fill="#8ad8ff" stroke="#0a0c12" stroke-width="3"/>
+    <rect x="576" y="256" width="150" height="34" rx="10" fill="#0a0c12" stroke="#8ad8ff" stroke-opacity="0.5"/>
+    <text x="594" y="278" fill="#8ad8ff" font-size="13" letter-spacing="2">DINNER RUSH</text>
+  </g>
+
+  <!-- outlet performance -->
+  <g>
+    <rect x="772" y="104" width="384" height="410" rx="20" fill="#10131c" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="804" y="152" fill="#ffffff" fill-opacity="0.55" font-size="13" letter-spacing="4">OUTLET PERFORMANCE</text>
+    <g>
+      <text x="804" y="212" fill="#ffffff" fill-opacity="0.45" font-size="12" letter-spacing="2">KOCHI CENTRAL</text>
+      <rect x="804" y="226" width="320" height="12" rx="6" fill="#ffffff" fill-opacity="0.06"/>
+      <rect x="804" y="226" width="288" height="12" rx="6" fill="#4f7cff"/>
+    </g>
+    <g>
+      <text x="804" y="286" fill="#ffffff" fill-opacity="0.45" font-size="12" letter-spacing="2">TRIVANDRUM</text>
+      <rect x="804" y="300" width="320" height="12" rx="6" fill="#ffffff" fill-opacity="0.06"/>
+      <rect x="804" y="300" width="230" height="12" rx="6" fill="#8ad8ff"/>
+    </g>
+    <g>
+      <text x="804" y="360" fill="#ffffff" fill-opacity="0.45" font-size="12" letter-spacing="2">CALICUT BEACH RD</text>
+      <rect x="804" y="374" width="320" height="12" rx="6" fill="#ffffff" fill-opacity="0.06"/>
+      <rect x="804" y="374" width="176" height="12" rx="6" fill="#a78bfa"/>
+    </g>
+    <rect x="804" y="426" width="320" height="56" rx="14" fill="#0a0c12"/>
+    <circle cx="830" cy="454" r="6" fill="#34d399"/>
+    <text x="848" y="459" fill="#ffffff" fill-opacity="0.5" font-size="12" letter-spacing="2">STAFF ATTENDANCE 96%</text>
+  </g>
+
+  <!-- bottom row: orders + payroll -->
+  <g>
+    <rect x="44" y="542" width="700" height="214" rx="20" fill="#10131c" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="76" y="590" fill="#ffffff" fill-opacity="0.55" font-size="13" letter-spacing="4">KITCHEN QUEUE</text>
+    <g>
+      <rect x="76" y="612" width="636" height="40" rx="12" fill="#0a0c12"/>
+      <text x="96" y="637" fill="#ffffff" fill-opacity="0.4" font-size="12" letter-spacing="2">#A-2401</text>
+      <rect x="220" y="626" width="280" height="8" rx="4" fill="#ffffff" fill-opacity="0.08"/>
+      <rect x="600" y="620" width="94" height="24" rx="12" fill="#fbbf24" fill-opacity="0.12" stroke="#fbbf24" stroke-opacity="0.4"/>
+      <text x="616" y="637" fill="#fbbf24" font-size="12">COOKING</text>
+    </g>
+    <g>
+      <rect x="76" y="660" width="636" height="40" rx="12" fill="#0a0c12"/>
+      <text x="96" y="685" fill="#ffffff" fill-opacity="0.4" font-size="12" letter-spacing="2">#A-2402</text>
+      <rect x="220" y="674" width="220" height="8" rx="4" fill="#ffffff" fill-opacity="0.08"/>
+      <rect x="600" y="668" width="94" height="24" rx="12" fill="#34d399" fill-opacity="0.13" stroke="#34d399" stroke-opacity="0.4"/>
+      <text x="624" y="685" fill="#34d399" font-size="12">SERVED</text>
+    </g>
+  </g>
+  <g>
+    <rect x="772" y="542" width="384" height="214" rx="20" fill="#10131c" stroke="#ffffff" stroke-opacity="0.08"/>
+    <text x="804" y="590" fill="#ffffff" fill-opacity="0.5" font-size="12" letter-spacing="4">PAYROLL — THIS MONTH</text>
+    <text x="804" y="648" fill="#ffffff" fill-opacity="0.92" font-size="38">₹4.6L</text>
+    <rect x="804" y="678" width="320" height="12" rx="6" fill="#ffffff" fill-opacity="0.06"/>
+    <rect x="804" y="678" width="252" height="12" rx="6" fill="#4f7cff"/>
+    <text x="804" y="726" fill="#ffffff" fill-opacity="0.4" font-size="12" letter-spacing="2">42 STAFF · AUTO-PROCESSED</text>
+  </g>
+</svg>

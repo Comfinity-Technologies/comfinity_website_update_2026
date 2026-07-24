@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+/* ---------- dark (default) ---------- */
+:root {
+  --background: #050609;
+  --surface: #0a0c12;
+  --surface-2: #10131c;
+  --foreground: #eef0f4;
+  --muted: #9aa1b0;
+  --faint: #6b7280;
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --accent: #4f7cff;
+  --accent-soft: #8ad8ff;
+  --accent-violet: #a78bfa;
+  --wash: rgba(255, 255, 255, 0.045);
+  --ink-ghost: rgba(255, 255, 255, 0.09);
+  --grid-line: rgba(255, 255, 255, 0.035);
+  --watermark: rgba(255, 255, 255, 0.03);
+  --glass-a: rgba(255, 255, 255, 0.045);
+  --glass-b: rgba(255, 255, 255, 0.015);
+  --glow-opacity: 1;
+}
+
+/* ---------- light ---------- */
+:root[data-theme="light"] {
+  --background: #f6f7fa;
+  --surface: #ffffff;
+  --surface-2: #eef1f7;
+  --foreground: #0c0f17;
+  --muted: #555d6e;
+  --faint: #8a92a3;
+  --line: rgba(12, 18, 40, 0.09);
+  --line-strong: rgba(12, 18, 40, 0.18);
+  --accent: #3b66e8;
+  --accent-soft: #2f7fd6;
+  --accent-violet: #7c5fe0;
+  --wash: rgba(12, 20, 50, 0.04);
+  --ink-ghost: rgba(12, 18, 40, 0.1);
+  --grid-line: rgba(12, 18, 40, 0.055);
+  --watermark: rgba(12, 18, 40, 0.035);
+  --glass-a: rgba(255, 255, 255, 0.8);
+  --glass-b: rgba(255, 255, 255, 0.45);
+  --glow-opacity: 0.55;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-violet: var(--accent-violet);
+  --color-wash: var(--wash);
+  --color-ink-ghost: var(--ink-ghost);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: initial;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- typography helpers ---------- */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.04em;
+  padding-right: 0.06em;
+  margin-right: 0.12em;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, #8ad8ff 0%, #4f7cff 45%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:root[data-theme="light"] .text-gradient {
+  background: linear-gradient(100deg, #2f7fd6 0%, #3b66e8 45%, #7c5fe0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* keep gradients working after SplitText slices the node into words/chars */
+.text-gradient div,
+.text-gradient span {
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.section-label {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.text-watermark {
+  color: var(--watermark);
+}
+
+/* ---------- surfaces ---------- */
+.glass {
+  background: linear-gradient(160deg, var(--glass-a), var(--glass-b));
+  border: 1px solid var(--line);
+  backdrop-filter: blur(12px);
+}
+
+.card-hover {
+  transition: border-color 0.4s ease, background-color 0.4s ease, transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.card-hover:hover {
+  border-color: var(--line-strong);
+  transform: translateY(-4px);
+}
+
+.glow {
+  opacity: var(--glow-opacity);
+}
+
+/* ---------- buttons ---------- */
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 9999px;
+  padding: 1rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(120deg, #3f6df6, #5b8bff);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  box-shadow: 0 0 0 0 rgba(79, 124, 255, 0);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px -8px rgba(79, 124, 255, 0.55);
+}
+
+.btn-primary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255, 255, 255, 0.25) 50%, transparent 80%);
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+}
+
+.btn-primary:hover::after {
+  transform: translateX(120%);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 9999px;
+  padding: 1rem 1.75rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--foreground);
+  border: 1px solid var(--line-strong);
+  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.btn-ghost:hover {
+  border-color: var(--line-strong);
+  background: var(--wash);
+  transform: translateY(-2px);
+}
+
+/* ---------- link underline sweep ---------- */
+.link-sweep {
+  position: relative;
+}
+
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.link-sweep:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ---------- marquee ---------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 40s) linear infinite;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Theme-specific sponsor logo variants: `-dark` assets have their
+   dark text lightened for the dark theme; the light theme shows the
+   original artwork. Pair a `.logo-dark` and a `.logo-light` image. */
+.logo-light {
+  display: none;
+}
+
+:root[data-theme="light"] .logo-light {
+  display: block;
+}
+
+:root[data-theme="light"] .logo-dark {
+  display: none;
+}
+
+/* ---------- split text masking ----------
+   Padding + negative margin gives italic overhangs and
+   descenders room so the clip doesn't shave them off. */
+.split-parent .line {
+  overflow: clip;
+  padding: 0.14em 0.2em;
+  margin: -0.14em -0.2em;
+}
+
+/* ---------- misc ---------- */
+.mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
