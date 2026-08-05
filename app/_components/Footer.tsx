@@ -4,6 +4,7 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Company",
     links: [
+      { label: "Company Magazine", href: "/about/magazine" },
       { label: "Our Story", href: "/about/story" },
       { label: "Mission & Vision", href: "/about/mission" },
       { label: "Divisions", href: "/about/divisions" },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import {
-  Bricolage_Grotesque,
-  Geist,
+  Inter,
+  Plus_Jakarta_Sans,
   Geist_Mono,
   Instrument_Serif,
 } from "next/font/google";
@@ -12,20 +12,21 @@ import SmoothScroll from "./_components/SmoothScroll";
 import ScrollProgress from "./_components/anim/ScrollProgress";
 import Preloader from "./_components/Preloader";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-});
-
-const bricolage = Bricolage_Grotesque({
-  variable: "--font-bricolage",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
 const instrument = Instrument_Serif({
@@ -53,7 +54,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${bricolage.variable} ${instrument.variable} h-full antialiased`}
+      className={`${inter.variable} ${plusJakarta.variable} ${geistMono.variable} ${instrument.variable} h-full antialiased`}
     >
       <head>
         <script
@@ -62,7 +63,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full">
+      <body className="min-h-full font-sans antialiased">
         <Preloader />
         <ScrollProgress />
         <Navbar />
