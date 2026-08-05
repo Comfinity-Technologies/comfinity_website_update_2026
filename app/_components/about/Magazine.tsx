@@ -201,22 +201,45 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "reviews":
             return (
-              <div key={i} className="mag-reviews">
-                {b.items.map((it) => (
-                  <div key={it.name} className="mag-review">
-                    <p
-                      className={`mag-review__quote${
-                        it.pending ? " is-pending" : ""
+              <div key={i} className="mag-reviews space-y-2 mt-2">
+                {b.items.map((it, idx) => {
+                  const isEven = idx % 2 === 0;
+                  return (
+                    <div
+                      key={it.name}
+                      className={`glass rounded-2xl p-2 border border-line/80 bg-surface-2/60 shadow-md flex items-center gap-2.5 ${
+                        isEven ? "flex-row text-left" : "flex-row-reverse text-right"
                       }`}
                     >
-                      {it.pending
-                        ? "Review copy to be supplied."
-                        : `“${it.quote}”`}
-                    </p>
-                    <p className="mag-review__name">{it.name}</p>
-                    <p className="mag-review__org">{it.org}</p>
-                  </div>
-                ))}
+                      {/* Avatar & Client Info */}
+                      <div className="shrink-0 flex flex-col items-center justify-center w-14 text-center">
+                        <div className="h-9 w-9 rounded-xl overflow-hidden border border-accent/40 shadow">
+                          <img
+                            src={it.avatar || "/magazine/aravind_avatar.png"}
+                            alt={it.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <span className="font-bold text-[8.5px] text-foreground mt-0.5 leading-none">
+                          {it.name}
+                        </span>
+                        <span className="font-mono text-[6.5px] text-accent font-semibold leading-tight">
+                          {it.org}
+                        </span>
+                      </div>
+
+                      {/* Stars & Quote */}
+                      <div className="flex-1">
+                        <div className={`flex items-center gap-0.5 mb-0.5 ${isEven ? "justify-start" : "justify-end"}`}>
+                          <span className="text-[8px] text-yellow-400 font-bold">⭐⭐⭐⭐⭐</span>
+                        </div>
+                        <p className="text-[8px] text-muted leading-tight italic font-serif-accent">
+                          &ldquo;{it.quote}&rdquo;
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             );
 

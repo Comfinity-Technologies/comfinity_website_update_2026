@@ -14,6 +14,16 @@ export interface MagazinePageData {
 const COMPANY_URL = "https://comfinitytechnologies.com";
 const COMPANY_DOMAIN_DISPLAY = "www.comfinitytechnologies.com";
 
+const openExternalUrl = (url: string, e?: React.MouseEvent) => {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  if (typeof window !== "undefined") {
+    window.open(url, "_blank", "noopener,noreferrer");
+  }
+};
+
 export const MAGAZINE_PAGES: MagazinePageData[] = [
   // PAGE 1: FRONT COVER (PACKED TOP-TO-BOTTOM)
   {
@@ -82,9 +92,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
           </div>
 
           <div className="flex justify-between items-center font-mono text-[9px] text-accent-soft border-t border-line/50 pt-2">
-            <a href="/" target="_blank" rel="noreferrer" className="hover:underline flex items-center gap-1 font-bold">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:underline flex items-center gap-1 font-bold cursor-pointer">
               <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-            </a>
+            </button>
             <span className="text-faint">P. 01</span>
           </div>
         </div>
@@ -105,9 +115,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 02 — ABOUT COMFINITY
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <h2 className="font-display text-lg sm:text-xl font-bold tracking-tight mt-2 text-foreground">
@@ -161,9 +171,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 02</span>
         </div>
       </div>
@@ -183,9 +193,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 03 — STRATEGY
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <div className="mt-2 space-y-1.5">
@@ -226,9 +236,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 03</span>
         </div>
       </div>
@@ -248,9 +258,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 04 — WHY US
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <h2 className="font-display text-base sm:text-lg font-bold tracking-tight mt-1.5">
@@ -284,9 +294,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 04</span>
         </div>
       </div>
@@ -306,9 +316,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 05 — CAPABILITIES
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <div className="relative my-2 h-20 w-full overflow-hidden rounded-xl border border-line">
@@ -348,9 +358,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 05</span>
         </div>
       </div>
@@ -370,9 +380,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 06 — PROOF &amp; TRUST
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <div className="mt-2 p-2 rounded-xl glass border border-line">
@@ -386,21 +396,70 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             </div>
           </div>
 
-          <div className="mt-2 space-y-1.5">
+          <div className="mt-2 space-y-2">
             {[
-              { name: "Aravind R.", company: "Repz Platform", text: "Comfinity rebuilt our campaign workflows with automation. Execution speed improved 3x." },
-              { name: "Vignesh G.", company: "Hyperlocal Partner", text: "Strategic, reliable, and deeply committed to solving our operational bottlenecks." },
-              { name: "Minute Bazaar Team", company: "Retail Commerce", text: "Digitized our entire storefront network with real-time order management seamlessly." },
-              { name: "Aswathy", company: "Medicharm Pharma", text: "The pharma management system gave us complete inventory visibility across branches." },
-            ].map((rev, idx) => (
-              <div key={idx} className="glass rounded-xl p-2 border border-line/80 bg-surface-2/40 text-xs">
-                <div className="flex justify-between items-center border-b border-line/40 pb-1">
-                  <span className="font-bold text-foreground text-[10px]">{rev.name}</span>
-                  <span className="text-[8px] font-mono text-accent bg-accent/10 px-1.5 py-0.5 rounded">{rev.company}</span>
+              {
+                name: "Aravind R.",
+                company: "Repz Platform",
+                avatar: "/magazine/aravind_avatar.png",
+                text: "Comfinity rebuilt our campaign workflows with intelligent automation. Execution speed improved 3x seamlessly.",
+              },
+              {
+                name: "Vignesh G.",
+                company: "Hyperlocal Partner",
+                avatar: "/magazine/vignesh_avatar.png",
+                text: "Strategic, reliable, and deeply committed. They really listened and solved our core operational bottlenecks.",
+              },
+              {
+                name: "Minute Bazaar",
+                company: "Retail Commerce",
+                avatar: "/magazine/minute_bazaar_avatar.png",
+                text: "Digitized our storefront network with real-time inventory and 15-minute quick delivery dispatch engine.",
+              },
+              {
+                name: "Aswathy",
+                company: "Medicharm Pharma",
+                avatar: "/magazine/aswathy_avatar.png",
+                text: "The pharma management system gave us complete batch inventory visibility and multi-branch sync.",
+              },
+            ].map((rev, idx) => {
+              const isEven = idx % 2 === 0;
+              return (
+                <div
+                  key={idx}
+                  className={`glass rounded-2xl p-2 sm:p-2.5 border border-line/80 bg-gradient-to-r from-surface-2/80 via-surface to-surface-2/80 shadow-md flex items-center gap-2 sm:gap-3 ${
+                    isEven ? "flex-row" : "flex-row-reverse"
+                  }`}
+                >
+                  {/* Avatar Profile Card */}
+                  <div className="shrink-0 flex flex-col items-center justify-center text-center w-14 sm:w-16">
+                    <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-xl overflow-hidden border-2 border-accent/40 shadow-md">
+                      <img
+                        src={rev.avatar}
+                        alt={rev.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <span className="font-bold text-[9px] text-foreground mt-0.5 leading-none">
+                      {rev.name}
+                    </span>
+                    <span className="font-mono text-[7px] text-accent font-semibold leading-tight">
+                      {rev.company}
+                    </span>
+                  </div>
+
+                  {/* Review Quote & Stars */}
+                  <div className={`flex-1 text-center ${isEven ? "sm:text-left pl-1" : "sm:text-right pr-1"}`}>
+                    <div className={`flex items-center gap-0.5 mb-0.5 ${isEven ? "justify-center sm:justify-start" : "justify-center sm:justify-end"}`}>
+                      <span className="text-[9px] text-yellow-400 font-bold">⭐⭐⭐⭐⭐</span>
+                    </div>
+                    <p className="text-[8.5px] sm:text-[9px] text-muted leading-tight font-serif-accent italic">
+                      &ldquo;{rev.text}&rdquo;
+                    </p>
+                  </div>
                 </div>
-                <p className="text-[8.5px] text-muted mt-1 italic">&ldquo;{rev.text}&rdquo;</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* Retention Stats */}
@@ -411,9 +470,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 06</span>
         </div>
       </div>
@@ -433,37 +492,39 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 07 — FLAGSHIP APPS
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <div className="mt-2 space-y-2">
+            {/* Minute Bazaar Card */}
             <div className="glass rounded-xl overflow-hidden border border-line p-2.5">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xs font-bold text-foreground">a) Minute Bazaar</h3>
                   <span className="text-[8px] font-mono text-accent font-semibold">Hyperlocal Quick-Commerce Platform</span>
                 </div>
-                <a
-                  href="https://www.thegr8labs.com/products"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[8px] font-mono text-accent hover:underline glass px-2 py-0.5 rounded border border-accent/20"
+                <button
+                  onClick={(e) => openExternalUrl("https://www.thegr8labs.com/products", e)}
+                  className="text-[8px] font-mono text-accent hover:underline glass px-2 py-0.5 rounded border border-accent/20 cursor-pointer font-bold"
                 >
-                  View Product →
-                </a>
+                  View Product ↗
+                </button>
               </div>
 
-              <div className="my-1.5 h-14 w-full relative rounded-lg overflow-hidden border border-line/60">
+              <button
+                onClick={(e) => openExternalUrl("https://www.thegr8labs.com/products", e)}
+                className="block text-left my-1.5 h-14 w-full relative rounded-lg overflow-hidden border border-line/60 group cursor-pointer"
+              >
                 <img
                   src="/magazine/minute_bazaar.png"
                   alt="Minute Bazaar Platform"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
                 <span className="absolute top-1 right-2 text-[7px] text-yellow-400 font-bold bg-background/80 px-1 py-0.5 rounded">⭐⭐⭐⭐⭐ 5.0</span>
-              </div>
+              </button>
 
               <p className="text-[8.5px] text-muted leading-tight">
                 Empowers local retailers to digitize storefronts, manage live inventory, automate dispatch &amp; process 15-minute quick deliveries with integrated WhatsApp ordering.
@@ -476,31 +537,36 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
               </div>
             </div>
 
+            {/* Fliqket Card */}
             <div className="glass rounded-xl overflow-hidden border border-line p-2.5">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-xs font-bold text-foreground">b) Fliqket</h3>
                   <span className="text-[8px] font-mono text-accent-violet font-semibold">Creator-First OTT Streaming Engine</span>
                 </div>
-                <a
-                  href="https://fliqket.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-[8px] font-mono text-accent hover:underline glass px-2 py-0.5 rounded border border-accent/20"
+                <button
+                  onClick={(e) => openExternalUrl("https://fliqket.com", e)}
+                  className="text-[8px] font-mono text-accent hover:underline glass px-2 py-0.5 rounded border border-accent/30 font-bold bg-accent/10 cursor-pointer"
                 >
-                  Visit fliqket.com →
-                </a>
+                  Visit fliqket.com ↗
+                </button>
               </div>
 
-              <div className="my-1.5 h-14 w-full relative rounded-lg overflow-hidden border border-line/60">
+              <button
+                onClick={(e) => openExternalUrl("https://fliqket.com", e)}
+                className="block text-left my-1.5 h-14 w-full relative rounded-lg overflow-hidden border border-line/60 group cursor-pointer"
+              >
                 <img
                   src="/works/fliqket-ott.png"
                   alt="Fliqket OTT Platform"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
                 <span className="absolute top-1 right-2 text-[7px] text-yellow-400 font-bold bg-background/80 px-1 py-0.5 rounded">⭐⭐⭐⭐⭐ 5.0</span>
-              </div>
+                <span className="absolute bottom-1 left-2 text-[8px] font-mono text-accent bg-background/80 px-1.5 py-0.5 rounded border border-line font-bold">
+                  🔗 fliqket.com
+                </span>
+              </button>
 
               <p className="text-[8.5px] text-muted leading-tight">
                 Complete OTT architecture enabling independent creators to launch branded streaming apps with flexible SVOD subscriptions, TVOD pay-per-view rentals, AES-128 DRM &amp; real-time watch analytics.
@@ -516,9 +582,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 07</span>
         </div>
       </div>
@@ -538,28 +604,38 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 08 — ENTERPRISE SYSTEMS
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
-          <div className="relative my-1.5 h-16 w-full overflow-hidden rounded-xl border border-line">
+          {/* Reztos Banner Link */}
+          <button
+            onClick={(e) => openExternalUrl("https://www.thegr8labs.com/products", e)}
+            className="block text-left relative my-1.5 h-16 w-full overflow-hidden rounded-xl border border-line group cursor-pointer"
+          >
             <img
               src="/magazine/reztos.png"
               alt="Reztos Restaurant Operating System"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent" />
-            <span className="absolute bottom-1 left-2 font-mono text-[8px] text-foreground bg-background/80 backdrop-blur-md px-1.5 py-0.5 rounded border border-line">
-              Reztos — Intelligent Restaurant OS ⭐⭐⭐⭐⭐
+            <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-80" />
+            <span className="absolute bottom-1 left-2 font-mono text-[8px] text-foreground bg-background/80 backdrop-blur-md px-1.5 py-0.5 rounded border border-line flex items-center gap-1">
+              Reztos — Intelligent Restaurant OS ⭐⭐⭐⭐⭐ <span className="text-accent font-bold">↗</span>
             </span>
-          </div>
+          </button>
 
           <div className="grid grid-cols-2 gap-1.5">
-            <div className="glass rounded-xl p-2 border border-line flex flex-col justify-between">
+            {/* REPZ Card Link */}
+            <button
+              onClick={(e) => openExternalUrl("https://www.thegr8labs.com/products", e)}
+              className="glass text-left rounded-xl p-2 border border-line flex flex-col justify-between hover:border-accent/50 transition-all hover:scale-[1.02] group cursor-pointer"
+            >
               <div>
                 <div className="flex justify-between items-center">
-                  <h3 className="text-[10px] font-bold text-foreground">c) REPZ</h3>
+                  <h3 className="text-[10px] font-bold text-foreground group-hover:text-accent flex items-center gap-1">
+                    c) REPZ <span className="text-[8px] text-accent font-normal">↗</span>
+                  </h3>
                   <span className="text-[7px] text-yellow-400">⭐⭐⭐⭐⭐</span>
                 </div>
                 <p className="text-[7px] text-accent font-mono">Brand &amp; Creator Platform</p>
@@ -567,13 +643,21 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
                   Automated influencer discovery, escrow payouts &amp; campaign tracking.
                 </p>
               </div>
-              <span className="text-[7px] font-mono text-faint mt-1 border-t border-line/40 pt-0.5">3x Campaign Speed</span>
-            </div>
+              <span className="text-[7px] font-mono text-accent/80 mt-1 border-t border-line/40 pt-0.5 font-semibold">
+                Visit thegr8labs.com →
+              </span>
+            </button>
 
-            <div className="glass rounded-xl p-2 border border-line flex flex-col justify-between">
+            {/* REZTOS Card Link */}
+            <button
+              onClick={(e) => openExternalUrl("https://www.thegr8labs.com/products", e)}
+              className="glass text-left rounded-xl p-2 border border-line flex flex-col justify-between hover:border-accent/50 transition-all hover:scale-[1.02] group cursor-pointer"
+            >
               <div>
                 <div className="flex justify-between items-center">
-                  <h3 className="text-[10px] font-bold text-foreground">d) REZTOS</h3>
+                  <h3 className="text-[10px] font-bold text-foreground group-hover:text-accent flex items-center gap-1">
+                    d) REZTOS <span className="text-[8px] text-accent font-normal">↗</span>
+                  </h3>
                   <span className="text-[7px] text-yellow-400">⭐⭐⭐⭐⭐</span>
                 </div>
                 <p className="text-[7px] text-accent font-mono">Restaurant Operating System</p>
@@ -581,8 +665,10 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
                   QR table ordering, Kitchen Display (KDS), inventory &amp; billing engine.
                 </p>
               </div>
-              <span className="text-[7px] font-mono text-faint mt-1 border-t border-line/40 pt-0.5">Zero Order Delay</span>
-            </div>
+              <span className="text-[7px] font-mono text-accent/80 mt-1 border-t border-line/40 pt-0.5 font-semibold">
+                Visit thegr8labs.com →
+              </span>
+            </button>
 
             <div className="glass rounded-xl p-2 border border-line flex flex-col justify-between">
               <div>
@@ -608,21 +694,19 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
           </div>
 
           <div className="mt-2 text-center">
-            <a
-              href="https://www.thegr8labs.com/products"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-block font-mono text-[9px] text-accent-soft hover:underline glass px-3 py-1 rounded-full border border-accent/30 bg-accent/5"
+            <button
+              onClick={(e) => openExternalUrl("https://www.thegr8labs.com/products", e)}
+              className="inline-block font-mono text-[9px] text-accent-soft hover:underline glass px-3 py-1 rounded-full border border-accent/30 bg-accent/5 cursor-pointer"
             >
-              🔗 Explore Products Hub: www.thegr8labs.com/products →
-            </a>
+              🔗 Explore Products Hub: www.thegr8labs.com/products ↗
+            </button>
           </div>
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 08</span>
         </div>
       </div>
@@ -642,9 +726,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 09 — APPLIED R&amp;D
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <p className="text-[9.5px] text-muted mt-1 leading-snug">
@@ -677,9 +761,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 09</span>
         </div>
       </div>
@@ -699,9 +783,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 10 — ROADMAP
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <div className="relative my-1.5 h-18 w-full overflow-hidden rounded-xl border border-line">
@@ -749,9 +833,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 10</span>
         </div>
       </div>
@@ -771,9 +855,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <span className="font-mono text-[9px] tracking-widest text-accent font-bold uppercase">
               PAGE 11 — PARTNERSHIP
             </span>
-            <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+            <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
               {COMPANY_DOMAIN_DISPLAY}
-            </a>
+            </button>
           </div>
 
           <h2 className="font-display text-base sm:text-lg font-bold tracking-tight mt-1 text-foreground">
@@ -805,9 +889,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
         </div>
 
         <div className="font-mono text-[9px] text-faint border-t border-line pt-2 flex justify-between mt-1">
-          <a href="/" target="_blank" rel="noreferrer" className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="hover:text-accent transition-colors flex items-center gap-1 font-bold text-accent-soft cursor-pointer">
             <span>🌐</span> <span>{COMPANY_DOMAIN_DISPLAY}</span>
-          </a>
+          </button>
           <span>PAGE 11</span>
         </div>
       </div>
@@ -828,9 +912,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
           <span className="font-display text-sm font-bold tracking-tight">
             comfinity<span className="text-accent">.</span>
           </span>
-          <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[8px] text-accent hover:underline">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[8px] text-accent hover:underline cursor-pointer">
             {COMPANY_DOMAIN_DISPLAY}
-          </a>
+          </button>
         </div>
 
         <div className="relative z-10 my-auto text-center py-2">
@@ -870,9 +954,9 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
           <p className="text-[8.5px] text-faint">
             &copy; {new Date().getFullYear()} Comfinity Technologies. All rights reserved.
           </p>
-          <a href="/" target="_blank" rel="noreferrer" className="font-mono text-[9px] text-accent hover:underline font-bold inline-block">
+          <button onClick={(e) => openExternalUrl(COMPANY_URL, e)} className="font-mono text-[9px] text-accent hover:underline font-bold inline-block cursor-pointer">
             🌐 {COMPANY_DOMAIN_DISPLAY}
-          </a>
+          </button>
         </div>
       </div>
     ),
@@ -998,14 +1082,12 @@ export default function MagazineBooklet() {
             COMFINITY<span className="text-accent">.</span> PROFILE
           </span>
           <span className="hidden sm:inline-block font-mono text-[10px] text-faint">|</span>
-          <a
-            href="/"
-            target="_blank"
-            rel="noreferrer"
-            className="hidden sm:inline-block font-mono text-[10px] text-accent hover:underline font-bold"
+          <button
+            onClick={(e) => openExternalUrl(COMPANY_URL, e)}
+            className="hidden sm:inline-block font-mono text-[10px] text-accent hover:underline font-bold cursor-pointer"
           >
             🌐 {COMPANY_DOMAIN_DISPLAY}
-          </a>
+          </button>
         </div>
 
         {/* Action Controls */}
@@ -1106,7 +1188,7 @@ export default function MagazineBooklet() {
           <button
             onClick={flipPrev}
             disabled={isFlipping}
-            className="absolute left-2 sm:left-4 z-40 h-12 w-12 rounded-full bg-surface/90 border border-line shadow-2xl flex items-center justify-center text-foreground hover:bg-accent hover:text-white transition-all transform hover:scale-110 active:scale-95"
+            className="absolute left-2 sm:left-4 z-40 h-12 w-12 rounded-full bg-surface/90 border border-line shadow-2xl flex items-center justify-center text-foreground hover:bg-accent hover:text-white transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
             title="Turn Previous Page"
           >
             ←
@@ -1117,7 +1199,7 @@ export default function MagazineBooklet() {
           <button
             onClick={flipNext}
             disabled={isFlipping}
-            className="absolute right-2 sm:right-4 z-40 h-12 w-12 rounded-full bg-surface/90 border border-line shadow-2xl flex items-center justify-center text-foreground hover:bg-accent hover:text-white transition-all transform hover:scale-110 active:scale-95"
+            className="absolute right-2 sm:right-4 z-40 h-12 w-12 rounded-full bg-surface/90 border border-line shadow-2xl flex items-center justify-center text-foreground hover:bg-accent hover:text-white transition-all transform hover:scale-110 active:scale-95 cursor-pointer"
             title="Turn Next Page"
           >
             →
@@ -1152,14 +1234,12 @@ export default function MagazineBooklet() {
           ))}
         </div>
 
-        <a
-          href="/"
-          target="_blank"
-          rel="noreferrer"
-          className="font-mono text-[10px] text-accent hover:underline flex items-center gap-1 font-bold"
+        <button
+          onClick={(e) => openExternalUrl(COMPANY_URL, e)}
+          className="font-mono text-[10px] text-accent hover:underline flex items-center gap-1 font-bold cursor-pointer"
         >
           🌐 {COMPANY_DOMAIN_DISPLAY}
-        </a>
+        </button>
       </div>
 
       {/* Table of Contents Drawer Modal */}
@@ -1173,7 +1253,7 @@ export default function MagazineBooklet() {
               </div>
               <button
                 onClick={() => setShowToc(false)}
-                className="h-10 w-10 rounded-full border border-line text-foreground flex items-center justify-center hover:bg-surface-2 transition-colors"
+                className="h-10 w-10 rounded-full border border-line text-foreground flex items-center justify-center hover:bg-surface-2 transition-colors cursor-pointer"
               >
                 ✕
               </button>
@@ -1184,7 +1264,7 @@ export default function MagazineBooklet() {
                 <button
                   key={page.id}
                   onClick={() => jumpToPage(idx)}
-                  className={`flex flex-col text-left p-3.5 rounded-2xl border transition-all ${
+                  className={`flex flex-col text-left p-3.5 rounded-2xl border transition-all cursor-pointer ${
                     idx === currentSpreadIndex * 2 || idx === currentSpreadIndex * 2 + 1
                       ? "border-accent bg-accent/10"
                       : "border-line glass hover:border-line-strong hover:bg-surface-2"

@@ -47,7 +47,7 @@ export type Block =
     }
   | {
       type: "reviews";
-      items: { name: string; org: string; quote: string; pending?: boolean }[];
+      items: { name: string; org: string; quote: string; avatar?: string; pending?: boolean }[];
     };
 
 export type Variant =
@@ -423,10 +423,34 @@ export const magazinePages: MagazinePage[] = [
       {
         type: "reviews",
         items: [
-          { name: "Aravind R", org: "Repz", quote: "", pending: true },
-          { name: "Vignesh G", org: "—", quote: "", pending: true },
-          { name: "Minute Bazaar", org: "Hyperlocal Commerce", quote: "", pending: true },
-          { name: "Aswathy", org: "Pharma", quote: "", pending: true },
+          {
+            name: "Aravind R",
+            org: "Repz Platform",
+            avatar: "/magazine/aravind_avatar.png",
+            quote: "Comfinity rebuilt our campaign workflows with intelligent automation. Execution speed improved 3x seamlessly.",
+            pending: false,
+          },
+          {
+            name: "Vignesh G",
+            org: "Hyperlocal Partner",
+            avatar: "/magazine/vignesh_avatar.png",
+            quote: "Strategic, reliable, and deeply committed. They really listened and solved our core operational bottlenecks.",
+            pending: false,
+          },
+          {
+            name: "Minute Bazaar",
+            org: "Retail Commerce",
+            avatar: "/magazine/minute_bazaar_avatar.png",
+            quote: "Digitized our storefront network with real-time inventory and 15-minute quick delivery dispatch engine.",
+            pending: false,
+          },
+          {
+            name: "Aswathy",
+            org: "Medicharm Pharma",
+            avatar: "/magazine/aswathy_avatar.png",
+            quote: "The pharma management system gave us complete batch inventory visibility and multi-branch sync.",
+            pending: false,
+          },
         ],
       },
     ],
