@@ -25,11 +25,11 @@ const products = [
     alt: "Nexzo restaurant operations dashboard with live sales and outlet performance",
   },
   {
-    name: "Repz",
-    tag: "Fitness · AI",
-    desc: "AI fitness platform powering gyms with personalised workout plans, nutrition AI, member retention automation, and real-time business dashboards.",
-    image: "/products/repz.svg",
-    alt: "Repz gym command center with goal rings and retention analytics",
+    name: "FliQket OTT",
+    tag: "Media · Streaming",
+    desc: "Next-gen OTT video streaming & creator studio platform — adaptive playback, 20% watch-time gating, PPV rentals, and cross-platform Flutter apps.",
+    image: "/works/fliqket-ott.png",
+    alt: "FliQket OTT streaming platform dashboard and mobile app interface",
   },
 ];
 

@@ -9,6 +9,7 @@ import Magnetic from "./anim/Magnetic";
 import ThemeToggle from "./ThemeToggle";
 
 const links = [
+  { href: "/about/magazine", label: "Magazine 📖" },
   { href: "/about/story", label: "About" },
   { href: "/solutions", label: "Services" },
   { href: "/labs", label: "Labs" },
@@ -52,6 +53,7 @@ const services = [
 
 const menuLinks = [
   { href: "/", label: "Home" },
+  { href: "/about/magazine", label: "Company Magazine 📖" },
   { href: "/about/story", label: "Our Story" },
   { href: "/about/mission", label: "Mission & Values" },
   { href: "/about/divisions", label: "Divisions" },
@@ -63,6 +65,7 @@ const menuLinks = [
   { href: "/careers", label: "Careers" },
   { href: "/contact", label: "Contact" },
 ];
+
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -150,9 +153,8 @@ export default function Navbar() {
                 <li key={l.href} className="group/services flex h-16 items-center">
                   <Link
                     href={l.href}
-                    className={`link-sweep flex items-center gap-1.5 text-sm transition-colors ${
-                      pathname.startsWith(l.href) ? "text-foreground" : "text-muted hover:text-foreground"
-                    }`}
+                    className={`link-sweep flex items-center gap-1.5 text-sm transition-colors ${pathname.startsWith(l.href) ? "text-foreground" : "text-muted hover:text-foreground"
+                      }`}
                   >
                     {l.label}
                     <svg
@@ -205,9 +207,8 @@ export default function Navbar() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className={`link-sweep text-sm transition-colors ${
-                      pathname.startsWith(l.href) ? "text-foreground" : "text-muted hover:text-foreground"
-                    }`}
+                    className={`link-sweep text-sm transition-colors ${pathname.startsWith(l.href) ? "text-foreground" : "text-muted hover:text-foreground"
+                      }`}
                   >
                     {l.label}
                   </Link>
