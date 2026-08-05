@@ -483,12 +483,12 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
                   <span className="text-[8px] font-mono text-accent-violet font-semibold">Creator-First OTT Streaming Engine</span>
                 </div>
                 <a
-                  href="https://www.thegr8labs.com/products"
+                  href="https://fliqket.com"
                   target="_blank"
                   rel="noreferrer"
                   className="text-[8px] font-mono text-accent hover:underline glass px-2 py-0.5 rounded border border-accent/20"
                 >
-                  View Product →
+                  Visit fliqket.com →
                 </a>
               </div>
 

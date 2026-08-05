@@ -282,3 +282,826 @@ body {
     animation: none;
   }
 }
+
+/* ==================================================================
+   MAGAZINE — 3D page-flip booklet (/about/magazine)
+   Pages are authored at 440x580 and the whole book is scaled to fit,
+   so dense editorial layouts stay pixel-stable at every viewport.
+   ================================================================== */
+
+.mag-root {
+  --paper: #fbfaf7;
+  --paper-2: #f3f1ec;
+  --ink: #14171f;
+  --ink-soft: #5a6070;
+  --ink-faint: #9aa0ae;
+  --paper-line: rgba(20, 23, 31, 0.12);
+}
+
+:root:not([data-theme="light"]) .mag-root {
+  --paper: #12141b;
+  --paper-2: #0c0e14;
+  --ink: #eef0f4;
+  --ink-soft: #9aa1b0;
+  --ink-faint: #6b7280;
+  --paper-line: rgba(255, 255, 255, 0.12);
+}
+
+.mag-stage {
+  perspective: 2600px;
+  perspective-origin: 50% 45%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.mag-scaler {
+  transform-origin: top center;
+  flex: none;
+}
+
+.mag-book {
+  position: relative;
+  transform-style: preserve-3d;
+  outline: none;
+  touch-action: pan-y;
+  cursor: grab;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mag-book:active {
+  cursor: grabbing;
+}
+
+.mag-book:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+/* a closed book occupies one half — slide it so the cover reads centered */
+.mag-book[data-mode="spread"][data-state="closed"] {
+  transform: translateX(calc(var(--page-w) / -2));
+}
+
+.mag-book[data-mode="spread"][data-state="end"] {
+  transform: translateX(calc(var(--page-w) / 2));
+}
+
+.mag-shadow {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: -3%;
+  height: 8%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), transparent 70%);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+/* ---------- leaves ---------- */
+.mag-leaf {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.mag-book[data-mode="spread"] .mag-leaf {
+  left: 50%;
+  width: 50%;
+}
+
+.mag-book[data-mode="single"] .mag-leaf {
+  left: 0;
+  width: 100%;
+}
+
+.mag-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+  background: var(--paper);
+  border-radius: 2px 10px 10px 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+}
+
+.mag-face--back {
+  transform: rotateY(180deg);
+  border-radius: 10px 2px 2px 10px;
+}
+
+/* gutter shading along the spine */
+.mag-gutter {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 42px;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.22), transparent);
+}
+
+.mag-gutter--back {
+  inset: 0 0 0 auto;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.22), transparent);
+}
+
+/* lighting overlay, opacity driven by flip angle */
+.mag-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.15));
+}
+
+.mag-shade--back {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.15));
+}
+
+/* ---------- page canvas ---------- */
+.mag-page {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.mag-page__inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-height: 0;
+  padding: 46px 40px 40px 52px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mag-face--back .mag-page__inner {
+  padding: 46px 52px 40px 40px;
+}
+
+.mag-runhead {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.mag-folio {
+  position: absolute;
+  bottom: 18px;
+  right: 26px;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+.mag-face--back .mag-folio {
+  right: auto;
+  left: 26px;
+}
+
+/* running foot: sits opposite the folio so the pair mirrors across the spine */
+.mag-site {
+  position: absolute;
+  bottom: 18px;
+  left: 52px;
+  z-index: 2;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8px;
+  letter-spacing: 0.2em;
+  text-transform: lowercase;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+
+.mag-face--back .mag-site {
+  left: auto;
+  right: 52px;
+}
+
+.mag-page--blank {
+  background:
+    repeating-linear-gradient(45deg, transparent 0 6px, rgba(0, 0, 0, 0.015) 6px 12px),
+    var(--paper-2);
+}
+
+/* ---------- full-bleed art pages ----------
+   Copy sits over a scrim, so the page re-points its ink tokens at the
+   light scale and every block style follows automatically. */
+.mag-art {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.mag-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 8, 14, 0.6) 0%,
+    rgba(6, 8, 14, 0.84) 42%,
+    rgba(6, 8, 14, 0.93) 100%
+  );
+}
+
+.mag-page--art {
+  --ink: #ffffff;
+  --ink-soft: rgba(255, 255, 255, 0.82);
+  --ink-faint: rgba(255, 255, 255, 0.5);
+  --paper-line: rgba(255, 255, 255, 0.2);
+  --paper-2: rgba(255, 255, 255, 0.09);
+  --accent: #8ad8ff;
+  color: #fff;
+  background: #06080e;
+}
+
+.mag-page--art .mag-runhead,
+.mag-page--art .mag-folio {
+  z-index: 2;
+}
+
+/* the cover carries no overlay copy, so it gets a vignette for edge
+   definition rather than a scrim */
+.mag-page--cover.mag-page--art {
+  background: #06080e;
+}
+
+.mag-page--cover.mag-page--art .mag-scrim {
+  background: radial-gradient(
+    120% 100% at 50% 45%,
+    transparent 55%,
+    rgba(6, 8, 14, 0.35) 100%
+  );
+}
+
+/* ---------- covers ---------- */
+.mag-page--cover,
+.mag-page--backCover {
+  background:
+    radial-gradient(120% 90% at 20% 0%, rgba(79, 124, 255, 0.5), transparent 60%),
+    radial-gradient(110% 80% at 90% 100%, rgba(167, 139, 250, 0.42), transparent 62%),
+    #070910;
+  color: #fff;
+}
+
+.mag-page--cover .mag-page__inner,
+.mag-page--backCover .mag-page__inner {
+  justify-content: flex-end;
+  gap: 18px;
+  padding-bottom: 54px;
+}
+
+.mag-page--cover .mag-title,
+.mag-page--backCover .mag-title {
+  font-size: 46px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.mag-page--cover .mag-eyebrow,
+.mag-page--backCover .mag-eyebrow {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.mag-page--cover .mag-lede,
+.mag-page--backCover .mag-lede {
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+}
+
+.mag-page--backCover {
+  text-align: center;
+}
+
+.mag-page--backCover .mag-page__inner {
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---------- section divider ---------- */
+.mag-page--divider {
+  background:
+    linear-gradient(155deg, rgba(79, 124, 255, 0.14), transparent 55%),
+    var(--paper-2);
+}
+
+.mag-page--divider .mag-page__inner {
+  justify-content: center;
+}
+
+.mag-page--divider .mag-title {
+  font-size: 40px;
+}
+
+/* dividers are numbered for navigation but don't print the folio */
+.mag-page--divider .mag-folio {
+  display: none;
+}
+
+/* ---------- typography ---------- */
+.mag-eyebrow {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.mag-title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.mag-lede {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.mag-para {
+  font-size: 11.5px;
+  line-height: 1.72;
+  color: var(--ink-soft);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.mag-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 6px 0;
+  padding-left: 16px;
+  border-left: 2px solid var(--accent);
+}
+
+.mag-quote__by {
+  display: block;
+  margin-top: 8px;
+  font-family: var(--font-geist-mono), monospace;
+  font-style: normal;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.mag-rule {
+  border: 0;
+  border-top: 1px solid var(--paper-line);
+  margin: 4px 0;
+}
+
+.mag-rating {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  color: #f0b429;
+}
+
+.mag-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--accent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding-bottom: 2px;
+  transition: gap 0.3s ease;
+}
+
+.mag-link:hover {
+  gap: 11px;
+}
+
+/* ---------- lists ---------- */
+.mag-bullets {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mag-bullets li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.mag-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--accent);
+}
+
+.mag-tags {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.mag-tags li {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: 1px solid var(--paper-line);
+  border-radius: 999px;
+  padding: 5px 11px;
+}
+
+.mag-numbered {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mag-numbered li {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.mag-numbered__n {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 17px;
+  font-weight: 500;
+  line-height: 1;
+  color: transparent;
+  background: linear-gradient(120deg, #4f7cff, #a78bfa);
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.mag-numbered__title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 3px;
+  color: var(--ink);
+}
+
+.mag-numbered__body {
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.mag-iconlist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mag-iconlist li {
+  display: grid;
+  grid-template-columns: 30px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.mag-iconlist__icon {
+  font-size: 19px;
+  line-height: 1.1;
+}
+
+.mag-iconlist__title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--ink);
+}
+
+.mag-iconlist__body {
+  font-size: 10.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ---------- cards / stats / reviews ---------- */
+.mag-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mag-card {
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  padding: 14px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+}
+
+.mag-card__thumb {
+  position: relative;
+  width: calc(100% + 28px);
+  margin: -14px -14px 12px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px 10px 0 0;
+  background: var(--paper-2);
+}
+
+.mag-card__title {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 0 5px;
+  color: var(--ink);
+}
+
+.mag-card__body {
+  font-size: 10px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.mag-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mag-stat {
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  padding: 16px 14px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+}
+
+.mag-stat__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.mag-stat__value.is-pending {
+  color: var(--ink-faint);
+}
+
+.mag-stat__label {
+  display: block;
+  margin-top: 7px;
+  font-size: 9.5px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.mag-reviews {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.mag-review {
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  padding: 14px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mag-review__quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0;
+  flex: 1;
+}
+
+.mag-review__quote.is-pending {
+  color: var(--ink-faint);
+  font-style: normal;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+.mag-review__name {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ink);
+}
+
+.mag-review__org {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0;
+}
+
+/* ---------- contents ---------- */
+.mag-contents {
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mag-contents li {
+  display: grid;
+  grid-template-columns: 26px auto 1fr auto;
+  align-items: baseline;
+  gap: 9px;
+  padding: 7px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.mag-contents li:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.mag-contents__n {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9px;
+  color: var(--accent);
+}
+
+.mag-contents__label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.mag-contents__dots {
+  border-bottom: 1px dotted var(--paper-line);
+  transform: translateY(-3px);
+}
+
+.mag-contents__page {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  color: var(--ink-faint);
+}
+
+/* ---------- controls ---------- */
+.mag-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.mag-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  color: var(--foreground);
+  font-size: 16px;
+  transition: border-color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
+}
+
+.mag-btn:hover:not(:disabled) {
+  background: var(--wash);
+  transform: translateY(-2px);
+}
+
+.mag-btn:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
+.mag-progress {
+  position: relative;
+  width: min(260px, 34vw);
+  height: 2px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.mag-progress__bar {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #4f7cff, #a78bfa);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mag-counter {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  min-width: 116px;
+  text-align: center;
+}
+
+.mag-counter__total {
+  color: var(--faint);
+}
+
+.mag-hint {
+  margin-top: 16px;
+  text-align: center;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 560px) {
+  .mag-controls {
+    gap: 10px;
+  }
+
+  .mag-progress {
+    width: min(120px, 22vw);
+  }
+
+  .mag-counter {
+    min-width: 90px;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+  }
+
+  .mag-hint {
+    letter-spacing: 0.1em;
+    font-size: 8.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mag-book,
+  .mag-progress__bar {
+    transition: none;
+  }
+}
