@@ -83,7 +83,7 @@ export const magazinePages: MagazinePage[] = [
     // zoom crops in to the cover face itself. The artwork carries its own
     // complete typography, so the page adds no overlay copy.
     image: {
-      src: "/magazine/cover.png",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/cover_qbrsh9.jpg",
       alt: "Comfinity Technologies 2026 product magazine cover",
       position: "center center",
       zoom: 1.22,
@@ -426,28 +426,28 @@ export const magazinePages: MagazinePage[] = [
           {
             name: "Aravind R",
             org: "Repz Platform",
-            avatar: "/magazine/aravind_avatar.png",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/aravind_avatar_j1lgx3.jpg",
             quote: "Comfinity rebuilt our campaign workflows with intelligent automation. Execution speed improved 3x seamlessly.",
             pending: false,
           },
           {
             name: "Vignesh G",
             org: "Hyperlocal Partner",
-            avatar: "/magazine/vignesh_avatar.png",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956469/vignesh_avatar_viurdg.jpg",
             quote: "Strategic, reliable, and deeply committed. They really listened and solved our core operational bottlenecks.",
             pending: false,
           },
           {
             name: "Minute Bazaar",
             org: "Retail Commerce",
-            avatar: "/magazine/minute_bazaar_avatar.png",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/minute_bazaar_avatar_omcdwh.jpg",
             quote: "Digitized our storefront network with real-time inventory and 15-minute quick delivery dispatch engine.",
             pending: false,
           },
           {
             name: "Aswathy",
             org: "Medicharm Pharma",
-            avatar: "/magazine/aswathy_avatar.png",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956467/aswathy_avatar_pe3qlk.jpg",
             quote: "The pharma management system gave us complete batch inventory visibility and multi-branch sync.",
             pending: false,
           },
@@ -479,7 +479,7 @@ export const magazinePages: MagazinePage[] = [
     variant: "product",
     section: "Products",
     image: {
-      src: "/magazine/minute_bazaar.png",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/minute_bazaar_qc0d70.jpg",
       alt: "Minute Bazaar hyperlocal commerce app on a phone",
       position: "center top",
     },
@@ -575,7 +575,7 @@ export const magazinePages: MagazinePage[] = [
     variant: "product",
     section: "Products",
     image: {
-      src: "/magazine/reztos.png",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956469/reztos_nf6uzf.jpg",
       alt: "Reztos restaurant operating system on a tablet",
       position: "center top",
     },
@@ -684,7 +684,7 @@ export const magazinePages: MagazinePage[] = [
     variant: "editorial",
     section: "R&D",
     image: {
-      src: "/magazine/rd_lab.png",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/rd_lab_gyxffj.jpg",
       alt: "Comfinity research and development lab",
       position: "center center",
     },

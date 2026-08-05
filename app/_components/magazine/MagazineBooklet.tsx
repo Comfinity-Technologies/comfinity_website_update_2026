@@ -35,7 +35,7 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
       <div className="relative flex h-full flex-col justify-between overflow-hidden p-6 sm:p-7 bg-gradient-to-br from-surface via-surface-2 to-background text-foreground border border-line rounded-l-2xl shadow-2xl">
         <div className="absolute inset-0 z-0 opacity-30">
           <img
-            src="/magazine/cover.png"
+            src="https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/cover_qbrsh9.jpg"
             alt="Comfinity Technologies Cover"
             className="w-full h-full object-cover filter brightness-75 contrast-125"
           />
@@ -401,25 +401,25 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
               {
                 name: "Aravind R.",
                 company: "Repz Platform",
-                avatar: "/magazine/aravind_avatar.png",
+                avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/aravind_avatar_j1lgx3.jpg",
                 text: "Comfinity rebuilt our campaign workflows with intelligent automation. Execution speed improved 3x seamlessly.",
               },
               {
                 name: "Vignesh G.",
                 company: "Hyperlocal Partner",
-                avatar: "/magazine/vignesh_avatar.png",
+                avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956469/vignesh_avatar_viurdg.jpg",
                 text: "Strategic, reliable, and deeply committed. They really listened and solved our core operational bottlenecks.",
               },
               {
                 name: "Minute Bazaar",
                 company: "Retail Commerce",
-                avatar: "/magazine/minute_bazaar_avatar.png",
+                avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/minute_bazaar_avatar_omcdwh.jpg",
                 text: "Digitized our storefront network with real-time inventory and 15-minute quick delivery dispatch engine.",
               },
               {
                 name: "Aswathy",
                 company: "Medicharm Pharma",
-                avatar: "/magazine/aswathy_avatar.png",
+                avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956467/aswathy_avatar_pe3qlk.jpg",
                 text: "The pharma management system gave us complete batch inventory visibility and multi-branch sync.",
               },
             ].map((rev, idx) => {
@@ -518,7 +518,7 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
                 className="block text-left my-1.5 h-14 w-full relative rounded-lg overflow-hidden border border-line/60 group cursor-pointer"
               >
                 <img
-                  src="/magazine/minute_bazaar.png"
+                  src="https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/minute_bazaar_qc0d70.jpg"
                   alt="Minute Bazaar Platform"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
@@ -615,7 +615,7 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             className="block text-left relative my-1.5 h-16 w-full overflow-hidden rounded-xl border border-line group cursor-pointer"
           >
             <img
-              src="/magazine/reztos.png"
+              src="https://res.cloudinary.com/xnulqi5v/image/upload/v1785956469/reztos_nf6uzf.jpg"
               alt="Reztos Restaurant Operating System"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
             />
@@ -790,7 +790,7 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
 
           <div className="relative my-1.5 h-18 w-full overflow-hidden rounded-xl border border-line">
             <img
-              src="/magazine/rd_lab.png"
+              src="https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/rd_lab_gyxffj.jpg"
               alt="Comfinity R&D Innovation Lab"
               className="w-full h-full object-cover"
             />
