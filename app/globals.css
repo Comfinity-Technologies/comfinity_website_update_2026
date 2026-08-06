@@ -1152,6 +1152,51 @@ body {
   color: var(--ink-faint);
 }
 
+/* product hero — a centre screen flanked by four satellites, two a side.
+   Grows into whatever height the copy below it leaves free. */
+.mag-cluster {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+
+.mag-cluster__screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--paper-line);
+  background: var(--paper-2);
+  box-shadow: 0 6px 18px rgba(6, 8, 14, 0.28);
+}
+
+.mag-cluster__screen--center {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* the four satellites, placed around the centre in visual reading order */
+.mag-cluster > :nth-child(2) {
+  grid-column: 1;
+  grid-row: 1;
+}
+.mag-cluster > :nth-child(3) {
+  grid-column: 3;
+  grid-row: 1;
+}
+.mag-cluster > :nth-child(4) {
+  grid-column: 1;
+  grid-row: 2;
+}
+.mag-cluster > :nth-child(5) {
+  grid-column: 3;
+  grid-row: 2;
+}
+
 /* two panels — copy left, copy over art on the right. the left runs a little
    wider: it carries twice the words, but the art still needs a usable frame */
 .mag-duo {

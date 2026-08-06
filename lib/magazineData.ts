@@ -113,6 +113,14 @@ export type Block =
       images: { src: string; alt: string }[];
     }
   | {
+      /** product hero: one screen held in the middle with four satellite
+       *  screens flanking it, two a side. `around` reads in visual order —
+       *  left-top, right-top, left-bottom, right-bottom. */
+      type: "deviceCluster";
+      center: PageImage;
+      around: PageImage[];
+    }
+  | {
       type: "cards";
       items: { title: string; body: string; thumb?: PageImage }[];
     }
@@ -499,20 +507,45 @@ export const magazinePages: MagazinePage[] = [
     blocks: [
       { type: "eyebrow", text: "b) Fliqket" },
       { type: "title", text: "Fliqket", accent: "Creator-First OTT" },
+      {
+        /* the product itself, held as the top half of the page */
+        type: "deviceCluster",
+        center: {
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786041793/WhatsApp_Image_2026-08-06_at_8.14.40_PM_l76sr8.jpg",
+          alt: "Fliqket home screen with the featured film carousel",
+        },
+        around: [
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786041792/1000133958_bmevmw.jpg",
+            alt: "Film detail screen with pay-per-view unlock",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786041793/WhatsApp_Image_2026-08-06_at_8.14.40_PM_1_udzd2r.jpg",
+            alt: "Explore — browse by category, genre and language",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786041793/1000133957_d6pyht.jpg",
+            alt: "Subscription plans and checkout",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786041792/WhatsApp_Image_2026-08-06_at_8.14.40_PM_2_zarfmv.jpg",
+            alt: "Profile with creator account application",
+          },
+        ],
+      },
       { type: "rating", stars: 5 },
       {
         type: "para",
-        text: "A creator OTT platform designed to empower filmmakers, production houses, and content creators to launch, manage, and monetize their own streaming ecosystem. With flexible monetization models, secure content delivery, and enterprise-grade management tools, Fliqket enables organizations to build sustainable digital entertainment and knowledge businesses.",
+        text: "A creator OTT platform that lets filmmakers and production houses launch, manage and monetise their own streaming ecosystem.",
       },
       { type: "eyebrow", text: "Business Value" },
       {
         type: "bullets",
         items: [
-          "Creator-first OTT with flexible monetization (SVOD, TVOD & PPV)",
-          "Secure video streaming with enterprise-grade content protection",
-          "Comprehensive content, user, and subscription management",
-          "Real-time analytics for audience engagement and revenue",
-          "Scalable multi-tenant platform for businesses and media organizations",
+          "Flexible monetisation — SVOD, TVOD & PPV",
+          "Secure streaming with enterprise content protection",
+          "Multi-tenant content, user & subscription management",
+          "Real-time audience engagement and revenue analytics",
         ],
       },
     ],

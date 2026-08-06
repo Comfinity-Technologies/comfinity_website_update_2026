@@ -299,6 +299,44 @@ function Blocks({ blocks }: { blocks: Block[] }) {
               </figure>
             );
 
+          case "deviceCluster":
+            return (
+              <div key={i} className="mag-cluster">
+                <div className="mag-cluster__screen mag-cluster__screen--center">
+                  <Image
+                    src={b.center.src}
+                    alt={b.center.alt}
+                    fill
+                    sizes="180px"
+                    unoptimized={isSvg(b.center.src)}
+                    className={
+                      b.center.fit === "contain"
+                        ? "object-contain"
+                        : "object-cover"
+                    }
+                    style={{ objectPosition: b.center.position ?? "center top" }}
+                  />
+                </div>
+                {b.around.map((img) => (
+                  <div key={img.src} className="mag-cluster__screen">
+                    <Image
+                      src={img.src}
+                      alt={img.alt}
+                      fill
+                      sizes="120px"
+                      unoptimized={isSvg(img.src)}
+                      className={
+                        img.fit === "contain"
+                          ? "object-contain"
+                          : "object-cover"
+                      }
+                      style={{ objectPosition: img.position ?? "center top" }}
+                    />
+                  </div>
+                ))}
+              </div>
+            );
+
           case "duo":
             return (
               <div key={i} className="mag-duo">
