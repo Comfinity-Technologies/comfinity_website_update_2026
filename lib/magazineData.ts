@@ -2,9 +2,9 @@
  * Comfinity Product Magazine 2026 — content model.
  *
  * Source: "Magazine and presentation for Company product 2026".
- * Sequenced into 22 pages / 11 leaves so every opening lands as a designed
- * spread (see SPREADS below). Keep the count even — the flipbook pairs
- * page 2i / 2i+1 onto the front and back of leaf i.
+ * Sequenced into 20 pages / 10 leaves so every opening lands as a designed
+ * spread. Keep the count even — the flipbook pairs page 2i / 2i+1 onto the
+ * front and back of leaf i.
  *
  * Items marked `pending: true` are layout placeholders: the source doc calls
  * for the section but does not supply the copy yet.
@@ -25,22 +25,109 @@ export type PageImage = {
 
 export type Block =
   | { type: "eyebrow"; text: string }
-  | { type: "title"; text: string; accent?: string }
+  | { type: "title"; text: string; accent?: string; boxed?: boolean }
   | { type: "lede"; text: string }
   | { type: "para"; text: string }
-  | { type: "quote"; text: string; by?: string }
+  | {
+      type: "quote";
+      text: string;
+      by?: string;
+      align?: "center";
+      /** "sm" sets the quote a step down — for pages where it is a caption
+       *  under a figure rather than the page's own voice */
+      size?: "sm";
+    }
+  | {
+      /** descending staircase of numbered steps, label and note alongside */
+      type: "stairs";
+      items: { n: string; icon?: string; title: string; body?: string; bullets?: string[] }[];
+    }
+  | {
+      /** numbered one-line points — number left, label right, rule per row */
+      type: "points";
+      items: { n: string; label: string }[];
+    }
+  | {
+      /** closing card: icon pair, a line of copy, and the running site */
+      type: "calloutCard";
+      icons: string[];
+      text: string;
+      note?: string;
+    }
   | { type: "rule" }
   | { type: "rating"; stars: number }
   | { type: "link"; href: string; label: string }
   | { type: "bullets"; items: string[] }
-  | { type: "numbered"; items: { n: string; title: string; body: string }[] }
+  | {
+      type: "numbered";
+      /** 2 lays the list out as a grid — used when a page carries all six values */
+      columns?: 1 | 2;
+      items: { n: string; title: string; body: string }[];
+    }
   | { type: "iconList"; items: { icon: string; title: string; body: string }[] }
+  | {
+      /** portrait art in the left column, nested blocks in a panel on the right */
+      type: "split";
+      image: PageImage;
+      blocks: Block[];
+    }
+  | {
+      /** compact icon cards. columns: 1 stacks them as single-line rows,
+       *  which is how the intro page lists mission and vision headings. */
+      type: "iconCards";
+      columns?: 1 | 2 | 3;
+      items: { icon?: string; image?: string; title: string; body?: string }[];
+    }
+  | {
+      /** a single inset image, sized by aspect ratio rather than full bleed */
+      type: "figure";
+      image: PageImage;
+      ratio?: string;
+      /** grow to eat the leftover column height instead of sizing to `ratio` —
+       *  used when the figure is meant to hold the top half of a page */
+      fill?: boolean;
+      caption?: string;
+    }
+  | {
+      /** two panels side by side: copy on the left, art on the right.
+       *  `right.image` may be omitted while the art is still being sourced —
+       *  the slot renders as a labelled placeholder until it lands. */
+      type: "duo";
+      /** `body` takes an array when the panel runs to more than one paragraph */
+      left: { title: string; body?: string | string[]; bullets?: string[] };
+      right: {
+        title: string;
+        body?: string | string[];
+        image?: PageImage;
+        caption?: string;
+      };
+    }
+  | {
+      /** cover masthead: accent rule, headline and the line beneath it */
+      type: "masthead";
+      title: string;
+      sub?: string;
+    }
+  | {
+      type: "imageStrip";
+      images: { src: string; alt: string }[];
+    }
   | {
       type: "cards";
       items: { title: string; body: string; thumb?: PageImage }[];
     }
-  | { type: "stats"; items: { value: string; label: string; pending?: boolean }[] }
+  | {
+      type: "stats";
+      /** 4 lays the figures out as a single compact strip */
+      columns?: 2 | 4;
+      items: { value: string; label: string; pending?: boolean }[];
+    }
   | { type: "tags"; items: string[] }
+  | {
+      /** grid of pull-quote cards — no avatar, attribution only */
+      type: "quoteCards";
+      items: { text: string; by: string; role?: string }[];
+    }
   | {
       type: "contents";
       items: { n: string; label: string; page: number }[];
@@ -66,6 +153,8 @@ export type MagazinePage = {
   section?: string;
   /** full-bleed art; the page switches to light-on-dark when present */
   image?: PageImage;
+  /** corner mark printed bottom-right, over the art */
+  logo?: PageImage;
   blocks: Block[];
 };
 
@@ -79,392 +168,284 @@ export const magazinePages: MagazinePage[] = [
   {
     folio: null,
     variant: "cover",
-    // cover.png is a mockup render of a magazine standing in a scene; the
-    // zoom crops in to the cover face itself. The artwork carries its own
-    // complete typography, so the page adds no overlay copy.
     image: {
-      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/cover_qbrsh9.jpg",
-      alt: "Comfinity Technologies 2026 product magazine cover",
-      position: "center center",
-      zoom: 1.22,
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786003361/hghg_uqjniu.png",
+      alt: "Comfinity Technologies front cover",
+      fit: "cover",
     },
-    blocks: [],
+    logo: {
+      src: "/magazine/comfinity-logo-white.png",
+      alt: "Comfinity Technologies",
+    },
+    blocks: [
+      { type: "masthead", title: "Our Company", sub: "Corporate Profile" },
+    ],
   },
 
-  /* ------------------------------------------------------------- 2 contents */
+
+
+  /* ------------------------------------------------- 2 about + mission */
   {
     folio: 2,
-    variant: "contents",
-    section: "Contents",
+    variant: "editorial",
+    section: "Who We Are",
     blocks: [
-      { type: "eyebrow", text: "Inside This Edition" },
-      { type: "title", text: "Contents" },
+      { type: "eyebrow", text: "01 — Who We Are" },
       {
-        type: "contents",
+        type: "title",
+        text: "Who We",
+        accent: "Are.",
+        boxed: true,
+      },
+      {
+        type: "split",
+        image: {
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786005301/WhatsApp_Image_2026-08-06_at_1.21.56_PM_bqdwi2.jpg",
+          alt: "Comfinity founder speaking on stage",
+          position: "100% center",
+          zoom: 2.1,
+        },
+        blocks: [
+          { type: "eyebrow", text: "About Us" },
+          {
+            type: "para",
+            text: "We are a team of technology enthusiasts and industry experts, committed to helping organizations turn complexity into clarity and ideas into measurable impact.",
+          },
+        ],
+      },
+      {
+        type: "imageStrip",
+        images: [
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007588/WhatsApp_Image_2026-08-06_at_2.00.13_PM_ya5hpr.jpg",
+            alt: "Modern architecture",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007589/WhatsApp_Image_2026-08-06_at_2.00.13_PM_2_qpltah.jpg",
+            alt: "Glass skyscraper",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007630/WhatsApp_Image_2026-08-06_at_2.01.21_PM_sn0rp4.jpg",
+            alt: "Team network icon",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007631/WhatsApp_Image_2026-08-06_at_2.00.13_PM_1_yyhosz.jpg",
+            alt: "Corporate hub",
+          },
+        ],
+      },
+      { type: "eyebrow", text: "Our Mission" },
+      {
+        type: "iconCards",
+        columns: 1,
         items: [
-          { n: "01", label: "About Us", page: 3 },
-          { n: "02", label: "Mission & Vision", page: 4 },
-          { n: "03", label: "Core Values", page: 6 },
-          { n: "04", label: "The Comfinity Difference", page: 8 },
-          { n: "05", label: "Our Expertise", page: 9 },
-          { n: "06", label: "Solutions & Industries", page: 10 },
-          { n: "07", label: "Case Studies", page: 11 },
-          { n: "08", label: "Client Reviews", page: 12 },
-          { n: "09", label: "Products & Portfolio", page: 13 },
-          { n: "10", label: "Live Innovations", page: 19 },
-          { n: "11", label: "Research & Development", page: 20 },
-          { n: "12", label: "Let's Build Together", page: 21 },
+          { icon: "🎯", title: "Understand Before We Build" },
+          { icon: "🚀", title: "Drive Meaningful Innovation" },
+          { icon: "🤝", title: "Build Long-Term Partnerships" },
+        ],
+      },
+      { type: "eyebrow", text: "Our Vision" },
+      {
+        type: "iconCards",
+        columns: 3,
+        items: [
+          {
+            image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007324/Gemini_Generated_Image_y8tbq3y8tbq3y8tb_zlbff1.png",
+            title: "Transform Challenges into Intelligence",
+          },
+          {
+            image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007320/Gemini_Generated_Image_e8ycmze8ycmze8yc_uwzp36.png",
+            title: "Turn Ideas into Impact",
+          },
+          {
+            image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007321/Gemini_Generated_Image_13wnzh13wnzh13wn_txvozv.png",
+            title: "Build the Future Together",
+          },
         ],
       },
     ],
   },
 
-  /* ---------------------------------------------------------------- 3 about */
+  /* ---------------------------------------------------------- 3 core values */
   {
     folio: 3,
     variant: "editorial",
-    section: "About Us",
+    section: "Core Values",
     blocks: [
-      { type: "eyebrow", text: "01 — About Us" },
+      { type: "eyebrow", text: "02 — Core Values" },
+      { type: "title", text: "Core", accent: "Values." },
       {
-        type: "title",
-        text: "Complexity into",
-        accent: "clarity.",
+        type: "quote",
+        align: "center",
+        text: "From complexity to clarity. From ideas to impact.",
       },
       {
-        type: "lede",
-        text: "Comfinity Technologies is an Innovation & Technology Partner dedicated to helping organizations transform complexity into clarity and ideas into measurable impact.",
+        type: "imageStrip",
+        images: [
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007588/WhatsApp_Image_2026-08-06_at_2.00.13_PM_ya5hpr.jpg",
+            alt: "Comfinity workspace",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007589/WhatsApp_Image_2026-08-06_at_2.00.13_PM_2_qpltah.jpg",
+            alt: "Comfinity office interior",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007630/WhatsApp_Image_2026-08-06_at_2.01.21_PM_sn0rp4.jpg",
+            alt: "Comfinity engineer at work",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007631/WhatsApp_Image_2026-08-06_at_2.00.13_PM_1_yyhosz.jpg",
+            alt: "Comfinity work floor",
+          },
+        ],
       },
-      { type: "rule" },
       {
-        type: "para",
-        text: "We believe technology should solve real business challenges, not create new ones. Every solution we build begins with understanding our clients, their goals, and the challenges they face.",
+        type: "points",
+        items: [
+          { n: "01", label: "Business First" },
+          { n: "02", label: "Innovation with Purpose" },
+          { n: "03", label: "Partnership & Trust" },
+          { n: "04", label: "Excellence in Execution" },
+          { n: "05", label: "Continuous Learning" },
+          { n: "06", label: "Integrity" },
+        ],
       },
       {
-        type: "para",
-        text: "From AI-powered automation and custom software to digital platforms and enterprise solutions, we combine strategic thinking with engineering excellence to create solutions that drive sustainable growth.",
-      },
-      {
-        type: "para",
-        text: "More than a technology provider, we become a long-term partner — working alongside businesses to innovate, adapt, and grow in an ever-evolving digital world.",
+        type: "calloutCard",
+        icons: ["👥", "🌐"],
+        text: "Things get interesting when you flip it.",
+        note: MAGAZINE_SITE,
       },
     ],
   },
 
-  /* -------------------------------------------------------------- 4 mission */
+  /* ----------------------------------------------------------- 4 why us */
   {
     folio: 4,
     variant: "editorial",
-    section: "Mission",
+    section: "Why Us",
     blocks: [
-      { type: "eyebrow", text: "02 — Our Mission" },
-      { type: "title", text: "What we", accent: "commit to." },
+      { type: "eyebrow", text: "03 — Why Us" },
+      { type: "title", text: "Why", accent: "us." },
       {
-        type: "iconList",
-        items: [
-          {
-            icon: "🎯",
-            title: "Understand Before We Build",
-            body: "We begin every engagement by understanding our clients' business, challenges, and goals to deliver solutions that create lasting value.",
-          },
-          {
-            icon: "🚀",
-            title: "Drive Meaningful Innovation",
-            body: "We leverage emerging technologies, intelligent automation, and strategic thinking to solve real business problems and accelerate digital transformation.",
-          },
-          {
-            icon: "🤝",
-            title: "Build Long-Term Partnerships",
-            body: "We are committed to becoming trusted technology partners, supporting organizations throughout their journey of innovation, growth, and continuous improvement.",
-          },
-        ],
-      },
-    ],
-  },
-
-  /* --------------------------------------------------------------- 5 vision */
-  {
-    folio: 5,
-    variant: "editorial",
-    section: "Vision",
-    blocks: [
-      { type: "eyebrow", text: "02 — Our Vision" },
-      { type: "title", text: "Where we are", accent: "going." },
-      {
-        type: "iconList",
-        items: [
-          {
-            icon: "🌍",
-            title: "Transform Challenges into Intelligence",
-            body: "Helping organizations simplify challenges through intelligent, scalable technology.",
-          },
-          {
-            icon: "💡",
-            title: "Turn Ideas into Impact",
-            body: "Empowering businesses to transform bold ideas into meaningful, measurable outcomes.",
-          },
-          {
-            icon: "🌱",
-            title: "Build the Future Together",
-            body: "Creating lasting partnerships that inspire innovation, sustainable growth, and shared success.",
-          },
-        ],
-      },
-    ],
-  },
-
-  /* ---------------------------------------------------------- 6 values 1–3 */
-  {
-    folio: 6,
-    variant: "editorial",
-    section: "Core Values",
-    blocks: [
-      { type: "eyebrow", text: "03 — Core Values" },
-      { type: "title", text: "What we", accent: "stand on." },
-      {
-        type: "numbered",
+        type: "stairs",
         items: [
           {
             n: "01",
-            title: "Business First",
-            body: "We understand the business before recommending technology.",
+            icon: "🎯",
+            title: "The Comfinity Difference",
+            bullets: [
+              "Business-First Thinking",
+              "Innovation with Purpose",
+              "End-to-End Technology Partnership",
+              "Building the Future Together",
+            ],
           },
           {
             n: "02",
-            title: "Innovation with Purpose",
-            body: "Every solution we create is designed to solve meaningful problems and deliver measurable value.",
+            icon: "⚙️",
+            title: "Our Expertise (Capabilities)",
+            bullets: [
+              "🧭 Business Strategy & Transformation",
+              "⚙️ Digital Engineering & Product Development",
+              "🧠 AI, Automation & Intelligent Systems",
+              "🌱 Innovation, Research & Talent Development",
+            ],
           },
           {
             n: "03",
-            title: "Partnership & Trust",
-            body: "We believe lasting relationships are built through transparency, collaboration, and shared success.",
+            icon: "🧩",
+            title: "Solutions We Deliver (Services)",
+            bullets: [
+              "AI & Intelligent Automation",
+              "Custom Software & Digital Platforms",
+              "Digital Transformation & Cloud Solutions",
+              "Product Engineering & Technology Consulting",
+            ],
           },
-        ],
-      },
-    ],
-  },
-
-  /* ---------------------------------------------------------- 7 values 4–6 */
-  {
-    folio: 7,
-    variant: "editorial",
-    section: "Core Values",
-    blocks: [
-      { type: "eyebrow", text: "03 — Core Values" },
-      { type: "title", text: "Continued." },
-      {
-        type: "numbered",
-        items: [
           {
             n: "04",
-            title: "Excellence in Execution",
-            body: "We combine strategic thinking with engineering excellence to deliver solutions that are reliable, scalable, and future-ready.",
-          },
-          {
-            n: "05",
-            title: "Continuous Learning",
-            body: "Technology evolves every day. We embrace curiosity, learning, and improvement to stay ahead and help our clients do the same.",
-          },
-          {
-            n: "06",
-            title: "Integrity",
-            body: "We communicate honestly, challenge assumptions when necessary, and always act in the best interest of our clients and partners.",
+            icon: "🌐",
+            title: "Industries We Empower (Who You Serve)",
+            bullets: [
+              "Startups & Scale-ups",
+              "Enterprises",
+              "🏭 Industry Verticals",
+              "🌐 Government & Innovation Ecosystems",
+            ],
           },
         ],
       },
     ],
   },
 
-  /* ----------------------------------------------------------- 8 difference */
+  /* ------------------------------------------- 5 client reviews */
   {
-    folio: 8,
-    variant: "editorial",
-    section: "Why Us",
-    blocks: [
-      { type: "eyebrow", text: "04 — Why Us" },
-      { type: "title", text: "The Comfinity", accent: "difference." },
-      {
-        type: "quote",
-        text: "We understand the business before we recommend the technology.",
-      },
-      {
-        type: "para",
-        text: "Most technology partners start with a stack. We start with a question: what is actually in the way? That single reversal is why our solutions get adopted instead of shelved.",
-      },
-      {
-        type: "cards",
-        items: [
-          {
-            title: "Strategy before stack",
-            body: "The architecture follows the business case — never the other way around.",
-          },
-          {
-            title: "Built to be handed over",
-            body: "Documented, maintainable systems your team can own and extend.",
-          },
-          {
-            title: "Measured in outcomes",
-            body: "Every engagement is tied to a number the business already cares about.",
-          },
-          {
-            title: "Partners, not vendors",
-            body: "We stay past launch — through iteration, scale, and what comes next.",
-          },
-        ],
-      },
-    ],
-  },
-
-  /* ------------------------------------------------------------ 9 expertise */
-  {
-    folio: 9,
-    variant: "editorial",
-    section: "Expertise",
-    blocks: [
-      { type: "eyebrow", text: "05 — Our Expertise" },
-      { type: "title", text: "Four capability", accent: "pillars." },
-      {
-        type: "iconList",
-        items: [
-          {
-            icon: "🧭",
-            title: "Business Strategy & Transformation",
-            body: "Operating-model design, digital roadmaps, and transformation programmes grounded in commercial reality.",
-          },
-          {
-            icon: "⚙️",
-            title: "Digital Engineering & Product Development",
-            body: "Custom software, digital platforms, and enterprise systems engineered to scale and to be maintained.",
-          },
-          {
-            icon: "🧠",
-            title: "AI, Automation & Intelligent Systems",
-            body: "AI-powered automation, machine learning, and intelligent workflows applied to real operational bottlenecks.",
-          },
-          {
-            icon: "🌱",
-            title: "Innovation, Research & Talent Development",
-            body: "Applied R&D and capability building that leaves clients stronger than we found them.",
-          },
-        ],
-      },
-    ],
-  },
-
-  /* -------------------------------------------------- 10 solutions + sectors */
-  {
-    folio: 10,
-    variant: "editorial",
-    section: "Solutions",
-    blocks: [
-      { type: "eyebrow", text: "06 — Solutions & Industries" },
-      { type: "title", text: "What we deliver,", accent: "and for whom." },
-      { type: "eyebrow", text: "Solutions We Deliver" },
-      {
-        type: "bullets",
-        items: [
-          "AI-powered automation & intelligent workflow systems",
-          "Custom software & digital product engineering",
-          "Enterprise platforms, ERP and B2B commerce",
-          "Data analytics, dashboards & decision intelligence",
-          "Cloud, edge and platform modernisation",
-        ],
-      },
-      { type: "rule" },
-      { type: "eyebrow", text: "Industries We Empower" },
-      {
-        type: "tags",
-        items: [
-          "Healthcare",
-          "Education",
-          "Retail",
-          "Manufacturing",
-          "Logistics",
-          "Finance",
-          "Real Estate",
-        ],
-      },
-    ],
-  },
-
-  /* --------------------------------------------------------- 11 case studies */
-  {
-    folio: 11,
-    variant: "editorial",
-    section: "Case Studies",
-    blocks: [
-      { type: "eyebrow", text: "07 — Case Studies" },
-      { type: "title", text: "The work,", accent: "in numbers." },
-      {
-        type: "stats",
-        items: [
-          { value: "—", label: "Platforms shipped to production", pending: true },
-          { value: "—", label: "Paying business customers served", pending: true },
-          { value: "—", label: "Avg. operational time saved", pending: true },
-          { value: "—", label: "Industries actively served", pending: true },
-        ],
-      },
-      {
-        type: "para",
-        text: "Detailed engagement breakdowns — challenge, approach, architecture and measured outcome — for each flagship platform.",
-      },
-      { type: "link", href: "/works", label: "Read the full case studies" },
-    ],
-  },
-
-  /* -------------------------------------------------------------- 12 reviews */
-  {
-    folio: 12,
+    folio: 5,
     variant: "editorial",
     section: "Client Reviews",
     blocks: [
-      { type: "eyebrow", text: "08 — Client Reviews" },
-      { type: "title", text: "In their", accent: "words." },
-      {
-        type: "reviews",
+      { type: "eyebrow", text: "04 — Client Reviews" },
+      { type: "reviews",
         items: [
           {
-            name: "Aravind R",
-            org: "Repz Platform",
-            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/aravind_avatar_j1lgx3.jpg",
-            quote: "Comfinity rebuilt our campaign workflows with intelligent automation. Execution speed improved 3x seamlessly.",
+            name: "Ajay",
+            org: "REPZ Platform",
+            avatar: "/reviews/ajay.png",
+            quote: "Managing our gym used to be fragmented. REPZ brought everything into one platform, giving us complete visibility.",
             pending: false,
           },
           {
-            name: "Vignesh G",
-            org: "Hyperlocal Partner",
-            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956469/vignesh_avatar_viurdg.jpg",
-            quote: "Strategic, reliable, and deeply committed. They really listened and solved our core operational bottlenecks.",
+            name: "Sreejith",
+            org: "Minute Bazaar",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786027075/WhatsApp_Image_2026-08-06_at_4.18.10_PM_u8l7va.jpg",
+            quote: "Going online was so easy! Order management and delivery run smoothly every day, and customers are happy.",
             pending: false,
           },
           {
-            name: "Minute Bazaar",
-            org: "Retail Commerce",
-            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/minute_bazaar_avatar_omcdwh.jpg",
-            quote: "Digitized our storefront network with real-time inventory and 15-minute quick delivery dispatch engine.",
+            name: "Vignesh",
+            org: "Fliqket OTT",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786027078/Gemini_Generated_Image_bay672bay672bay6_lp8sgz.png",
+            quote: "What impressed us most was Fliqket's creator-first approach, secure streaming, and audience analytics.",
             pending: false,
           },
           {
-            name: "Aswathy",
+            name: "Aravind",
+            org: "Retail Marketplace",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786027076/WhatsApp_Image_2026-08-06_at_4.02.11_PM_p21bfa.jpg",
+            quote: "Comfinity helped transform our grocery store into a digital marketplace. Everything is effortless now.",
+            pending: false,
+          },
+          {
+            name: "Sujin",
             org: "Medicharm Pharma",
-            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956467/aswathy_avatar_pe3qlk.jpg",
-            quote: "The pharma management system gave us complete batch inventory visibility and multi-branch sync.",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786027872/Gemini_Generated_Image_jat3b3jat3b3jat3_mojez2.png",
+            quote: "Managing inventory across branches used to be chaotic. Their system gave us complete real-time sync.",
+            pending: false,
+          },
+          {
+            name: "Arun",
+            org: "Reztos OS",
+            avatar: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786027076/Gemini_Generated_Image_rbbntzrbbntzrbbn_wfwyi5.png",
+            quote: "Reztos made running our restaurant so much easier — QR ordering, billing, and multi-outlet management in one.",
             pending: false,
           },
         ],
       },
+      { type: "link", href: "/works", label: "Read all client reviews" },
     ],
   },
 
-  /* ------------------------------------------------------- 13 products divider */
+
+
+  /* ------------------------------------------------------- 6 products divider */
   {
-    // carries a folio so the contents page can jump here; the number itself
-    // is hidden on divider pages (see .mag-page--divider .mag-folio)
-    folio: 13,
+    folio: 6,
     variant: "divider",
     section: "Portfolio",
     blocks: [
-      { type: "eyebrow", text: "09 — Products & Portfolio" },
+      { type: "eyebrow", text: "05 — Products & Portfolio" },
       { type: "title", text: "Things we have", accent: "built so far." },
       {
         type: "lede",
@@ -473,9 +454,9 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* -------------------------------------------------------- 14 minute bazaar */
+  /* -------------------------------------------------------- 7 minute bazaar */
   {
-    folio: 14,
+    folio: 7,
     variant: "product",
     section: "Products",
     image: {
@@ -505,9 +486,9 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* -------------------------------------------------------------- 15 fliqket */
+  /* -------------------------------------------------------------- 8 fliqket */
   {
-    folio: 15,
+    folio: 8,
     variant: "product",
     section: "Products",
     image: {
@@ -537,9 +518,9 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* ----------------------------------------------------------------- 16 repz */
+  /* ----------------------------------------------------------------- 9 repz */
   {
-    folio: 16,
+    folio: 9,
     variant: "product",
     section: "Products",
     image: {
@@ -569,9 +550,9 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* --------------------------------------------------------------- 17 reztos */
+  /* --------------------------------------------------------------- 10 reztos */
   {
-    folio: 17,
+    folio: 10,
     variant: "product",
     section: "Products",
     image: {
@@ -600,9 +581,9 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* ------------------------------------------------ 18 dadchicko + medicharm */
+  /* ------------------------------------------------ 11 dadchicko + medicharm */
   {
-    folio: 18,
+    folio: 11,
     variant: "product",
     section: "Products",
     blocks: [
@@ -637,13 +618,62 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* ---------------------------------------------------- 19 live innovations */
+  /* ------------------------------------------------------------------ 12 R&D */
   {
-    folio: 19,
+    folio: 12,
+    variant: "editorial",
+    section: "R&D",
+    blocks: [
+      { type: "eyebrow", text: "06 — Research & Development" },
+      {
+        /* no page title — the diagram runs straight off the eyebrow so it
+           holds the top half of the page on its own */
+        type: "figure",
+        fill: true,
+        image: {
+          src: "/magazine/cognitive-cycle.png",
+          alt: "The R&D cognitive cycle — ideate, improve, analyze, adapt, plan, learn, execute, monitor",
+          fit: "contain",
+        },
+      },
+      {
+        type: "quote",
+        align: "center",
+        size: "sm",
+        text: "By empowering young minds and embracing continuous research, we cultivate innovations that solve today's challenges and shape tomorrow's opportunities.",
+      },
+      {
+        type: "duo",
+        left: {
+          title: "Importance of Research & Development",
+          body: [
+            "At Comfinity Technologies, Research & Development is the driving force behind our innovation. We continuously explore emerging technologies, industry trends, and evolving business challenges to develop intelligent, scalable, and future-ready digital solutions.",
+            "Our R&D team focuses on transforming research into practical products that solve real-world business problems across industries including healthcare, education, retail, manufacturing, logistics, finance, and real estate.",
+          ],
+        },
+        right: {
+          title: "Young Minds",
+          body: [
+            "Many breakthrough innovations begin with a single idea backed by continuous experimentation.",
+            "Comfinity brings together students, engineers, researchers, and entrepreneurs to transform promising ideas into scalable technology solutions.",
+          ],
+          image: {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786038119/1000133888_x65t6u.jpg",
+            alt: "The young engineers and researchers behind Comfinity's R&D work",
+            fit: "cover",
+          },
+        },
+      },
+    ],
+  },
+
+  /* ---------------------------------------------------- 13 live innovations */
+  {
+    folio: 13,
     variant: "editorial",
     section: "Live Innovations",
     blocks: [
-      { type: "eyebrow", text: "10 — Live Innovations" },
+      { type: "eyebrow", text: "07 — Live Innovations" },
       { type: "title", text: "In the", accent: "lab, now." },
       {
         type: "numbered",
@@ -678,54 +708,13 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* ------------------------------------------------------------------ 20 R&D */
+  /* -------------------------------------------------------------- 14 closing */
   {
-    folio: 20,
-    variant: "editorial",
-    section: "R&D",
-    image: {
-      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/rd_lab_gyxffj.jpg",
-      alt: "Comfinity research and development lab",
-      position: "center center",
-    },
-    blocks: [
-      { type: "eyebrow", text: "11 — Research & Development" },
-      { type: "title", text: "Research is the", accent: "engine." },
-      {
-        type: "lede",
-        text: "At Comfinity Technologies, Research & Development is the driving force behind our innovation.",
-      },
-      { type: "rule" },
-      {
-        type: "para",
-        text: "We continuously explore emerging technologies, industry trends, and evolving business challenges to develop intelligent, scalable, and future-ready digital solutions.",
-      },
-      {
-        type: "para",
-        text: "Our R&D team focuses on transforming research into practical products that solve real-world business problems across industries including healthcare, education, retail, manufacturing, logistics, finance, and real estate.",
-      },
-      {
-        type: "tags",
-        items: [
-          "Healthcare",
-          "Education",
-          "Retail",
-          "Manufacturing",
-          "Logistics",
-          "Finance",
-          "Real Estate",
-        ],
-      },
-    ],
-  },
-
-  /* -------------------------------------------------------------- 21 closing */
-  {
-    folio: 21,
+    folio: 14,
     variant: "editorial",
     section: "Next",
     blocks: [
-      { type: "eyebrow", text: "12 — Let's Build Together" },
+      { type: "eyebrow", text: "08 — Let's Build Together" },
       { type: "title", text: "Start with a", accent: "conversation." },
       {
         type: "lede",
@@ -738,7 +727,7 @@ export const magazinePages: MagazinePage[] = [
     ],
   },
 
-  /* ----------------------------------------------------------- 22 back cover */
+  /* ----------------------------------------------------------- 15 back cover */
   {
     folio: null,
     variant: "backCover",

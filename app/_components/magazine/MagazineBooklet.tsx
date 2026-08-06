@@ -198,6 +198,20 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             </button>
           </div>
 
+          {/* 4 Image Strip */}
+          <div className="grid grid-cols-4 gap-1.5 my-2.5 rounded-xl overflow-hidden border border-line shadow-sm">
+            {[
+              "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007588/WhatsApp_Image_2026-08-06_at_2.00.13_PM_ya5hpr.jpg",
+              "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007589/WhatsApp_Image_2026-08-06_at_2.00.13_PM_2_qpltah.jpg",
+              "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007630/WhatsApp_Image_2026-08-06_at_2.01.21_PM_sn0rp4.jpg",
+              "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007631/WhatsApp_Image_2026-08-06_at_2.00.13_PM_1_yyhosz.jpg",
+            ].map((img, idx) => (
+              <div key={idx} className="h-10 w-full overflow-hidden bg-surface-2">
+                <img src={img} alt={`Vision image ${idx + 1}`} className="w-full h-full object-cover" />
+              </div>
+            ))}
+          </div>
+
           <div className="mt-2 space-y-1.5">
             <p className="font-mono text-[9px] text-accent font-bold tracking-wider uppercase">OUR MISSION</p>
             {[
@@ -215,20 +229,28 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             ))}
           </div>
 
-          <div className="mt-2.5 space-y-1.5">
-            <p className="font-mono text-[9px] text-accent-violet font-bold tracking-wider uppercase">OUR VISION</p>
-            <div className="grid grid-cols-1 gap-1.5">
+          <div className="mt-2 space-y-1">
+            <p className="font-mono text-[9px] text-accent-violet font-bold tracking-wider uppercase text-center mb-1">OUR VISION</p>
+            <div className="grid grid-cols-3 gap-2">
               {[
-                { icon: "🌍", title: "Transform Challenges into Intelligence", desc: "Helping organizations simplify challenges through intelligent, scalable technology." },
-                { icon: "💡", title: "Turn Ideas into Impact", desc: "Empowering businesses to transform bold ideas into meaningful, measurable outcomes." },
-                { icon: "🌱", title: "Build the Future Together", desc: "Creating lasting partnerships that inspire innovation, sustainable growth, and shared success." },
+                {
+                  image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007324/Gemini_Generated_Image_y8tbq3y8tbq3y8tb_zlbff1.png",
+                  title: "Transform Challenges into Intelligence",
+                },
+                {
+                  image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007320/Gemini_Generated_Image_e8ycmze8ycmze8yc_uwzp36.png",
+                  title: "Turn Ideas into Impact",
+                },
+                {
+                  image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007321/Gemini_Generated_Image_13wnzh13wnzh13wn_txvozv.png",
+                  title: "Build the Future Together",
+                },
               ].map((v, i) => (
-                <div key={i} className="glass rounded-xl p-2 border border-accent/20 bg-accent/5 flex items-start gap-2">
-                  <span className="text-sm shrink-0">{v.icon}</span>
-                  <div>
-                    <p className="text-[10px] font-bold text-foreground">{v.title}</p>
-                    <p className="text-[8px] text-muted leading-tight mt-0.5">{v.desc}</p>
+                <div key={i} className="glass rounded-xl p-2 border border-accent/20 bg-accent/5 flex flex-col items-center text-center">
+                  <div className="h-10 w-10 shrink-0 overflow-hidden rounded-full border-2 border-accent/40 bg-surface-2 shadow-sm mb-1.5">
+                    <img src={v.image} alt={v.title} className="w-full h-full object-cover" />
                   </div>
+                  <p className="text-[8.5px] font-bold text-foreground uppercase tracking-tight leading-tight">{v.title}</p>
                 </div>
               ))}
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
@@ -27,6 +27,18 @@ const FLIP_DURATION = 1.05;
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
 
+/* monogram for review cards that have no portrait on file */
+const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+
+/* copy fields accept a single paragraph or several */
+const toParas = (body?: string | string[]) =>
+  body === undefined ? [] : Array.isArray(body) ? body : [body];
+
 type Leaf = { front: MagazinePage | null; back: MagazinePage | null };
 
 /* ------------------------------------------------------------------ blocks */
@@ -45,14 +57,15 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "title":
             return (
-              <h2 key={i} className="mag-title">
+              <h2
+                key={i}
+                className={`mag-title${b.boxed ? " mag-title--boxed" : ""}`}
+              >
                 {b.text}
                 {b.accent && (
                   <>
                     {" "}
-                    <span className="font-serif-accent text-gradient">
-                      {b.accent}
-                    </span>
+                    <span className="mag-title__accent">{b.accent}</span>
                   </>
                 )}
               </h2>
@@ -74,10 +87,78 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "quote":
             return (
-              <blockquote key={i} className="mag-quote">
+              <blockquote
+                key={i}
+                className={`mag-quote${
+                  b.align === "center" ? " mag-quote--center" : ""
+                }${b.size === "sm" ? " mag-quote--sm" : ""}`}
+              >
                 &ldquo;{b.text}&rdquo;
                 {b.by && <cite className="mag-quote__by">{b.by}</cite>}
               </blockquote>
+            );
+
+          case "stairs":
+            return (
+              <ol key={i} className="mag-stairs">
+                {b.items.map((it, idx) => (
+                  <li
+                    key={it.n}
+                    style={{ "--step": idx } as React.CSSProperties}
+                  >
+                    <span className="mag-stairs__block">
+                      <span className="mag-stairs__n">{it.n}</span>
+                      {it.icon && (
+                        <span className="mag-stairs__icon" aria-hidden>
+                          {it.icon}
+                        </span>
+                      )}
+                    </span>
+                    <div className="mag-stairs__text">
+                      <h3 className="mag-stairs__title">{it.title}</h3>
+                      {it.body && (
+                        <p className="mag-stairs__body">{it.body}</p>
+                      )}
+                      {it.bullets && (
+                        <ul className="mag-stairs__bullets">
+                          {it.bullets.map((bItem, bIdx) => (
+                            <li key={bIdx}>{bItem}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            );
+
+          case "points":
+            return (
+              <ol key={i} className="mag-points">
+                {b.items.map((it) => (
+                  <li key={it.n}>
+                    <span className="mag-points__n">{it.n}</span>
+                    <span className="mag-points__label">{it.label}</span>
+                  </li>
+                ))}
+              </ol>
+            );
+
+          case "calloutCard":
+            return (
+              <div key={i} className="mag-callout">
+                <div className="mag-callout__icons" aria-hidden>
+                  {b.icons.map((ic) => (
+                    <span key={ic}>{ic}</span>
+                  ))}
+                </div>
+                <div className="mag-callout__body">
+                  <p className="mag-callout__text">
+                    &ldquo;{b.text}&rdquo;
+                  </p>
+                  {b.note && <span className="mag-callout__note">{b.note}</span>}
+                </div>
+              </div>
             );
 
           case "rule":
@@ -127,7 +208,12 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "numbered":
             return (
-              <ol key={i} className="mag-numbered">
+              <ol
+                key={i}
+                className={`mag-numbered${
+                  b.columns === 2 ? " mag-numbered--2col" : ""
+                }`}
+              >
                 {b.items.map((it) => (
                   <li key={it.n}>
                     <span className="mag-numbered__n">{it.n}</span>
@@ -157,6 +243,150 @@ function Blocks({ blocks }: { blocks: Block[] }) {
               </ul>
             );
 
+          case "split":
+            return (
+              <div key={i} className="mag-split">
+                <div className="mag-split__art">
+                  <Image
+                    src={b.image.src}
+                    alt={b.image.alt}
+                    fill
+                    sizes="220px"
+                    unoptimized={isSvg(b.image.src)}
+                    className={
+                      b.image.fit === "contain"
+                        ? "object-contain"
+                        : "object-cover"
+                    }
+                    style={{ objectPosition: b.image.position ?? "center" }}
+                  />
+                </div>
+                <div className="mag-split__panel">
+                  <Blocks blocks={b.blocks} />
+                </div>
+              </div>
+            );
+
+          case "figure":
+            return (
+              <figure
+                key={i}
+                className={`mag-figure${b.fill ? " mag-figure--fill" : ""}`}
+              >
+                <div
+                  className="mag-figure__frame"
+                  style={b.fill ? undefined : { aspectRatio: b.ratio ?? "16/9" }}
+                >
+                  <Image
+                    src={b.image.src}
+                    alt={b.image.alt}
+                    fill
+                    sizes={IMG_SIZES}
+                    unoptimized={isSvg(b.image.src)}
+                    className={
+                      b.image.fit === "contain"
+                        ? "object-contain"
+                        : "object-cover"
+                    }
+                    style={{ objectPosition: b.image.position ?? "center" }}
+                  />
+                </div>
+                {b.caption && (
+                  <figcaption className="mag-figure__caption">
+                    {b.caption}
+                  </figcaption>
+                )}
+              </figure>
+            );
+
+          case "duo":
+            return (
+              <div key={i} className="mag-duo">
+                <div className="mag-duo__panel">
+                  <h3 className="mag-duo__title">{b.left.title}</h3>
+                  {toParas(b.left.body).map((para) => (
+                    <p key={para} className="mag-duo__body">
+                      {para}
+                    </p>
+                  ))}
+                  {b.left.bullets && (
+                    <ul className="mag-duo__bullets">
+                      {b.left.bullets.map((it) => (
+                        <li key={it}>{it}</li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+                <div className="mag-duo__panel">
+                  <h3 className="mag-duo__title">{b.right.title}</h3>
+                  {toParas(b.right.body).map((para) => (
+                    <p key={para} className="mag-duo__body">
+                      {para}
+                    </p>
+                  ))}
+                  <div className="mag-duo__art">
+                    {b.right.image ? (
+                      <Image
+                        src={b.right.image.src}
+                        alt={b.right.image.alt}
+                        fill
+                        sizes="220px"
+                        unoptimized={isSvg(b.right.image.src)}
+                        className={
+                          b.right.image.fit === "contain"
+                            ? "object-contain"
+                            : "object-cover"
+                        }
+                        style={{
+                          objectPosition: b.right.image.position ?? "center",
+                        }}
+                      />
+                    ) : (
+                      <span className="mag-duo__slot">Image to come</span>
+                    )}
+                  </div>
+                  {b.right.caption && (
+                    <p className="mag-duo__caption">{b.right.caption}</p>
+                  )}
+                </div>
+              </div>
+            );
+
+          case "iconCards":
+            return (
+              <div
+                key={i}
+                className={`mag-iconcards${
+                  b.columns === 1 ? " mag-iconcards--row" : " mag-iconcards--col"
+                }`}
+                style={{
+                  gridTemplateColumns: `repeat(${b.columns ?? 3}, 1fr)`,
+                }}
+              >
+                {b.items.map((it) => (
+                  <div key={it.title} className="mag-iconcard">
+                    {it.image ? (
+                      <div className="mag-iconcard__avatar">
+                        <img
+                          src={it.image}
+                          alt={it.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      it.icon && (
+                        <span className="mag-iconcard__icon" aria-hidden>
+                          {it.icon}
+                        </span>
+                      )
+                    )}
+                    <h3 className="mag-iconcard__title">{it.title}</h3>
+                    {it.body && <p className="mag-iconcard__body">{it.body}</p>}
+                  </div>
+                ))}
+              </div>
+            );
+
           case "cards":
             return (
               <div key={i} className="mag-cards">
@@ -183,7 +413,12 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "stats":
             return (
-              <div key={i} className="mag-stats">
+              <div
+                key={i}
+                className={`mag-stats${
+                  b.columns === 4 ? " mag-stats--strip" : ""
+                }`}
+              >
                 {b.items.map((it) => (
                   <div key={it.label} className="mag-stat">
                     <span
@@ -201,45 +436,96 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "reviews":
             return (
-              <div key={i} className="mag-reviews space-y-2 mt-2">
+              <div key={i} className="mag-reviews">
                 {b.items.map((it, idx) => {
                   const isEven = idx % 2 === 0;
                   return (
                     <div
                       key={it.name}
-                      className={`glass rounded-2xl p-2 border border-line/80 bg-surface-2/60 shadow-md flex items-center gap-2.5 ${
-                        isEven ? "flex-row text-left" : "flex-row-reverse text-right"
+                      className={`mag-review${it.pending ? " is-pending" : ""} ${
+                        isEven
+                          ? "flex-row text-left self-start"
+                          : "flex-row-reverse text-right self-end"
                       }`}
                     >
                       {/* Avatar & Client Info */}
-                      <div className="shrink-0 flex flex-col items-center justify-center w-14 text-center">
-                        <div className="h-9 w-9 rounded-xl overflow-hidden border border-accent/40 shadow">
-                          <img
-                            src={it.avatar || "/magazine/aravind_avatar.png"}
-                            alt={it.name}
-                            className="w-full h-full object-cover"
-                          />
+                      <div className="shrink-0 flex flex-col items-center justify-center w-12 text-center">
+                        <div className="mag-review__avatar">
+                          {it.avatar ? (
+                            <img
+                              src={it.avatar}
+                              alt={it.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <span aria-hidden>{initials(it.name)}</span>
+                          )}
                         </div>
-                        <span className="font-bold text-[8.5px] text-foreground mt-0.5 leading-none">
-                          {it.name}
-                        </span>
-                        <span className="font-mono text-[6.5px] text-accent font-semibold leading-tight">
-                          {it.org}
-                        </span>
+                        <span className="mag-review__name">{it.name}</span>
+                        <span className="mag-review__org">{it.org}</span>
                       </div>
 
                       {/* Stars & Quote */}
-                      <div className="flex-1">
-                        <div className={`flex items-center gap-0.5 mb-0.5 ${isEven ? "justify-start" : "justify-end"}`}>
-                          <span className="text-[8px] text-yellow-400 font-bold">⭐⭐⭐⭐⭐</span>
-                        </div>
-                        <p className="text-[8px] text-muted leading-tight italic font-serif-accent">
-                          &ldquo;{it.quote}&rdquo;
+                      <div
+                        className={`flex-1 min-w-0 flex flex-col justify-center ${
+                          isEven ? "items-start" : "items-end"
+                        }`}
+                      >
+                        {!it.pending && (
+                          <div className="flex items-center gap-0.5 mb-0.5">
+                            <span className="mag-review__stars">★★★★★</span>
+                          </div>
+                        )}
+                        <p
+                          className={`mag-review__quote${
+                            it.pending ? " is-pending" : ""
+                          }`}
+                        >
+                          {it.pending
+                            ? "Quote pending client sign-off"
+                            : `“${it.quote}”`}
                         </p>
                       </div>
                     </div>
                   );
                 })}
+              </div>
+            );
+
+          case "quoteCards":
+            return (
+              <div key={i} className="mag-quotecards">
+                {b.items.map((it) => (
+                  <figure key={it.by} className="mag-quotecard">
+                    <span className="mag-quotecard__mark" aria-hidden>
+                      &ldquo;
+                    </span>
+                    <blockquote className="mag-quotecard__text">
+                      {it.text}
+                    </blockquote>
+                    <figcaption className="mag-quotecard__by">
+                      {it.by}
+                      {it.role && (
+                        <span className="mag-quotecard__role">{it.role}</span>
+                      )}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            );
+
+          case "imageStrip":
+            return (
+              <div key={i} className="mag-imagestrip">
+                {b.images.map((img, idx) => (
+                  <div key={idx} className="mag-imagestrip__item">
+                    <img
+                      src={img.src}
+                      alt={img.alt}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
               </div>
             );
 
@@ -295,6 +581,17 @@ function PageFace({ page }: { page: MagazinePage }) {
       }`}
     >
       {page.image && <PageArt art={page.image} />}
+      {page.logo && (
+        <div className="mag-coverlogo">
+          <Image
+            src={page.logo.src}
+            alt={page.logo.alt}
+            fill
+            sizes="120px"
+            className="object-contain"
+          />
+        </div>
+      )}
       {page.variant === "editorial" && page.section && (
         <span className="mag-runhead">{page.section}</span>
       )}

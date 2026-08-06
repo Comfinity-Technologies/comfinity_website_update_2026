@@ -64,6 +64,18 @@
   --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
 }
 
+/* Magazine-only editorial stack — a display serif, a text serif and a
+   grotesque for small-caps labels. Set apart from the site UI faces on
+   purpose: the book should read as print, not as an app screen.
+   Declared on the same element that carries the next/font variables
+   (app/about/magazine/layout.tsx), since a custom property is substituted
+   against the element it is declared on. */
+.mag-type {
+  --mag-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --mag-text: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --mag-label: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+}
+
 html {
   scroll-behavior: initial;
 }
@@ -451,7 +463,7 @@ body {
   position: absolute;
   top: 20px;
   right: 24px;
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 8px;
   letter-spacing: 0.26em;
   text-transform: uppercase;
@@ -462,7 +474,7 @@ body {
   position: absolute;
   bottom: 18px;
   right: 26px;
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 10px;
   letter-spacing: 0.1em;
   color: var(--ink-faint);
@@ -479,7 +491,7 @@ body {
   bottom: 18px;
   left: 52px;
   z-index: 2;
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 8px;
   letter-spacing: 0.2em;
   text-transform: lowercase;
@@ -615,58 +627,98 @@ body {
 
 /* ---------- typography ---------- */
 .mag-eyebrow {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
-  letter-spacing: 0.28em;
+  font-family: var(--mag-label);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--accent);
   margin: 0;
 }
 
 .mag-title {
-  font-family: var(--font-display);
-  font-size: 30px;
+  font-family: var(--mag-display);
+  font-size: 31px;
   font-weight: 600;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
   margin: 0;
   text-wrap: balance;
 }
 
+.mag-title--boxed {
+  display: inline-block;
+  padding: 8px 16px 9px;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 10px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--accent) 12%, transparent),
+    color-mix(in srgb, var(--paper-2) 85%, transparent)
+  );
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.12);
+  margin-bottom: 4px;
+}
+
+/* the second half of a headline — set in italic rather than a colour
+   gradient, which is what made these pages read as machine output */
+.mag-title__accent {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--accent);
+}
+
 .mag-lede {
-  font-size: 14px;
-  line-height: 1.55;
+  font-family: var(--mag-text);
+  font-size: 14.5px;
+  line-height: 1.5;
   color: var(--ink);
   margin: 0;
   text-wrap: pretty;
 }
 
 .mag-para {
-  font-size: 11.5px;
-  line-height: 1.72;
+  font-family: var(--mag-text);
+  font-size: 12px;
+  line-height: 1.62;
   color: var(--ink-soft);
   margin: 0;
   text-wrap: pretty;
 }
 
 .mag-quote {
-  font-family: var(--font-serif);
+  font-family: var(--mag-display);
   font-style: italic;
   font-size: 19px;
-  line-height: 1.4;
+  line-height: 1.34;
   color: var(--ink);
   margin: 6px 0;
   padding-left: 16px;
   border-left: 2px solid var(--accent);
 }
 
+.mag-quote--center {
+  text-align: center;
+  padding-left: 0;
+  border-left: 0;
+  font-size: 14px;
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.mag-quote--sm {
+  font-size: 11.5px;
+  line-height: 1.42;
+}
+
 .mag-quote__by {
   display: block;
   margin-top: 8px;
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-style: normal;
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink-faint);
 }
@@ -712,6 +764,7 @@ body {
 }
 
 .mag-bullets li {
+  font-family: var(--mag-text);
   position: relative;
   padding-left: 16px;
   font-size: 11px;
@@ -740,7 +793,7 @@ body {
 }
 
 .mag-tags li {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 9px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -766,8 +819,40 @@ body {
   align-items: start;
 }
 
+/* all six values on one page */
+.mag-numbered--2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 11px 14px;
+  flex: 1;
+  min-height: 0;
+}
+
+.mag-numbered--2col li {
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  padding: 11px 11px 11px 9px;
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+}
+
+.mag-numbered--2col .mag-numbered__n {
+  font-size: 13px;
+}
+
+.mag-numbered--2col .mag-numbered__title {
+  font-size: 11.5px;
+}
+
+.mag-numbered--2col .mag-numbered__body {
+  font-size: 9.5px;
+  line-height: 1.5;
+}
+
 .mag-numbered__n {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-display);
   font-size: 17px;
   font-weight: 500;
   line-height: 1;
@@ -778,7 +863,7 @@ body {
 }
 
 .mag-numbered__title {
-  font-family: var(--font-display);
+  font-family: var(--mag-display);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -787,11 +872,14 @@ body {
 }
 
 .mag-numbered__body {
+  font-family: var(--mag-text);
   font-size: 10.5px;
   line-height: 1.6;
   color: var(--ink-soft);
   margin: 0;
 }
+
+
 
 .mag-iconlist {
   margin: 0;
@@ -815,7 +903,7 @@ body {
 }
 
 .mag-iconlist__title {
-  font-family: var(--font-display);
+  font-family: var(--mag-display);
   font-size: 13px;
   font-weight: 600;
   margin: 0 0 4px;
@@ -823,10 +911,170 @@ body {
 }
 
 .mag-iconlist__body {
+  font-family: var(--mag-text);
   font-size: 10.5px;
   line-height: 1.6;
   color: var(--ink-soft);
   margin: 0;
+}
+
+/* ---------- split hero: art left, panel right ---------- */
+/* height comes from the panel beside it, so the block only takes the room
+   the About copy needs and leaves the rest of the page free */
+.mag-split {
+  display: grid;
+  grid-template-columns: 0.86fr 1fr;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.mag-split__art {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--paper-2);
+  min-height: 118px;
+}
+
+.mag-split__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 13px 13px 14px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  background: linear-gradient(
+    155deg,
+    color-mix(in srgb, var(--accent) 15%, transparent),
+    color-mix(in srgb, var(--paper-2) 80%, transparent) 62%
+  );
+}
+
+/* each eyebrow inside the panel is a section heading, so give it a marker
+   and let the paragraph under it breathe before the next one starts */
+.mag-split__panel .mag-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 8.5px;
+  letter-spacing: 0.22em;
+}
+
+.mag-split__panel .mag-eyebrow::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+}
+
+.mag-split__panel .mag-eyebrow:not(:first-child) {
+  margin-top: 7px;
+}
+
+.mag-split__panel .mag-para {
+  font-size: 9.5px;
+  line-height: 1.6;
+}
+
+/* ---------- icon cards ---------- */
+.mag-iconcards {
+  display: grid;
+  gap: 8px;
+}
+
+.mag-iconcard {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 9px 9px 10px;
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  border-top: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.mag-iconcard__icon {
+  font-size: 14px;
+  line-height: 1.1;
+}
+
+.mag-iconcard__title {
+  font-family: var(--mag-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1.22;
+  margin: 0;
+  color: var(--ink);
+  text-wrap: balance;
+  /* the column is narrow — let long value names break rather than overflow */
+  hyphens: auto;
+}
+
+.mag-iconcard__body {
+  font-family: var(--mag-text);
+  font-size: 8px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+/* heading-only cards, stacked one per line */
+.mag-iconcards--row {
+  gap: 6px;
+}
+
+.mag-iconcards--row .mag-iconcard {
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 11px;
+  border-top: 1px solid var(--paper-line);
+  border-left: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.mag-iconcards--row .mag-iconcard__icon {
+  font-size: 13px;
+}
+
+.mag-iconcards--col {
+  gap: 6px;
+}
+
+.mag-iconcards--col .mag-iconcard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 4px 6px;
+  border-top: 1px solid var(--paper-line);
+}
+
+.mag-iconcards--col .mag-iconcard__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 2px solid color-mix(in srgb, var(--accent) 50%, transparent);
+  background: var(--paper-2);
+  margin-bottom: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+
+.mag-iconcards--col .mag-iconcard__title {
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--ink);
+}
+
+.mag-iconcards--row .mag-iconcard__title {
+  font-size: 11px;
+  line-height: 1.3;
 }
 
 /* ---------- cards / stats / reviews ---------- */
@@ -854,7 +1102,7 @@ body {
 }
 
 .mag-card__title {
-  font-family: var(--font-display);
+  font-family: var(--mag-display);
   font-size: 12px;
   font-weight: 600;
   margin: 0 0 5px;
@@ -862,9 +1110,142 @@ body {
 }
 
 .mag-card__body {
+  font-family: var(--mag-text);
   font-size: 10px;
   line-height: 1.55;
   color: var(--ink-soft);
+  margin: 0;
+}
+
+/* inset figure — sized by ratio, or grown to hold the top half of a page */
+.mag-figure {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.mag-figure--fill {
+  flex: 1;
+  min-height: 0;
+}
+
+.mag-figure__frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+}
+
+.mag-figure--fill .mag-figure__frame {
+  flex: 1;
+  min-height: 0;
+}
+
+.mag-figure__caption {
+  font-family: var(--mag-label);
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* two panels — copy left, copy over art on the right. the left runs a little
+   wider: it carries twice the words, but the art still needs a usable frame */
+.mag-duo {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 10px;
+}
+
+.mag-duo__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 11px 12px 12px;
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  min-width: 0;
+}
+
+.mag-duo__title {
+  font-family: var(--mag-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--ink);
+}
+
+.mag-duo__body {
+  font-family: var(--mag-text);
+  font-size: 9px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+  text-wrap: pretty;
+}
+
+.mag-duo__bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mag-duo__bullets li {
+  position: relative;
+  padding-left: 10px;
+  font-family: var(--mag-text);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.mag-duo__bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.mag-duo__art {
+  position: relative;
+  flex: 1;
+  min-height: 56px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--paper-2) 90%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mag-duo__slot {
+  font-family: var(--mag-label);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px dashed var(--paper-line);
+  border-radius: 6px;
+  padding: 5px 8px;
+}
+
+.mag-duo__caption {
+  font-family: var(--mag-text);
+  font-size: 9px;
+  line-height: 1.4;
+  color: var(--ink-faint);
   margin: 0;
 }
 
@@ -881,9 +1262,29 @@ body {
   background: color-mix(in srgb, var(--paper-2) 70%, transparent);
 }
 
+/* one compact row of figures, for a page that also carries other content */
+.mag-stats--strip {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+}
+
+.mag-stats--strip .mag-stat {
+  padding: 10px 8px;
+}
+
+.mag-stats--strip .mag-stat__value {
+  font-size: 20px;
+}
+
+.mag-stats--strip .mag-stat__label {
+  margin-top: 5px;
+  font-size: 8px;
+  line-height: 1.35;
+}
+
 .mag-stat__value {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--mag-display);
   font-size: 27px;
   font-weight: 600;
   line-height: 1;
@@ -896,6 +1297,7 @@ body {
 }
 
 .mag-stat__label {
+  font-family: var(--mag-label);
   display: block;
   margin-top: 7px;
   font-size: 9.5px;
@@ -904,54 +1306,194 @@ body {
 }
 
 .mag-reviews {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   gap: 10px;
 }
 
 .mag-review {
-  border: 1px solid var(--paper-line);
-  border-radius: 10px;
-  padding: 14px;
-  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  width: 78%;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: 14px;
+  padding: 5px 8px;
+  background: linear-gradient(145deg, rgba(14, 23, 44, 0.95) 0%, rgba(9, 17, 34, 0.98) 100%);
+  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.2), inset 0 1px 1px rgba(147, 197, 253, 0.2);
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  gap: 6px;
+}
+
+/* slots waiting on real client copy — read as an outline, not as content */
+.mag-review.is-pending {
+  border-style: dashed;
+  background: transparent;
+}
+
+.mag-review__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid rgba(96, 165, 250, 0.5);
+  background: rgba(30, 58, 138, 0.4);
+  font-family: var(--mag-display);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #60a5fa;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+}
+
+.mag-review__stars {
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  color: #facc15;
 }
 
 .mag-review__quote {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 11.5px;
-  line-height: 1.5;
-  color: var(--ink);
+  font-family: var(--font-jakarta), var(--font-inter), system-ui, sans-serif;
+  font-style: normal;
+  font-size: 7.5px;
+  line-height: 1.3;
+  color: rgba(239, 246, 255, 0.95);
   margin: 0;
-  flex: 1;
+  text-wrap: pretty;
 }
 
 .mag-review__quote.is-pending {
   color: var(--ink-faint);
   font-style: normal;
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 9px;
+  font-family: var(--mag-label);
+  font-size: 7.5px;
   letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .mag-review__name {
-  font-family: var(--font-display);
-  font-size: 11.5px;
+  display: block;
+  font-family: var(--mag-display);
+  font-size: 8px;
   font-weight: 600;
-  margin: 0;
-  color: var(--ink);
+  line-height: 1.1;
+  margin: 2px 0 0;
+  color: #dbeafe;
+  text-align: center;
 }
 
 .mag-review__org {
-  font-family: var(--font-geist-mono), monospace;
-  font-size: 8.5px;
+  display: block;
+  font-family: var(--mag-label);
+  font-size: 5.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  color: #60a5fa;
+  margin: 0;
+  text-align: center;
+}
+
+/* ---------- pull-quote cards ---------- */
+/* absorbs the leftover column height so six cards balance down the page */
+.mag-quotecards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 1fr;
+  gap: 9px;
+  flex: 1;
+  min-height: 0;
+}
+
+.mag-quotecard {
+  position: relative;
+  margin: 0;
+  padding: 12px 11px 10px;
+  border: 1px solid var(--paper-line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--paper-2) 70%, transparent);
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  overflow: hidden;
+}
+
+/* the accent hairline that ties the card back to .mag-quote */
+.mag-quotecard::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: linear-gradient(180deg, #4f7cff, #a78bfa);
+  opacity: 0.75;
+}
+
+.mag-quotecard__mark {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  line-height: 0.5;
+  height: 10px;
+  color: color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.mag-quotecard__text {
+  font-family: var(--mag-text);
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.mag-quotecard__by {
+  font-family: var(--mag-display);
+  font-size: 9.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--ink);
+  padding-top: 7px;
+  border-top: 1px solid var(--paper-line);
+}
+
+.mag-quotecard__role {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--mag-label);
+  font-size: 7px;
+  font-weight: 400;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ink-faint);
-  margin: 0;
+}
+
+/* ---------- 4 image strip for contents ---------- */
+.mag-imagestrip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin: 14px 0 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--paper-line);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.mag-imagestrip__item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: var(--paper-2);
+}
+
+.mag-imagestrip__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* ---------- contents ---------- */
@@ -969,7 +1511,8 @@ body {
   grid-template-columns: 26px auto 1fr auto;
   align-items: baseline;
   gap: 9px;
-  padding: 7px 6px;
+  /* tight enough that all 11 sections clear the running foot */
+  padding: 5px 6px;
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.25s ease;
@@ -980,12 +1523,13 @@ body {
 }
 
 .mag-contents__n {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 9px;
   color: var(--accent);
 }
 
 .mag-contents__label {
+  font-family: var(--mag-display);
   font-size: 12px;
   font-weight: 500;
   color: var(--ink);
@@ -997,8 +1541,264 @@ body {
 }
 
 .mag-contents__page {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 10px;
+  color: var(--ink-faint);
+}
+
+/* ---------- numbered points ----------
+   Number left, label right-aligned, a rule under each row. */
+.mag-points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  justify-content: center;
+}
+
+.mag-points li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: baseline;
+  gap: 10px;
+  padding: 5px 4px 6px;
+  border-bottom: 1px solid var(--paper-line);
+}
+
+.mag-points__n {
+  font-family: var(--mag-label);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+
+.mag-points__label {
+  font-family: var(--mag-display);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  text-align: right;
+}
+
+/* ---------- cover corner mark ---------- */
+.mag-coverlogo {
+  position: absolute;
+  right: 26px;
+  bottom: 15px;
+  width: 76px;
+  height: 72px;
+  z-index: 3;
+  pointer-events: none;
+  /* The logo is a transparent white PNG, so it sits straight over the art.
+     An earlier invert + mix-blend-mode: screen version broke inside the
+     flipbook — the leaf's 3D transform isolates the blending group, so the
+     black ground painted as a solid box. */
+  opacity: 0.94;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* the running foot doubles as the cover's website line, so it has to hold up
+   over photography rather than paper */
+.mag-page--cover .mag-site {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  font-size: 8.5px;
+  letter-spacing: 0.2em;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+}
+
+
+/* ---------- why-us vertical arched ribbon cascade ---------- */
+.mag-stairs {
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: auto;
+}
+
+.mag-stairs > li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 8px;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--paper-2) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--paper-line) 50%, transparent);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* The Arched Ribbon Banner Block matching the user's reference image */
+.mag-stairs__block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  width: 82px;
+  height: 52px;
+  margin-left: calc(var(--step) * 12px);
+  padding: 0 8px;
+  border-radius: 26px 26px 6px 6px;
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Color ramp: Lime Green -> Teal -> Ocean Blue -> Dark Navy */
+.mag-stairs li:nth-child(1) .mag-stairs__block {
+  background: linear-gradient(135deg, #a3e635, #4ade80);
+  color: #0f172a;
+}
+.mag-stairs li:nth-child(1) .mag-stairs__n {
+  color: #0f172a;
+}
+
+.mag-stairs li:nth-child(2) .mag-stairs__block {
+  background: linear-gradient(135deg, #2dd4bf, #0d9488);
+  color: #ffffff;
+}
+
+.mag-stairs li:nth-child(3) .mag-stairs__block {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  color: #ffffff;
+}
+
+.mag-stairs li:nth-child(4) .mag-stairs__block {
+  background: linear-gradient(135deg, #1e3a8a, #0f172a);
+  color: #ffffff;
+}
+
+.mag-stairs__n {
+  font-family: var(--mag-display);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.mag-stairs__icon {
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dotted Connector Line connecting block to right text */
+.mag-stairs > li::after {
+  content: "";
+  width: 20px;
+  border-top: 1.5px dotted color-mix(in srgb, var(--ink-faint) 60%, transparent);
+  flex-shrink: 0;
+}
+
+.mag-stairs__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.mag-stairs__title {
+  font-family: var(--mag-display);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 1px;
+  line-height: 1.25;
+}
+
+.mag-stairs__body {
+  font-family: var(--mag-text);
+  font-size: 8.5px;
+  color: var(--ink-soft);
+  margin: 0;
+  line-height: 1.35;
+}
+
+.mag-stairs__bullets {
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mag-stairs__bullets li {
+  font-family: var(--mag-text);
+  font-size: 8px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+}
+
+.mag-stairs__bullets li::before {
+  content: "•";
+  color: #3b82f6;
+  font-size: 9px;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+/* ---------- closing callout ---------- */
+.mag-callout {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--accent) 26%, transparent);
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--accent) 14%, transparent),
+    color-mix(in srgb, var(--paper-2) 80%, transparent) 70%
+  );
+}
+
+.mag-callout__icons {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-right: 11px;
+  border-right: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.mag-callout__body {
+  min-width: 0;
+}
+
+.mag-callout__text {
+  margin: 0;
+  font-family: var(--mag-display);
+  font-style: italic;
+  font-size: 11.5px;
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.mag-callout__note {
+  display: block;
+  margin-top: 3px;
+  font-family: var(--mag-label);
+  font-size: 7.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--ink-faint);
 }
 
@@ -1053,7 +1853,7 @@ body {
 }
 
 .mag-counter {
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1069,7 +1869,7 @@ body {
 .mag-hint {
   margin-top: 16px;
   text-align: center;
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--mag-label);
   font-size: 9.5px;
   letter-spacing: 0.2em;
   text-transform: uppercase;

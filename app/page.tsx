@@ -12,6 +12,8 @@ import TeamCulture from "./_components/home/TeamCulture";
 import Testimonials from "./_components/home/Testimonials";
 import CtaBand from "./_components/CtaBand";
 
+import VisionSection from "./_components/home/VisionSection";
+
 export const metadata: Metadata = {
   title: "Comfinity Technologies | Technology & Innovation Group",
   description:
@@ -23,6 +25,7 @@ export default function Home() {
     <main>
       <Hero />
       <TrustBar />
+      <VisionSection />
       <ExploreGrid />
       <FeatureSplits />
       <CapabilitiesTabs />

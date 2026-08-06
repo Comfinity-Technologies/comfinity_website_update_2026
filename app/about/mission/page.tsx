@@ -84,8 +84,66 @@ export default function MissionPage() {
             </TextReveal>
           </Reveal>
         </div>
+
+        {/* Vision Pillars Section */}
+        <div className="mt-20">
+          <Reveal className="text-center max-w-2xl mx-auto mb-14">
+            <p className="section-label mb-3">Our Three Pillars</p>
+            <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight">
+              Guided by a <span className="font-serif-accent text-gradient">Clear Vision</span>
+            </h2>
+            <p className="text-muted text-sm sm:text-base mt-3">
+              How we approach every initiative, partnership, and engineering milestone.
+            </p>
+          </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+            {[
+              {
+                title: "Transform Challenges into Intelligence",
+                desc: "Helping organizations simplify complex challenges through intelligent, scalable technology and purposeful engineering.",
+                image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007324/Gemini_Generated_Image_y8tbq3y8tbq3y8tb_zlbff1.png",
+              },
+              {
+                title: "Turn Ideas into Impact",
+                desc: "Empowering businesses to transform bold ideas into meaningful, measurable, and lasting real-world outcomes.",
+                image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007320/Gemini_Generated_Image_e8ycmze8ycmze8yc_uwzp36.png",
+              },
+              {
+                title: "Build the Future Together",
+                desc: "Creating lasting partnerships that inspire continuous innovation, sustainable growth, and shared success.",
+                image: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007321/Gemini_Generated_Image_13wnzh13wnzh13wn_txvozv.png",
+              },
+            ].map((pillar, idx) => (
+              <Reveal key={pillar.title} delay={idx * 0.1}>
+                <div className="group glass card-hover rounded-3xl p-8 sm:p-10 flex flex-col items-center text-center h-full justify-between border border-line hover:border-accent/40 transition-all shadow-lg">
+                  <div className="flex flex-col items-center">
+                    {/* Uniform Background Circular Image Container */}
+                    <div className="relative h-36 w-36 sm:h-44 sm:w-44 md:h-48 md:w-48 rounded-full overflow-hidden border-4 border-surface-2 shadow-2xl ring-2 ring-accent/30 bg-surface-2 flex items-center justify-center group-hover:scale-105 group-hover:ring-accent/70 transition-all duration-300">
+                      <img
+                        src={pillar.image}
+                        alt={pillar.title}
+                        className="w-full h-full object-cover filter brightness-95 contrast-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent opacity-40" />
+                    </div>
+
+                    <h3 className="font-display font-bold text-base sm:text-lg tracking-wider uppercase text-foreground mt-8 leading-snug group-hover:text-accent transition-colors">
+                      {pillar.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs sm:text-sm leading-relaxed text-muted mt-4 max-w-xs">
+                    {pillar.desc}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
         <Reveal delay={0.15}>
-          <p className="mx-auto mt-12 max-w-3xl text-center text-base leading-relaxed text-muted">
+          <p className="mx-auto mt-16 max-w-3xl text-center text-base leading-relaxed text-muted">
             Comfinity envisions a global technology and innovation ecosystem
             where the gap between a good idea and a working solution is closed
             — not by money or luck, but by the right combination of
