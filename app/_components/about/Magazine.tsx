@@ -146,7 +146,12 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "calloutCard":
             return (
-              <div key={i} className="mag-callout">
+              <div
+                key={i}
+                className={`mag-callout${
+                  b.size === "sm" ? " mag-callout--sm" : ""
+                }`}
+              >
                 <div className="mag-callout__icons" aria-hidden>
                   {b.icons.map((ic) => (
                     <span key={ic}>{ic}</span>
@@ -212,6 +217,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                 key={i}
                 className={`mag-numbered${
                   b.columns === 2 ? " mag-numbered--2col" : ""
+                }${b.art ? " mag-numbered--art" : ""}${
+                  b.art === "side" ? " mag-numbered--side" : ""
                 }`}
               >
                 {b.items.map((it) => (
@@ -221,14 +228,124 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                       <h3 className="mag-numbered__title">{it.title}</h3>
                       <p className="mag-numbered__body">{it.body}</p>
                     </div>
+                    {b.art && (
+                      <div className="mag-numbered__art">
+                        {it.image ? (
+                          <Image
+                            src={it.image.src}
+                            alt={it.image.alt}
+                            fill
+                            sizes="180px"
+                            unoptimized={isSvg(it.image.src)}
+                            className={
+                              it.image.fit === "contain"
+                                ? "object-contain"
+                                : "object-cover"
+                            }
+                            style={{ objectPosition: it.image.position ?? "center" }}
+                          />
+                        ) : (
+                          <span className="mag-numbered__slot">Image to come</span>
+                        )}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ol>
             );
 
+          case "profiles":
+            return (
+              <div key={i} className="mag-profiles">
+                {b.items.map((it, idx) => (
+                  <article
+                    key={idx}
+                    /* the first row puts the portrait on the right, and every
+                       other row after it mirrors — the pair reads as a cross */
+                    className={`mag-profile${
+                      idx % 2 === 0 ? " mag-profile--right" : ""
+                    }`}
+                  >
+                    <div
+                      className={`mag-profile__art${
+                        it.image ? "" : " is-empty"
+                      }`}
+                    >
+                      {it.image ? (
+                        <Image
+                          src={it.image.src}
+                          alt={it.image.alt}
+                          fill
+                          sizes="160px"
+                          unoptimized={isSvg(it.image.src)}
+                          className={
+                            it.image.fit === "contain"
+                              ? "object-contain"
+                              : "object-cover"
+                          }
+                          style={{
+                            objectPosition: it.image.position ?? "center top",
+                          }}
+                        />
+                      ) : (
+                        <span className="mag-profile__slot">Photo</span>
+                      )}
+                    </div>
+                    <div className="mag-profile__text">
+                      {it.role && (
+                        <span className="mag-profile__role">{it.role}</span>
+                      )}
+                      <h3 className="mag-profile__name">{it.name}</h3>
+                      {it.tagline && (
+                        <p className="mag-profile__tagline">{it.tagline}</p>
+                      )}
+                      {it.body && (
+                        <p className="mag-profile__body">{it.body}</p>
+                      )}
+                      {it.quote && (
+                        <blockquote className="mag-profile__quote">
+                          &ldquo;{it.quote}&rdquo;
+                        </blockquote>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            );
+
+          case "logos":
+            return (
+              <ul key={i} className="mag-logos">
+                {b.items.map((it, idx) => (
+                  <li
+                    key={idx}
+                    className={`mag-logo${it.src ? "" : " is-empty"}`}
+                  >
+                    {it.src ? (
+                      <Image
+                        src={it.src}
+                        alt={it.alt ?? it.name ?? ""}
+                        fill
+                        sizes="90px"
+                        unoptimized={isSvg(it.src)}
+                        className="object-contain"
+                      />
+                    ) : (
+                      <span className="mag-logo__slot">Logo</span>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            );
+
           case "iconList":
             return (
-              <ul key={i} className="mag-iconlist">
+              <ul
+                key={i}
+                className={`mag-iconlist${
+                  b.size === "sm" ? " mag-iconlist--sm" : ""
+                }`}
+              >
                 {b.items.map((it) => (
                   <li key={it.title}>
                     <span className="mag-iconlist__icon" aria-hidden>
@@ -271,7 +388,9 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <figure
                 key={i}
-                className={`mag-figure${b.fill ? " mag-figure--fill" : ""}`}
+                className={`mag-figure${b.fill ? " mag-figure--fill" : ""}${
+                  b.bare ? " mag-figure--bare" : ""
+                }`}
               >
                 <div
                   className="mag-figure__frame"
@@ -449,6 +568,103 @@ function Blocks({ blocks }: { blocks: Block[] }) {
               </div>
             );
 
+          case "sites":
+            return (
+              <div
+                key={i}
+                className={`mag-sites${
+                  b.layout === "rows" ? " mag-sites--rows" : ""
+                }`}
+              >
+                {b.items.map((it, idx) => (
+                  <article
+                    key={idx}
+                    /* a row with no art is copy alone — no waiting frame */
+                    className={`mag-sitecard${
+                      b.layout === "rows" && !it.image
+                        ? " mag-sitecard--text"
+                        : ""
+                    }`}
+                  >
+                    {it.images ? (
+                      <div className="mag-sitecard__shots">
+                        {it.images.map((img, k) => (
+                          <div key={k} className="mag-sitecard__shot">
+                            <Image
+                              src={img.src}
+                              alt={img.alt}
+                              fill
+                              sizes="180px"
+                              unoptimized={isSvg(img.src)}
+                              className={
+                                img.fit === "contain"
+                                  ? "object-contain"
+                                  : "object-cover"
+                              }
+                              style={{
+                                objectPosition: img.position ?? "center top",
+                              }}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    ) : (it.image || b.layout !== "rows") ? (
+                      <div
+                        className={`mag-sitecard__shot${
+                          it.image ? "" : " is-empty"
+                        }`}
+                      >
+                        {it.image ? (
+                          <Image
+                            src={it.image.src}
+                            alt={it.image.alt}
+                            fill
+                            sizes="340px"
+                            unoptimized={isSvg(it.image.src)}
+                            className={
+                              it.image.fit === "contain"
+                                ? "object-contain"
+                                : "object-cover"
+                            }
+                            style={{
+                              objectPosition: it.image.position ?? "center top",
+                            }}
+                          />
+                        ) : (
+                          <span className="mag-sitecard__slot">
+                            Image to come
+                          </span>
+                        )}
+                      </div>
+                    ) : null}
+                    {it.name || it.url || it.body ? (
+                      <div className="mag-sitecard__text">
+                        {it.name && (
+                          <h3 className="mag-sitecard__name">{it.name}</h3>
+                        )}
+                        {it.url && (
+                          <span className="mag-sitecard__url">{it.url}</span>
+                        )}
+                        {it.body && (
+                          <p className="mag-sitecard__body">{it.body}</p>
+                        )}
+                      </div>
+                    ) : b.layout === "rows" ? (
+                      /* a row is art beside copy — hold the second column so the
+                         card doesn't read as half-built while copy is pending */
+                      <div className="mag-sitecard__text">
+                        <span className="mag-sitecard__slot">
+                          Description to come
+                        </span>
+                      </div>
+                    ) : null}
+                    {/* in the grid form a card with no copy is art on its own,
+                        so no empty caption strip is printed under it */}
+                  </article>
+                ))}
+              </div>
+            );
+
           case "stats":
             return (
               <div
@@ -532,20 +748,56 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
           case "quoteCards":
             return (
-              <div key={i} className="mag-quotecards">
-                {b.items.map((it) => (
-                  <figure key={it.by} className="mag-quotecard">
+              <div
+                key={i}
+                className={`mag-quotecards${
+                  b.size === "sm" ? " mag-quotecards--sm" : ""
+                }`}
+              >
+                {b.items.map((it, idx) => (
+                  <figure key={idx} className="mag-quotecard">
                     <span className="mag-quotecard__mark" aria-hidden>
                       &ldquo;
                     </span>
-                    <blockquote className="mag-quotecard__text">
-                      {it.text}
+                    <blockquote
+                      className={`mag-quotecard__text${
+                        it.text ? "" : " is-pending"
+                      }`}
+                    >
+                      {it.text ?? "Quote to come"}
                     </blockquote>
                     <figcaption className="mag-quotecard__by">
-                      {it.by}
-                      {it.role && (
-                        <span className="mag-quotecard__role">{it.role}</span>
-                      )}
+                      <span
+                        className={`mag-quotecard__avatar${
+                          it.avatar ? "" : " is-empty"
+                        }`}
+                      >
+                        {it.avatar && (
+                          <Image
+                            src={it.avatar.src}
+                            alt={it.avatar.alt}
+                            fill
+                            sizes="60px"
+                            unoptimized={isSvg(it.avatar.src)}
+                            className="object-cover"
+                            style={{
+                              objectPosition: it.avatar.position ?? "center top",
+                            }}
+                          />
+                        )}
+                      </span>
+                      <span className="mag-quotecard__names">
+                        <span
+                          className={`mag-quotecard__name${
+                            it.by ? "" : " is-pending"
+                          }`}
+                        >
+                          {it.by ?? "Name to come"}
+                        </span>
+                        {it.role && (
+                          <span className="mag-quotecard__role">{it.role}</span>
+                        )}
+                      </span>
                     </figcaption>
                   </figure>
                 ))}
@@ -563,6 +815,62 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                       className="w-full h-full object-cover"
                     />
                   </div>
+                ))}
+              </div>
+            );
+
+          case "people":
+            return (
+              <div
+                key={i}
+                className={`mag-people${
+                  b.columns === 2 ? " mag-people--pair" : ""
+                }`}
+                style={{
+                  gridTemplateColumns: `repeat(${b.columns ?? 4}, 1fr)`,
+                }}
+              >
+                {b.items.map((it, idx) => (
+                  <figure key={idx} className="mag-person">
+                    <div
+                      className={`mag-person__frame${
+                        it.image ? "" : " is-empty"
+                      }`}
+                    >
+                      {it.image ? (
+                        <Image
+                          src={it.image.src}
+                          alt={it.image.alt}
+                          fill
+                          sizes="110px"
+                          unoptimized={isSvg(it.image.src)}
+                          className={
+                            it.image.fit === "contain"
+                              ? "object-contain"
+                              : "object-cover"
+                          }
+                          style={{
+                            objectPosition: it.image.position ?? "center top",
+                          }}
+                        />
+                      ) : (
+                        <span className="mag-person__slot">Photo</span>
+                      )}
+                    </div>
+                    {(it.name || it.role || it.body) && (
+                      <figcaption className="mag-person__cap">
+                        {it.name && (
+                          <span className="mag-person__name">{it.name}</span>
+                        )}
+                        {it.role && (
+                          <span className="mag-person__role">{it.role}</span>
+                        )}
+                        {it.body && (
+                          <p className="mag-person__body">{it.body}</p>
+                        )}
+                      </figcaption>
+                    )}
+                  </figure>
                 ))}
               </div>
             );

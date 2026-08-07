@@ -50,6 +50,9 @@ export type Block =
   | {
       /** closing card: icon pair, a line of copy, and the running site */
       type: "calloutCard";
+      /** "sm" sets the card a step down — for a page that already carries a
+       *  full list above it */
+      size?: "sm";
       icons: string[];
       text: string;
       note?: string;
@@ -62,9 +65,41 @@ export type Block =
       type: "numbered";
       /** 2 lays the list out as a grid — used when a page carries all six values */
       columns?: 1 | 2;
-      items: { n: string; title: string; body: string }[];
+      /** each row carries a picture under its copy. Rows without `image` render
+       *  a labelled placeholder, so the grid holds its shape while art is sourced.
+       *  `"side"` instead runs every row as a full-width card — art on the left,
+       *  copy on the right — and the rows split the page's leftover height. */
+      art?: boolean | "side";
+      items: { n: string; title: string; body: string; image?: PageImage }[];
     }
-  | { type: "iconList"; items: { icon: string; title: string; body: string }[] }
+  | {
+      type: "iconList";
+      /** "sm" sets the list a step down — for a page carrying a list plus
+       *  something else above it */
+      size?: "sm";
+      items: { icon: string; title: string; body: string }[];
+    }
+  | {
+      /** profile rows — a portrait beside the copy, the side alternating down
+       *  the page so consecutive rows mirror each other. The first row puts the
+       *  portrait on the right. Rows share the page's leftover height. */
+      type: "profiles";
+      items: {
+        name: string;
+        role?: string;
+        tagline?: string;
+        body?: string;
+        quote?: string;
+        image?: PageImage;
+      }[];
+    }
+  | {
+      /** partner marks set in circles, three across. An item without `src`
+       *  prints an empty ring so the wall holds its shape while the logos are
+       *  collected. */
+      type: "logos";
+      items: { name?: string; src?: string; alt?: string }[];
+    }
   | {
       /** portrait art in the left column, nested blocks in a panel on the right */
       type: "split";
@@ -86,6 +121,9 @@ export type Block =
       /** grow to eat the leftover column height instead of sizing to `ratio` —
        *  used when the figure is meant to hold the top half of a page */
       fill?: boolean;
+      /** drop the frame's rule and tint so the art sits straight on the paper —
+       *  for diagrams that already carry their own white ground */
+      bare?: boolean;
       caption?: string;
     }
   | {
@@ -113,6 +151,20 @@ export type Block =
       images: { src: string; alt: string }[];
     }
   | {
+      /** roster of faces. An item without `image` prints an empty frame, so the
+       *  grid holds its shape while the portraits are collected. The grid
+       *  stretches to fill the page's leftover height — two rosters on one page
+       *  therefore print at matching size.
+       *
+       *  3 and up run as a plain contact sheet: portrait with a name under it.
+       *  `columns: 2` instead sets each person as a card — portrait on the
+       *  left, name and copy alongside — which is the only form with room for
+       *  a `body`. */
+      type: "people";
+      columns?: 2 | 3 | 4 | 5;
+      items: { name?: string; role?: string; body?: string; image?: PageImage }[];
+    }
+  | {
       /** product hero: one screen held in the middle with four satellite
        *  screens flanking it, two a side. `around` reads in visual order —
        *  left-top, right-top, left-bottom, right-bottom. */
@@ -125,6 +177,30 @@ export type Block =
       items: { title: string; body: string; thumb?: PageImage }[];
     }
   | {
+      /** showcase cards — a picture over each card's caption. Takes sites,
+       *  products or projects. Cards run two across and an odd last one takes
+       *  the full measure, so a set of three reads as two on top and one
+       *  beneath. An item without `image` prints a waiting frame; one with no
+       *  caption fields at all is art alone. Several of these on a page share
+       *  the leftover height equally.
+       *
+       *  `layout: "rows"` instead stacks every item as a full-width card — art
+       *  left, copy right — sized by its own content rather than stretching.
+       *  That is the form with room for a `body`, and an item with no `image`
+       *  there is copy alone rather than a waiting frame. */
+      type: "sites";
+      layout?: "rows";
+      items: {
+        name?: string;
+        url?: string;
+        body?: string;
+        image?: PageImage;
+        /** several pictures sharing one card's picture area, side by side, over
+         *  a single caption — `images` wins over `image` when both are set */
+        images?: PageImage[];
+      }[];
+    }
+  | {
       type: "stats";
       /** 4 lays the figures out as a single compact strip */
       columns?: 2 | 4;
@@ -132,9 +208,13 @@ export type Block =
     }
   | { type: "tags"; items: string[] }
   | {
-      /** grid of pull-quote cards — no avatar, attribution only */
+      /** grid of pull-quote cards, two across, sharing the page's leftover
+       *  height. Fields are optional so a card can stand as a placeholder while
+       *  the quote and portrait are being collected. */
       type: "quoteCards";
-      items: { text: string; by: string; role?: string }[];
+      /** "sm" sets the cards a step down — for a page carrying eight of them */
+      size?: "sm";
+      items: { text?: string; by?: string; role?: string; avatar?: PageImage }[];
     }
   | {
       type: "contents";
@@ -278,10 +358,10 @@ export const magazinePages: MagazinePage[] = [
   {
     folio: 3,
     variant: "editorial",
-    section: "Core Values",
+    section: "Contents",
     blocks: [
-      { type: "eyebrow", text: "02 — Core Values" },
-      { type: "title", text: "Core", accent: "Values." },
+      { type: "eyebrow", text: "02 — Contents" },
+      { type: "title", text: "Contents." },
       {
         type: "quote",
         align: "center",
@@ -475,10 +555,24 @@ export const magazinePages: MagazinePage[] = [
     blocks: [
       { type: "eyebrow", text: "a) Minute Bazaar" },
       { type: "title", text: "Minute Bazaar", accent: "Hyperlocal Commerce" },
-      { type: "rating", stars: 5 },
+      {
+        /* the poster runs above the copy, the way the Fliqket cluster does.
+           `fill` lets it take whatever height the copy leaves, and `contain`
+           keeps the whole creative rather than cropping a band out of it */
+        type: "figure",
+        fill: true,
+        bare: true,
+        image: {
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786114624/Gemini_Generated_Image_pt3eb5pt3eb5pt3e_zabfeg.png",
+          alt: "Minute Bazaar — the all-in-one platform for modern life in Palakkad, with home services, restaurants, taxi, supermarket and health care",
+          fit: "contain",
+        },
+      },
       {
         type: "para",
-        text: "Comfinity's flagship hyperlocal commerce platform that empowers local retailers, supermarkets, and distributors to digitize their businesses. It provides an online storefront, order management, customer engagement tools, and hyperlocal delivery capabilities — enabling businesses to increase sales while delivering a seamless shopping experience.",
+        /* held to two lines, as on the Fliqket page — the poster above needs
+           the height, and the bullets below carry the detail */
+        text: "Comfinity's flagship hyperlocal commerce platform — storefront, orders and local delivery for retailers and supermarkets.",
       },
       { type: "eyebrow", text: "Business Value" },
       {
@@ -533,7 +627,6 @@ export const magazinePages: MagazinePage[] = [
           },
         ],
       },
-      { type: "rating", stars: 5 },
       {
         type: "para",
         text: "A creator OTT platform that lets filmmakers and production houses launch, manage and monetise their own streaming ecosystem.",
@@ -556,19 +649,27 @@ export const magazinePages: MagazinePage[] = [
     folio: 9,
     variant: "product",
     section: "Products",
-    image: {
-      src: "/products/repz.svg",
-      alt: "Repz influencer campaign management interface",
-      fit: "contain",
-      position: "center top",
-    },
+    /* no full-bleed art — the page runs on plain paper so the suite graphic
+       above the copy is the only picture on it */
     blocks: [
       { type: "eyebrow", text: "c) Repz" },
       { type: "title", text: "Repz", accent: "Influencer & Brand" },
-      { type: "rating", stars: 5 },
       {
+        /* the artwork runs above the copy, as on the Minute Bazaar and Fliqket
+           pages. `fill` gives it whatever height the copy leaves */
+        type: "figure",
+        fill: true,
+        bare: true,
+        image: {
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786116446/Gemini_Generated_Image_thacc0thacc0thac_sqejcu.png",
+          alt: "Repz complete suite — diet plans, earnings, attendance and fees in one platform",
+          fit: "contain",
+        },
+      },
+      {
+        /* held to two lines so the artwork above keeps its height */
         type: "para",
-        text: "An intelligent influencer collaboration platform designed to connect brands with content creators through a streamlined campaign management ecosystem. It simplifies influencer discovery, campaign execution, communication, and performance tracking — enabling brands to build authentic partnerships and measurable marketing outcomes.",
+        text: "An influencer collaboration platform connecting brands with creators — discovery, campaign execution and performance tracking in one.",
       },
       { type: "eyebrow", text: "Business Value" },
       {
@@ -596,10 +697,22 @@ export const magazinePages: MagazinePage[] = [
     blocks: [
       { type: "eyebrow", text: "d) Reztos" },
       { type: "title", text: "Reztos", accent: "Restaurant OS" },
-      { type: "rating", stars: 5 },
       {
+        /* the source runs 0.45:1 — far taller than any frame on the page, so it
+           fills the frame and the crop is held on the cluster of screens rather
+           than letterboxed down to a ~100px sliver */
+        type: "figure",
+        fill: true,
+        image: {
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786124222/Gemini_Generated_Image_tyml81tyml81tyml_vhwbpt.png",
+          alt: "Reztos on the floor — menu, live tables, feedback and billing across five screens",
+          position: "center 30%",
+        },
+      },
+      {
+        /* held to two lines so the artwork above keeps its height */
         type: "para",
-        text: "A comprehensive restaurant operating platform that unifies QR ordering, billing, kitchen operations, inventory management, waiter management, loyalty, and multi-outlet administration into a single intelligent ecosystem. Reztos replaces multiple disconnected tools with one scalable platform that enhances operational efficiency and elevates the dining experience.",
+        text: "A restaurant operating platform unifying QR ordering, billing, kitchen, inventory and multi-outlet administration in one system.",
       },
       { type: "eyebrow", text: "Business Value" },
       {
@@ -622,24 +735,43 @@ export const magazinePages: MagazinePage[] = [
     blocks: [
       { type: "eyebrow", text: "e) & f)" },
       { type: "title", text: "Also in", accent: "the portfolio." },
+      /* two showcase blocks stacked — each takes an equal share of the leftover
+         height, so DadChico holds the top half and Medicharm the bottom */
       {
-        type: "cards",
+        type: "sites",
         items: [
           {
-            title: "dadchicko",
+            name: "DadChico",
             body: "Vendor e-commerce platform in the quick-commerce model — multi-vendor catalogue, rapid fulfilment and storefront management.",
-            thumb: {
-              src: "/works/ecom-ai.png",
-              alt: "E-commerce analytics dashboard",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786113981/image_17_ncapkf.png",
+              alt: "DadChico storefront — fresh groceries delivered fast, from multiple stores in one marketplace",
+              /* a 2:1 hero in a wider band — centre it so the headline and the
+                 basket survive rather than only the nav bar */
+              position: "center",
             },
           },
+        ],
+      },
+      {
+        type: "sites",
+        items: [
           {
-            title: "Medicharm",
+            name: "Medicharm",
             body: "Pharmacy platform built for Vynuk — inventory, compliance and retail pharmacy operations in one system.",
-            thumb: {
-              src: "/works/health-telemedicine.png",
-              alt: "Healthcare platform interface",
-            },
+            images: [
+              {
+                src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786114307/Medicharm_sj9f3i.png",
+                alt: "Medicharm",
+                /* a portrait logo — letterbox it rather than crop the mark */
+                fit: "contain",
+              },
+              {
+                src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786114278/IMG-20260807-WA0026_e3mowy.jpg",
+                alt: "Medicharm dashboard — payables, stock alerts and recent sales",
+                position: "center top",
+              },
+            ],
           },
         ],
       },
@@ -663,9 +795,10 @@ export const magazinePages: MagazinePage[] = [
            holds the top half of the page on its own */
         type: "figure",
         fill: true,
+        bare: true,
         image: {
-          src: "/magazine/cognitive-cycle.png",
-          alt: "The R&D cognitive cycle — ideate, improve, analyze, adapt, plan, learn, execute, monitor",
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786077490/image_10_qoc20e.png",
+          alt: "The project development thinking framework — ideate, improve, analyze, adapt, plan, learn, execute, monitor",
           fit: "contain",
         },
       },
@@ -710,57 +843,497 @@ export const magazinePages: MagazinePage[] = [
       { type: "title", text: "In the", accent: "lab, now." },
       {
         type: "numbered",
+        columns: 1,
+        art: "side",
         items: [
           {
             n: "01",
-            title: "Mule Account",
-            body: "Machine learning models for detecting mule-account behaviour in financial transaction networks.",
+            title: "Drishti",
+            body: "Data analytics platform turning operational telemetry into decision-grade insight.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786076201/Gemini_Generated_Image_qxqllmqxqllmqxql_abpujy.png",
+              alt: "Drishti intelligence dashboard — world map, live feeds, threat alerts and trend analysis",
+            },
           },
           {
             n: "02",
-            title: "Drishti",
-            body: "Data analytics platform turning operational telemetry into decision-grade insight.",
+            title: "MAI",
+            body: "Meeting AI assistant — capture, summarisation and action tracking across conversations.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786076201/Gemini_Generated_Image_s3s2q3s3s2q3s3s2_wtrwch.png",
+              alt: "MAI listening in on a boardroom meeting, surfacing notes and task assignments",
+              position: "center 45%",
+            },
           },
           {
             n: "03",
-            title: "MAI",
-            body: "Meeting AI assistant — capture, summarisation and action tracking across conversations.",
+            title: "EcLearning",
+            body: "Learning platform for institutions — courses, assessments and progress tracking in one place.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786113630/Screenshot_2026-08-07_201004_ogc80c.png",
+              alt: "EcLearning secure sign-in, with AI risk engine and two-factor login",
+              /* a portrait screen in a landscape frame — hold the top so the
+                 shield and title survive the crop */
+              position: "center top",
+            },
           },
           {
             n: "04",
-            title: "Shipmind",
-            body: "Edge computing for logistics — intelligence that runs where the data is created.",
-          },
-          {
-            n: "05",
-            title: "PMS — Catchod",
-            body: "Property and operations management system built for multi-site administration.",
+            title: "BhootAgent",
+            body: "Autonomous AI agents that carry out multi-step work across a business's own systems.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786113897/IMG-20260711-WA0043_hvz5tk.jpg",
+              alt: "BhootAgent listening and answering in a live voice conversation",
+              position: "center",
+            },
           },
         ],
       },
     ],
   },
 
-  /* -------------------------------------------------------------- 14 closing */
+  /* ---------------------------------------------------------- 14 best sellers */
+  /* NB: page order is what puts a page left or right in a spread — an odd index
+     in this array falls on the left page, an even index on the right */
   {
     folio: 14,
     variant: "editorial",
-    section: "Next",
+    section: "Best Sellers",
     blocks: [
-      { type: "eyebrow", text: "08 — Let's Build Together" },
-      { type: "title", text: "Start with a", accent: "conversation." },
+      { type: "eyebrow", text: "08 — Best Sellers" },
+      { type: "title", text: "Best", accent: "sellers." },
       {
-        type: "lede",
-        text: "Tell us what is in the way. We will tell you honestly whether technology is the answer.",
+        /* add `image: { src, alt }` to each site as the screenshots land, and a
+           `url` / `body` line if the card should carry one */
+        type: "sites",
+        items: [
+          {
+            name: "Toni&Guy",
+            url: "toniandguyhopecollege.in",
+            image: {
+              src: "https://res.cloudinary.com/dpu9ikeqe/image/upload/v1772541337/WhatsApp_Image_2026-02-25_at_12.44.58_PM_2_ihlbwt.jpg",
+              alt: "Toni&Guy Hope College website",
+            },
+          },
+          {
+            name: "IndianRenters",
+            /* staging address — swap for the live domain before print */
+            url: "31-97-202-194.sslip.io",
+            image: {
+              src: "https://res.cloudinary.com/dpu9ikeqe/image/upload/v1786090207/Screenshot_2026-08-07_133930_vgt7fc.png",
+              alt: "IndianRenters website",
+            },
+          },
+        ],
       },
-      { type: "rule" },
-      { type: "link", href: "/contact", label: "Talk to the team" },
-      { type: "link", href: "/works", label: "Browse our work" },
-      { type: "link", href: "/solutions", label: "Explore solutions" },
+      { type: "eyebrow", text: "Our Strategic Partners" },
+      {
+        type: "sites",
+        items: [
+          {
+            name: "thegr8labs",
+            url: "thegr8labs.com",
+            body: "Software that thinks. Products that perform.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786096068/image_11_wzvcnm.png",
+              alt: "thegr8labs website — why thegr8labs",
+            },
+          },
+        ],
+      },
     ],
   },
 
-  /* ----------------------------------------------------------- 15 back cover */
+  /* ------------------------------------------------------------- 15 cultures */
+  {
+    folio: 15,
+    variant: "editorial",
+    section: "Comfinity Cultures",
+    blocks: [
+      { type: "eyebrow", text: "09 — Comfinity Cultures" },
+      {
+        type: "title",
+        text: "Meet the minds behind",
+        accent: "Comfinity.",
+        boxed: true,
+      },
+      { type: "eyebrow", text: "Our Core" },
+      {
+        /* roles are set in caps by the stylesheet, so they are written plainly
+           here. Portraits crop to a 3:4 frame — the two square sources are
+           centred subjects, so the side trim costs nothing. */
+        type: "people",
+        columns: 2,
+        items: [
+          {
+            name: "Archana G",
+            role: "AI & Data Science Engineer",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786106390/Gemini_Generated_Image_t3cdn8t3cdn8t3cd_dt61od.png",
+              alt: "Archana G",
+            },
+          },
+          {
+            name: "Sudheesh Ravichandran",
+            role: "Foundational Software Engineer",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786109538/ChatGPT_Image_Aug_7_2026_06_59_41_PM_y6knoc.png",
+              alt: "Sudheesh Ravichandran",
+            },
+          },
+          {
+            name: "Binil B",
+            role: "Foundational Software Engineer",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786106390/Gemini_Generated_Image_c0k99c0k99c0k99c_wj1soc.png",
+              alt: "Binil B",
+            },
+          },
+          {
+            name: "Jeevagan S",
+            role: "Founding Infrastructure Architect",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786109536/jeevagan_ydxt89.jpg",
+              alt: "Jeevagan S",
+            },
+          },
+          {
+            name: "Aman M B",
+            role: "Data & Systems Engineer — AI Operations",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786109536/aman_zbsuxz.jpg",
+              alt: "Aman M B",
+            },
+          },
+          {
+            name: "Razaan R",
+            role: "Principal AI & Data Architect",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786109838/razaan_1_nbxtvc.jpg",
+              alt: "Razaan R",
+            },
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ------------------------------------------------------------- 16 interns */
+  {
+    folio: 16,
+    variant: "editorial",
+    section: "Interns Community",
+    blocks: [
+      { type: "eyebrow", text: "10 — Interns Community" },
+      { type: "title", text: "Interns", accent: "community." },
+      {
+        /* four to a page, carried over onto the facing page. Eight of these on
+           one page leaves ~115 characters a card; the quotes run to 370, so the
+           roster is set across the opening instead of being cut down. */
+        type: "quoteCards",
+        size: "sm",
+        items: [
+          {
+            by: "Atchaya",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786111640/Atchaya_inuxkc.png",
+              alt: "Atchaya",
+            },
+            text: "My experience here has been a wonderful learning journey. Coming from a non-IT background, I got the opportunity to explore the IT field, gain industry exposure, and work on real-world projects. This experience helped me build my confidence and improve my skills, and I am truly grateful for the support, guidance, and opportunities that helped me grow professionally.",
+          },
+          {
+            by: "Midhun M",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786111639/Midhun_M_r9yzjg.jpg",
+              alt: "Midhun M",
+            },
+            text: "This internship offered an incredible balance of challenge and support. Stepping out of my comfort zone to work with dynamic tools and real-world projects helped me elevate my skillset significantly. I'm incredibly thankful to the leadership and team for creating such a collaborative, motivating space to learn and innovate.",
+          },
+          {
+            by: "Anjali C",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786111639/Anjali_C_voc03k.jpg",
+              alt: "Anjali C",
+            },
+            text: "My internship at Comfinity Technologies Pvt. Ltd. was a valuable learning experience that helped me grow both technically and personally. The supportive mentors and collaborative, disciplined environment encouraged me to ask questions, explore new ideas, and continuously improve, and I am truly grateful for the opportunity and guidance throughout the journey.",
+          },
+          {
+            by: "Medha V P",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786111639/Medha_V_P_nwmmss.jpg",
+              alt: "Medha V P",
+            },
+            text: "This internship gave me practical exposure, strengthened my technical skills, and boosted my confidence to take on real-world challenges.",
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------- 17 interns ii */
+  {
+    folio: 17,
+    variant: "editorial",
+    section: "Interns Community",
+    blocks: [
+      { type: "eyebrow", text: "Interns Community" },
+      {
+        type: "quoteCards",
+        size: "sm",
+        items: [
+          {
+            by: "Akhila A",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786111640/Akhila_A_jbk36n.png",
+              alt: "Akhila A",
+            },
+            text: "This internship has been one of the most valuable learning experiences of my career. It allowed me to explore diverse tools and technologies while constantly challenging me to grow, adapt, and improve myself. I sincerely thank the entire team for their guidance, encouragement, and the opportunity to be part of such an inspiring workplace.",
+          },
+          {
+            by: "Viswas Krishna M",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786112163/Viswas_krishna_M_tmenne.jpg",
+              alt: "Viswas Krishna M",
+            },
+            text: "Reflecting on this internship, I couldn't have asked for a better foundation for my professional journey. Working hands-on with innovative technologies while receiving such thoughtful guidance from the team helped me build both confidence and skill. Thank you to everyone for the unwavering encouragement, constructive feedback, and wonderful work culture.",
+          },
+          {
+            by: "Ullas",
+            role: "Marketing",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786112311/Gemini_Generated_Image_gy8vyogy8vyogy8v_d4s3bx.png",
+              alt: "Ullas",
+            },
+            text: "Working as a marketing intern with this team has been an exceptionally inspiring experience. I had the privilege of exploring diverse creative channels, experimenting with new tools, and collaborating on dynamic campaigns that challenged me to grow every day. Thank you to everyone for fostering such an open, innovative, and supportive environment.",
+          },
+          {
+            by: "Muppala Pooja",
+            avatar: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786113420/Muppala_Pooja__stupo3.png",
+              alt: "Muppala Pooja",
+            },
+            text: "Comfinity had a funny way of giving me “just one small task” that turned into an exciting deep dive into AI, OSINT, and cybersecurity. I can't complain though — that's exactly where the best learning happened.",
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ---------------------------------------------------------- 17 in progress */
+  {
+    folio: 18,
+    variant: "editorial",
+    section: "In Progress",
+    blocks: [
+      { type: "eyebrow", text: "11 — In Progress" },
+      /* the title doubles as the first section's heading */
+      { type: "title", text: "On", accent: "progress." },
+      {
+        type: "sites",
+        layout: "rows",
+        items: [
+          {
+            name: "Mule Account",
+            body: "AI and graph analytics that expose mule accounts, suspicious transactions and hidden fraud networks in real time.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786076436/Gemini_Generated_Image_e2bi8pe2bi8pe2bi_trlflr.png",
+              alt: "A network of suspicious accounts feeding one bank account, with linked-fraud graph and risk score",
+            },
+          },
+          {
+            name: "Catchod PMS",
+            body: "The whole real-estate lifecycle — listings, leads, sales tracking and admin — in one automated platform.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786099433/360_F_689417243_0RHRsmN7jzR3RhZJa23x5kOWFwf0VpNK_oapwf2.jpg",
+              alt: "Catchod property management system",
+              position: "center",
+            },
+          },
+        ],
+      },
+      { type: "eyebrow", text: "Ideation" },
+      {
+        /* still an idea, so no art — the card is copy alone */
+        type: "sites",
+        layout: "rows",
+        items: [
+          {
+            name: "ShipMind",
+            body: "An intelligent maritime platform for vessel operations, fleet monitoring and AI-assisted decisions — real-time visibility and data-driven fleet performance for shipping and logistics operators.",
+          },
+        ],
+      },
+      { type: "eyebrow", text: "Helping Hands" },
+      {
+        /* a row rather than a full-width band: the art column is close enough to
+           the photo's own 4:3 that almost nothing is cropped, and the copy sits
+           beside it. Description still to come — add it as `body` here. */
+        type: "sites",
+        layout: "rows",
+        items: [
+          {
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786099540/IMG-20260710-WA0020_x51atc.jpg",
+              alt: "Comfinity handing over a laptop at a Helping Hands presentation",
+              position: "center",
+            },
+          },
+        ],
+      },
+    ],
+  },
+
+  /* -------------------------------------------------------------- 18 journey */
+  {
+    folio: 19,
+    variant: "editorial",
+    section: "The Journey",
+    blocks: [
+      { type: "eyebrow", text: "12 — The Road Ahead" },
+      {
+        /* the artwork carries its own headline, so it runs on its own with no
+           page title above it — same treatment as the R&D framework diagram */
+        type: "figure",
+        fill: true,
+        bare: true,
+        image: {
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786106411/Gemini_Generated_Image_xrc34oxrc34oxrc3_h4fysv.png",
+          alt: "A simplified strategic transformation journey — five steps from Foundation (2025–2026) through Acceleration, Expansion and Intelligence to Beyond (2032+)",
+          fit: "contain",
+        },
+      },
+    ],
+  },
+
+  /* ------------------------------------------------------------- 19 partners */
+  {
+    folio: 20,
+    variant: "editorial",
+    section: "Partners",
+    blocks: [
+      { type: "eyebrow", text: "13 — Partners" },
+      {
+        /* no page title — dropping it gives the wall the page's top third and
+           lets the rings run large */
+        type: "logos",
+        items: [
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786107210/logo-03_-_VigNesh_Gangadharan_ye0kmj.png",
+            alt: "Partner logo — red speech-bubble mark",
+          },
+          {
+            name: "BookMyPuja",
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786107216/Untitled_design_-_Abhi_Girin_hsj7ck.png",
+            alt: "BookMyPuja",
+          },
+          {
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786107209/IMG-20251225-WA0005_1_-_Nithyasri_Sri_cknkte.jpg",
+            alt: "Partner logo — gold and black arrow mark",
+          },
+          {
+            name: "Krypton Loops",
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786107208/IMG-20260807-WA0015_-_Sooraj_Sudhev_Sid_le283s.jpg",
+            alt: "Krypton Loops",
+          },
+          {
+            name: "thegr8labs",
+            /* the Cloudinary file supplied for this one is the white-on-dark
+               variant, which disappears against the paper — this is the dark
+               wordmark. Swap back once a dark variant is uploaded. */
+            src: "/partners/thegr8labs.png",
+            alt: "thegr8labs",
+          },
+          {
+            name: "LV Surya Tech LLP",
+            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786107208/lvsuryatechlogo_-_Lata_Vishwanath_ihdros.jpg",
+            alt: "LV Surya Tech LLP",
+          },
+        ],
+      },
+      { type: "eyebrow", text: "Why Partners Choose Comfinity" },
+      {
+        type: "iconList",
+        size: "sm",
+        items: [
+          /* one line each — the logo wall above takes the page's top 40% */
+          {
+            icon: "🤝",
+            title: "Business-First Approach",
+            body: "We learn your business and goals before recommending any technology.",
+          },
+          {
+            icon: "💡",
+            title: "Innovation That Creates Impact",
+            body: "AI, automation and creative thinking aimed at real-world problems.",
+          },
+          {
+            icon: "🚀",
+            title: "End-to-End Technology Partnership",
+            body: "Strategy, design, build, deployment and continuous support.",
+          },
+          {
+            icon: "🌍",
+            title: "Scalable & Future-Ready Solutions",
+            body: "Secure, adaptable products that evolve as your business grows.",
+          },
+          {
+            icon: "🌱",
+            title: "Trusted Relationships, Lasting Success",
+            body: "Transparency, collaboration and shared success beyond delivery.",
+          },
+        ],
+      },
+      {
+        type: "calloutCard",
+        size: "sm",
+        icons: ["🤝"],
+        text: "At Comfinity, we don't just deliver technology — we build trusted partnerships that transform ideas into lasting business success.",
+      },
+    ],
+  },
+
+  /* -------------------------------------------------------------- 20 closing */
+  {
+    folio: 21,
+    variant: "editorial",
+    section: "Founders",
+    blocks: [
+      { type: "eyebrow", text: "14 — In Their Own Words" },
+      {
+        /* no page title — the two rows fill the page between them, and the
+           roles and names carry the heading work */
+        type: "profiles",
+        items: [
+          {
+            name: "Sooraj Sudevan",
+            role: "Founder & Chief Executive Officer",
+            tagline: "Visionary. Builder. Believer in Dreamers.",
+            body: "The founding architect of Comfinity's vision. Driven by a belief that technology must serve human dignity — and that the world's best ideas often come from people who have been told “no.” Before founding Comfinity, he spent years experimenting with technology, building relationships, and learning what it means to have your dreams dismissed — and then keep going anyway. He oversees strategy, vision, business development, and the human culture of the company.",
+            quote: "We did not build Comfinity to become successful. We built it because the world needed this — and we were the ones willing to try.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786127353/Sooraj_photo_Linkedin_kmjfmr.png",
+              alt: "Sooraj Sudevan",
+              position: "center top",
+            },
+          },
+          {
+            name: "Ajay Krishna",
+            role: "Co-Founder & Chief Technology Officer",
+            tagline: "The Engineer of Ideas. The Architect of Systems.",
+            body: "Ajay is the conceptual and technical backbone of Comfinity. He translates the founder's vision into engineering decisions — creating the bridge between what is imagined and what can be built. A quiet, focused thinker with deep technical capability and genuine belief in the company's mission.",
+            quote: "Technology is a language. What matters is what you choose to say with it.",
+            image: {
+              src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786127372/Gemini_Generated_Image_4s2xgv4s2xgv4s2x_scz9e5.png",
+              alt: "Ajay Krishna",
+              position: "center top",
+            },
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ----------------------------------------------------------- 21 back cover */
   {
     folio: null,
     variant: "backCover",
