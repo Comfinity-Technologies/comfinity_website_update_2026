@@ -30,11 +30,14 @@ export async function sendDiscoveryRequest(
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
+    /* No mail key configured, so the form cannot deliver. Say so as a next step
+       rather than as a failure — this is the path every visitor takes until
+       RESEND_API_KEY is set on the server. */
     console.error("RESEND_API_KEY is not set — discovery request not sent.");
     return {
       status: "error",
       message:
-        "We couldn't send your request right now. Please email us directly at connect@comfinityindia.com.",
+        "Our form isn't taking messages just yet — please email us at connect@comfinityindia.com and we'll pick it up from there.",
     };
   }
 

@@ -301,27 +301,6 @@ export const magazinePages: MagazinePage[] = [
           },
         ],
       },
-      {
-        type: "imageStrip",
-        images: [
-          {
-            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007588/WhatsApp_Image_2026-08-06_at_2.00.13_PM_ya5hpr.jpg",
-            alt: "Modern architecture",
-          },
-          {
-            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007589/WhatsApp_Image_2026-08-06_at_2.00.13_PM_2_qpltah.jpg",
-            alt: "Glass skyscraper",
-          },
-          {
-            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007630/WhatsApp_Image_2026-08-06_at_2.01.21_PM_sn0rp4.jpg",
-            alt: "Team network icon",
-          },
-          {
-            src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007631/WhatsApp_Image_2026-08-06_at_2.00.13_PM_1_yyhosz.jpg",
-            alt: "Corporate hub",
-          },
-        ],
-      },
       { type: "eyebrow", text: "Our Mission" },
       {
         type: "iconCards",
@@ -368,6 +347,8 @@ export const magazinePages: MagazinePage[] = [
         text: "From complexity to clarity. From ideas to impact.",
       },
       {
+        /* The office strip belongs to Contents alone — folio 2 faces this page,
+           so carrying a copy there put the same four photos on one spread. */
         type: "imageStrip",
         images: [
           {

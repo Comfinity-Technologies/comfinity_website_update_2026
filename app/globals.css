@@ -2146,11 +2146,13 @@ body {
   flex: none;
 }
 
-/* a band rather than four squares — square tiles ran 85px deep and that pushed
-   the vision row clean off the foot of the page */
+/* All four strip photos are shot portrait (3:4). A wide tile cropped straight
+   through the subject — at the old 2.4/1 roughly two thirds of each frame was
+   thrown away. Matching the tile to the source ratio lets object-fit: cover
+   fill the box with nothing trimmed. */
 .mag-imagestrip__item {
   position: relative;
-  aspect-ratio: 2.4 / 1;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--paper-2);
 }
