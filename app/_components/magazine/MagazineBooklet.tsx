@@ -35,7 +35,7 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
       <div className="relative flex h-full flex-col justify-between overflow-hidden p-6 sm:p-7 bg-gradient-to-br from-surface via-surface-2 to-background text-foreground border border-line rounded-l-2xl shadow-2xl">
         <div className="absolute inset-0 z-0 opacity-30">
           <img
-            src="https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/cover_qbrsh9.jpg"
+            src="https://res.cloudinary.com/xnulqi5v/image/upload/v1786263212/set_e5em1p.png"
             alt="Comfinity Technologies Cover"
             className="w-full h-full object-cover filter brightness-75 contrast-125"
           />
@@ -138,7 +138,7 @@ export const MAGAZINE_PAGES: MagazinePageData[] = [
             <div className="flex items-center gap-3">
               <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 border-accent shadow-md">
                 <img
-                  src="/works/ecom-ai.png"
+                  src="https://res.cloudinary.com/xnulqi5v/image/upload/v1786005301/WhatsApp_Image_2026-08-06_at_1.21.56_PM_bqdwi2.jpg"
                   alt="Leadership Portrait"
                   className="w-full h-full object-cover"
                 />

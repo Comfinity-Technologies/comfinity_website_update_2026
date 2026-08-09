@@ -5,6 +5,32 @@ import Link from "next/link";
 import Image from "next/image";
 import { gsap } from "@/lib/gsap";
 import {
+  Target,
+  Layers,
+  Boxes,
+  Globe2,
+  Briefcase,
+  Lightbulb,
+  Handshake,
+  Rocket,
+  LineChart,
+  Code2,
+  Cpu,
+  FlaskConical,
+  Bot,
+  MonitorSmartphone,
+  Cloud,
+  Wrench,
+  Building2,
+  Factory,
+  Landmark,
+  ShieldCheck,
+  Brain,
+  Users,
+  Globe,
+  type LucideIcon,
+} from "lucide-react";
+import {
   magazinePages,
   folioToIndex,
   MAGAZINE_EDITION,
@@ -21,7 +47,7 @@ const isSvg = (src: string) => src.endsWith(".svg");
 /* Pages are authored at a fixed size and the whole book is scaled to fit.
    Keeps dense editorial layouts pixel-stable at every viewport. */
 const PAGE_W = 440;
-const PAGE_H = 580;
+const PAGE_H = 720;
 const FLIP_DURATION = 1.05;
 
 const clamp = (v: number, lo: number, hi: number) =>
@@ -89,9 +115,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <blockquote
                 key={i}
-                className={`mag-quote${
-                  b.align === "center" ? " mag-quote--center" : ""
-                }${b.size === "sm" ? " mag-quote--sm" : ""}`}
+                className={`mag-quote${b.align === "center" ? " mag-quote--center" : ""
+                  }${b.size === "sm" ? " mag-quote--sm" : ""}`}
               >
                 &ldquo;{b.text}&rdquo;
                 {b.by && <cite className="mag-quote__by">{b.by}</cite>}
@@ -148,9 +173,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div
                 key={i}
-                className={`mag-callout${
-                  b.size === "sm" ? " mag-callout--sm" : ""
-                }`}
+                className={`mag-callout${b.size === "sm" ? " mag-callout--sm" : ""
+                  }`}
               >
                 <div className="mag-callout__icons" aria-hidden>
                   {b.icons.map((ic) => (
@@ -215,11 +239,9 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <ol
                 key={i}
-                className={`mag-numbered${
-                  b.columns === 2 ? " mag-numbered--2col" : ""
-                }${b.art ? " mag-numbered--art" : ""}${
-                  b.art === "side" ? " mag-numbered--side" : ""
-                }`}
+                className={`mag-numbered${b.columns === 2 ? " mag-numbered--2col" : ""
+                  }${b.art ? " mag-numbered--art" : ""}${b.art === "side" ? " mag-numbered--side" : ""
+                  }`}
               >
                 {b.items.map((it) => (
                   <li key={it.n}>
@@ -262,14 +284,12 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                     key={idx}
                     /* the first row puts the portrait on the right, and every
                        other row after it mirrors — the pair reads as a cross */
-                    className={`mag-profile${
-                      idx % 2 === 0 ? " mag-profile--right" : ""
-                    }`}
+                    className={`mag-profile${idx % 2 === 0 ? " mag-profile--right" : ""
+                      }`}
                   >
                     <div
-                      className={`mag-profile__art${
-                        it.image ? "" : " is-empty"
-                      }`}
+                      className={`mag-profile__art${it.image ? "" : " is-empty"
+                        }`}
                     >
                       {it.image ? (
                         <Image
@@ -342,9 +362,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <ul
                 key={i}
-                className={`mag-iconlist${
-                  b.size === "sm" ? " mag-iconlist--sm" : ""
-                }`}
+                className={`mag-iconlist${b.size === "sm" ? " mag-iconlist--sm" : ""
+                  }`}
               >
                 {b.items.map((it) => (
                   <li key={it.title}>
@@ -388,9 +407,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <figure
                 key={i}
-                className={`mag-figure${b.fill ? " mag-figure--fill" : ""}${
-                  b.bare ? " mag-figure--bare" : ""
-                }`}
+                className={`mag-figure${b.fill ? " mag-figure--fill" : ""}${b.bare ? " mag-figure--bare" : ""
+                  }`}
               >
                 <div
                   className="mag-figure__frame"
@@ -513,9 +531,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div
                 key={i}
-                className={`mag-iconcards${
-                  b.columns === 1 ? " mag-iconcards--row" : " mag-iconcards--col"
-                }`}
+                className={`mag-iconcards${b.columns === 1 ? " mag-iconcards--row" : " mag-iconcards--col"
+                  }`}
                 style={{
                   gridTemplateColumns: `repeat(${b.columns ?? 3}, 1fr)`,
                 }}
@@ -572,19 +589,17 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div
                 key={i}
-                className={`mag-sites${
-                  b.layout === "rows" ? " mag-sites--rows" : ""
-                }`}
+                className={`mag-sites${b.layout === "rows" ? " mag-sites--rows" : ""
+                  }`}
               >
                 {b.items.map((it, idx) => (
                   <article
                     key={idx}
                     /* a row with no art is copy alone — no waiting frame */
-                    className={`mag-sitecard${
-                      b.layout === "rows" && !it.image
-                        ? " mag-sitecard--text"
-                        : ""
-                    }`}
+                    className={`mag-sitecard${b.layout === "rows" && !it.image
+                      ? " mag-sitecard--text"
+                      : ""
+                      }`}
                   >
                     {it.images ? (
                       <div className="mag-sitecard__shots">
@@ -610,9 +625,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                       </div>
                     ) : (it.image || b.layout !== "rows") ? (
                       <div
-                        className={`mag-sitecard__shot${
-                          it.image ? "" : " is-empty"
-                        }`}
+                        className={`mag-sitecard__shot${it.image ? "" : " is-empty"
+                          }`}
                       >
                         {it.image ? (
                           <Image
@@ -669,16 +683,14 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div
                 key={i}
-                className={`mag-stats${
-                  b.columns === 4 ? " mag-stats--strip" : ""
-                }`}
+                className={`mag-stats${b.columns === 4 ? " mag-stats--strip" : ""
+                  }`}
               >
                 {b.items.map((it) => (
                   <div key={it.label} className="mag-stat">
                     <span
-                      className={`mag-stat__value${
-                        it.pending ? " is-pending" : ""
-                      }`}
+                      className={`mag-stat__value${it.pending ? " is-pending" : ""
+                        }`}
                     >
                       {it.value}
                     </span>
@@ -696,11 +708,10 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                   return (
                     <div
                       key={it.name}
-                      className={`mag-review${it.pending ? " is-pending" : ""} ${
-                        isEven
-                          ? "flex-row text-left self-start"
-                          : "flex-row-reverse text-right self-end"
-                      }`}
+                      className={`mag-review${it.pending ? " is-pending" : ""} ${isEven
+                        ? "flex-row text-left self-start"
+                        : "flex-row-reverse text-right self-end"
+                        }`}
                     >
                       {/* Avatar & Client Info */}
                       <div className="shrink-0 flex flex-col items-center justify-center w-12 text-center">
@@ -721,9 +732,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 
                       {/* Stars & Quote */}
                       <div
-                        className={`flex-1 min-w-0 flex flex-col justify-center ${
-                          isEven ? "items-start" : "items-end"
-                        }`}
+                        className={`flex-1 min-w-0 flex flex-col justify-center ${isEven ? "items-start" : "items-end"
+                          }`}
                       >
                         {!it.pending && (
                           <div className="flex items-center gap-0.5 mb-0.5">
@@ -731,9 +741,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                           </div>
                         )}
                         <p
-                          className={`mag-review__quote${
-                            it.pending ? " is-pending" : ""
-                          }`}
+                          className={`mag-review__quote${it.pending ? " is-pending" : ""
+                            }`}
                         >
                           {it.pending
                             ? "Quote pending client sign-off"
@@ -750,9 +759,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div
                 key={i}
-                className={`mag-quotecards${
-                  b.size === "sm" ? " mag-quotecards--sm" : ""
-                }`}
+                className={`mag-quotecards${b.size === "sm" ? " mag-quotecards--sm" : ""
+                  }`}
               >
                 {b.items.map((it, idx) => (
                   <figure key={idx} className="mag-quotecard">
@@ -760,17 +768,15 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                       &ldquo;
                     </span>
                     <blockquote
-                      className={`mag-quotecard__text${
-                        it.text ? "" : " is-pending"
-                      }`}
+                      className={`mag-quotecard__text${it.text ? "" : " is-pending"
+                        }`}
                     >
                       {it.text ?? "Quote to come"}
                     </blockquote>
                     <figcaption className="mag-quotecard__by">
                       <span
-                        className={`mag-quotecard__avatar${
-                          it.avatar ? "" : " is-empty"
-                        }`}
+                        className={`mag-quotecard__avatar${it.avatar ? "" : " is-empty"
+                          }`}
                       >
                         {it.avatar && (
                           <Image
@@ -788,9 +794,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                       </span>
                       <span className="mag-quotecard__names">
                         <span
-                          className={`mag-quotecard__name${
-                            it.by ? "" : " is-pending"
-                          }`}
+                          className={`mag-quotecard__name${it.by ? "" : " is-pending"
+                            }`}
                         >
                           {it.by ?? "Name to come"}
                         </span>
@@ -823,9 +828,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
             return (
               <div
                 key={i}
-                className={`mag-people${
-                  b.columns === 2 ? " mag-people--pair" : ""
-                }`}
+                className={`mag-people${b.columns === 2 ? " mag-people--pair" : ""
+                  }`}
                 style={{
                   gridTemplateColumns: `repeat(${b.columns ?? 4}, 1fr)`,
                 }}
@@ -833,9 +837,8 @@ function Blocks({ blocks }: { blocks: Block[] }) {
                 {b.items.map((it, idx) => (
                   <figure key={idx} className="mag-person">
                     <div
-                      className={`mag-person__frame${
-                        it.image ? "" : " is-empty"
-                      }`}
+                      className={`mag-person__frame${it.image ? "" : " is-empty"
+                        }`}
                     >
                       {it.image ? (
                         <Image
@@ -908,7 +911,13 @@ function PageArt({ art }: { art: PageImage }) {
         fill
         sizes={IMG_SIZES}
         unoptimized={isSvg(art.src)}
-        className={art.fit === "contain" ? "object-contain" : "object-cover"}
+        className={
+          art.fit === "fill"
+            ? "object-fill"
+            : art.fit === "contain"
+            ? "object-contain"
+            : "object-cover"
+        }
         style={{
           objectPosition: art.position ?? "center",
           ...(art.zoom ? { transform: `scale(${art.zoom})` } : null),
@@ -919,12 +928,530 @@ function PageArt({ art }: { art: PageImage }) {
   );
 }
 
+function WhoWeAreCustomPage() {
+  const missionItems = [
+    { icon: ShieldCheck, text: "Understand Before We Build", badgeClass: "bg-[#1c2452] text-white" },
+    { icon: Rocket, text: "Drive Meaningful Innovation", badgeClass: "bg-brand-cyan text-brand-navy" },
+    { icon: Handshake, text: "Build Long-Term Partnerships", badgeClass: "border border-[var(--paper-line)] bg-brand-ice/50 text-brand-navy" },
+  ];
+
+  const visionItems = [
+    {
+      icon: Brain,
+      text: "TRANSFORM CHALLENGES INTO INTELLIGENCE",
+      badgeClass: "bg-[#1c2452] text-white",
+      ringClass: "border-brand-navy/20",
+    },
+    {
+      icon: Lightbulb,
+      text: "TURN IDEAS INTO IMPACT",
+      badgeClass: "bg-brand-cyan text-brand-navy",
+      ringClass: "border-brand-cyan/40",
+    },
+    {
+      icon: Users,
+      text: "BUILD THE FUTURE TOGETHER",
+      badgeClass: "border border-brand-navy/20 bg-brand-ice/60 text-brand-navy",
+      ringClass: "border-brand-navy/20",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col gap-2 h-full justify-between pb-7">
+      {/* Header Index Marker */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-widest text-brand-cyan font-bold">
+          <span>01</span>
+          <span className="text-[var(--ink-faint)]">—</span>
+          <span className="text-[var(--ink)]">WHO WE ARE</span>
+        </div>
+        <span
+          aria-hidden
+          className="flex h-5 w-5 items-center justify-center rounded bg-brand-navy text-[9.5px] font-bold tabular-nums text-brand-cream"
+        >
+          01
+        </span>
+      </div>
+
+      {/* Title */}
+      <div className="mt-1 rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] px-5 py-3 shadow-xs">
+        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-none tracking-tight text-[var(--ink)]">
+          Who We <em className="font-medium italic text-brand-cyan">Are.</em>
+        </h1>
+      </div>
+
+      {/* About Us Split: 50/50 equal grid split, vertically tall */}
+      <div className="grid grid-cols-2 gap-3 items-stretch">
+        <div className="relative aspect-[3/4] min-h-[140px] overflow-hidden rounded-xl border border-[var(--paper-line)] shadow-xs">
+          <Image
+            src="https://res.cloudinary.com/xnulqi5v/image/upload/v1786005301/WhatsApp_Image_2026-08-06_at_1.21.56_PM_bqdwi2.jpg"
+            alt="Comfinity leadership"
+            fill
+            sizes="(max-width: 640px) 50vw, 200px"
+            className="object-cover"
+            style={{ objectPosition: "center 20%" }}
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0"
+            style={{ background: "linear-gradient(180deg, transparent 50%, rgba(30,39,97,0.3) 100%)" }}
+          />
+        </div>
+        <div className="flex flex-col justify-center rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] p-3.5 shadow-xs">
+          <p className="mb-2 inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-cyan">
+            <span className="h-1.5 w-1.5 rounded-[2px] bg-brand-cyan" />
+            ABOUT US
+          </p>
+          <p className="text-sm sm:text-base leading-relaxed text-[var(--ink-soft)] font-serif">
+            We are a team of technology enthusiasts and industry experts, committed to helping organizations turn complexity into clarity and ideas into measurable impact.
+          </p>
+        </div>
+      </div>
+
+      {/* Our Mission */}
+      <div>
+        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-cyan mb-1">
+          OUR MISSION
+        </p>
+        <div className="flex flex-col gap-1.5">
+          {missionItems.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.text}
+                className="flex items-center gap-2.5 rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] px-2.5 py-1.5 shadow-xs"
+              >
+                <span
+                  className={`flex h-6.5 w-6.5 shrink-0 items-center justify-center rounded-full ${item.badgeClass}`}
+                >
+                  <Icon className="h-3.5 w-3.5" strokeWidth={1.75} />
+                </span>
+                <span className="flex-1 font-serif text-sm sm:text-base font-normal text-[var(--ink)]">
+                  {item.text}
+                </span>
+                <span className="font-sans text-[10px] font-bold tabular-nums text-brand-cyan">
+                  0{i + 1}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Our Vision */}
+      <div>
+        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-brand-cyan mb-1">
+          OUR VISION
+        </p>
+        <div className="grid grid-cols-3 gap-2">
+          {visionItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.text}
+                className="flex flex-col items-center gap-1.5 rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] p-2 text-center shadow-xs"
+              >
+                <div className={`relative flex h-8.5 w-8.5 shrink-0 items-center justify-center rounded-full border ${item.ringClass} ${item.badgeClass}`}>
+                  <Icon className="h-4 w-4" strokeWidth={1.75} />
+                </div>
+                <span className="text-xs sm:text-sm font-serif font-medium leading-tight tracking-normal text-[var(--ink)]">
+                  {item.text}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContentsCustomPage() {
+  const galleryImages = [
+    {
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007588/WhatsApp_Image_2026-08-06_at_2.00.13_PM_ya5hpr.jpg",
+      alt: "Comfinity operations",
+    },
+    {
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007589/WhatsApp_Image_2026-08-06_at_2.00.13_PM_2_qpltah.jpg",
+      alt: "Comfinity team collaboration",
+    },
+    {
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007630/WhatsApp_Image_2026-08-06_at_2.01.21_PM_sn0rp4.jpg",
+      alt: "Comfinity technology development",
+    },
+    {
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786007631/WhatsApp_Image_2026-08-06_at_2.00.13_PM_1_yyhosz.jpg",
+      alt: "Comfinity executive presentation",
+    },
+  ];
+
+  const entries = [
+    { number: "01", title: "Business First" },
+    { number: "02", title: "Innovation with Purpose" },
+    { number: "03", title: "Partnership & Trust" },
+    { number: "04", title: "Excellence in Execution" },
+    { number: "05", title: "Continuous Learning" },
+    { number: "06", title: "Integrity" },
+  ];
+
+  return (
+    <div className="flex flex-col gap-2 h-full justify-between pb-7">
+      {/* Header index */}
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[9.5px] uppercase tracking-widest text-[var(--ink-faint)] font-bold">
+          CONTENTS
+        </span>
+        <div className="flex items-center gap-1.5 font-mono text-[9.5px] uppercase tracking-widest text-brand-cyan font-bold">
+          <span>CONTENTS</span>
+          <span className="text-[var(--ink-faint)]">—</span>
+          <span>02</span>
+        </div>
+      </div>
+
+      {/* Title Plate (Matching Who We Are) */}
+      <div className="mt-1 rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] px-5 py-3 shadow-xs">
+        <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-none tracking-tight text-[var(--ink)]">
+          Contents<em className="font-medium italic text-brand-cyan">.</em>
+        </h1>
+      </div>
+
+      {/* Quote */}
+      <p className="border-l-2 border-brand-cyan pl-3 font-serif text-base sm:text-lg italic leading-relaxed text-[var(--ink)]">
+        &ldquo;From complexity to clarity. From ideas to impact.&rdquo;
+      </p>
+
+      {/* Gallery Strip */}
+      <div className="grid grid-cols-4 gap-1 rounded-xl overflow-hidden border border-[var(--paper-line)] bg-[var(--paper-2)] p-1 shadow-xs">
+        {galleryImages.map((img, i) => (
+          <div key={i} className="relative aspect-square overflow-hidden rounded-lg bg-[var(--paper-2)]">
+            <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
+          </div>
+        ))}
+      </div>
+
+      {/* Contents List */}
+      <div className="flex-1 min-h-0 flex flex-col justify-center">
+        <ul className="flex flex-col gap-1 my-0.5">
+          {entries.map((entry) => (
+            <li key={entry.number} className="flex items-center gap-4 py-2 border-b border-[var(--paper-line)]/50 last:border-b-0">
+              <span className="font-sans text-sm sm:text-base font-bold text-brand-cyan w-6 shrink-0 tracking-tight">{entry.number}</span>
+              <span className="font-serif text-base sm:text-lg font-normal text-[var(--ink)] flex-1">{entry.title}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Quote Callout Card (Bottom) */}
+      <div className="flex items-center gap-3.5 rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] p-3 shadow-xs">
+        <span className="flex items-center -space-x-1.5 shrink-0">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#1c2452] text-white text-xs">
+            <Users className="h-4 w-4" strokeWidth={1.75} />
+          </span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-cyan text-brand-navy text-xs">
+            <Globe className="h-4 w-4" strokeWidth={1.75} />
+          </span>
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="font-serif text-sm sm:text-base lg:text-lg italic text-[var(--ink)] leading-snug">
+            &ldquo;Things get interesting when you flip it.&rdquo;
+          </p>
+          <p className="mt-1 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-brand-cyan">
+            COMFINITYINDIA.COM
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+type WhyUsItemData = {
+  label: string;
+  icon: LucideIcon;
+};
+
+type WhyUsCardData = {
+  number: string;
+  title: string;
+  icon: LucideIcon;
+  items: WhyUsItemData[];
+};
+
+const MAGAZINE_WHY_US_CARDS: WhyUsCardData[] = [
+  {
+    number: "01",
+    title: "The Comfinity Difference",
+    icon: Target,
+    items: [
+      { label: "Business-First Thinking", icon: Briefcase },
+      { label: "Innovation with Purpose", icon: Lightbulb },
+      { label: "End-to-End Technology Partnership", icon: Handshake },
+      { label: "Building the Future Together", icon: Rocket },
+    ],
+  },
+  {
+    number: "02",
+    title: "Our Expertise (Capabilities)",
+    icon: Layers,
+    items: [
+      { label: "Business Strategy & Transformation", icon: LineChart },
+      { label: "Digital Engineering & Product Development", icon: Code2 },
+      { label: "AI, Automation & Intelligent Systems", icon: Cpu },
+      { label: "Innovation, Research & Talent Development", icon: FlaskConical },
+    ],
+  },
+  {
+    number: "03",
+    title: "Solutions We Deliver (Services)",
+    icon: Boxes,
+    items: [
+      { label: "AI & Intelligent Automation", icon: Bot },
+      { label: "Custom Software & Digital Platforms", icon: MonitorSmartphone },
+      { label: "Digital Transformation & Cloud Solutions", icon: Cloud },
+      { label: "Product Engineering & Technology Consulting", icon: Wrench },
+    ],
+  },
+  {
+    number: "04",
+    title: "Industries We Empower (Who You Serve)",
+    icon: Globe2,
+    items: [
+      { label: "Startups & Scale-ups", icon: Rocket },
+      { label: "Enterprises", icon: Building2 },
+      { label: "Industry Verticals", icon: Factory },
+      { label: "Government & Innovation Ecosystems", icon: Landmark },
+    ],
+  },
+];
+
+function WhyUsCustomPage() {
+  return (
+    <div className="flex flex-col gap-2 h-full w-full justify-between overflow-hidden pb-1">
+      {/* Corner tab / section index marker */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest text-brand-cyan font-bold">
+          <span>03</span>
+          <span className="text-[var(--ink-faint)]">—</span>
+          <span className="text-[var(--ink)]">WHY US</span>
+        </div>
+        <span
+          aria-hidden
+          className="flex h-5 w-5 items-center justify-center rounded bg-brand-navy text-[9px] font-bold tabular-nums text-brand-cream"
+        >
+          03
+        </span>
+      </div>
+
+      {/* Photo header with diagonal navy color-block bleed */}
+      <div className="relative w-full overflow-hidden rounded-xl border border-[var(--paper-line)] shrink-0 shadow-xs">
+        <img
+          src="/images/why-us-team.png"
+          alt="Comfinity technology team collaborating in a modern office"
+          className="h-24 sm:h-28 lg:h-30 w-full object-cover"
+          crossOrigin="anonymous"
+        />
+        <div
+          className="absolute inset-0 flex flex-col justify-end p-3 sm:p-3.5"
+          style={{
+            background:
+              "linear-gradient(115deg, rgba(30,39,97,0.92) 42%, rgba(30,39,97,0.55) 62%, rgba(30,39,97,0) 88%)",
+          }}
+        >
+          <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.24em] text-brand-cyan">
+            THE COMFINITY EDGE
+          </p>
+          <h2 className="mt-0.5 font-serif text-2xl sm:text-3xl lg:text-4xl font-light leading-none tracking-tight text-white">
+            Why <span className="font-medium italic text-brand-cyan">us.</span>
+          </h2>
+        </div>
+      </div>
+
+      {/* Cards */}
+      <div className="flex flex-col gap-2 w-full shrink-0">
+        {MAGAZINE_WHY_US_CARDS.map((card, i) => {
+          const Icon = card.icon;
+          const filled = i % 2 === 0;
+          return (
+            <article
+              key={card.number}
+              className="flex w-full gap-2.5 rounded-xl border border-[var(--paper-line)] bg-[var(--paper-2)] p-2 sm:p-2.5 shadow-xs"
+            >
+              <div className="flex shrink-0 flex-col items-center gap-1 pt-0.5">
+                <span
+                  className={`font-serif text-base font-bold leading-none tabular-nums ${filled ? "text-brand-navy dark:text-brand-cyan" : "text-brand-cyan"
+                    }`}
+                >
+                  {card.number}
+                </span>
+                <span
+                  className={`flex h-5.5 w-5.5 items-center justify-center rounded-md ${filled
+                    ? "bg-brand-navy text-brand-cream"
+                    : "border border-brand-cyan/40 bg-brand-ice/40 text-brand-cyan"
+                    }`}
+                >
+                  <Icon className="h-3 w-3" strokeWidth={1.75} aria-hidden />
+                </span>
+              </div>
+
+              <div className="min-w-0 flex-1">
+                <h3 className="font-serif text-xs sm:text-[13.5px] font-bold leading-tight text-[var(--ink)]">
+                  {card.title}
+                </h3>
+                <ul className="mt-1 flex flex-col gap-1">
+                  {card.items.map((item) => {
+                    const ItemIcon = item.icon;
+                    return (
+                      <li
+                        key={item.label}
+                        className="flex items-center gap-1.5 font-serif text-[11.5px] sm:text-[12.5px] font-medium text-[var(--ink)] leading-snug"
+                      >
+                        <span
+                          aria-hidden
+                          className="flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded bg-brand-ice/50 text-brand-navy"
+                        >
+                          <ItemIcon className="h-2 w-2" strokeWidth={2} />
+                        </span>
+                        <span>{item.label}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+const MAGAZINE_CLIENT_REVIEWS = [
+  {
+    initial: "A",
+    name: "Ajay",
+    org: "REPZ PLATFORM",
+    quote:
+      "Managing our gym used to be fragmented. REPZ brought everything into one platform, giving us complete visibility.",
+  },
+  {
+    initial: "S",
+    name: "Sreejith",
+    org: "MINUTE BAZAAR",
+    quote:
+      "Going online was so easy! Order management and delivery run smoothly every day, and customers are happy.",
+  },
+  {
+    initial: "V",
+    name: "Vignesh",
+    org: "FLIQKET OTT",
+    quote:
+      "What impressed us most was Fliqket's creator-first approach, secure streaming, and audience analytics.",
+  },
+  {
+    initial: "A",
+    name: "Aravind",
+    org: "RETAIL MARKETPLACE",
+    quote:
+      "Comfinity helped transform our grocery store into a digital marketplace. Everything is effortless now.",
+  },
+  {
+    initial: "S",
+    name: "Sujin",
+    org: "MEDICHARM PHARMA",
+    quote:
+      "Managing inventory across branches used to be chaotic. Their system gave us complete real-time sync.",
+  },
+  {
+    initial: "A",
+    name: "Arun",
+    org: "REZTOS OS",
+    quote:
+      "Reztos made running our restaurant so much easier — QR ordering, billing, and multi-outlet management in one.",
+  },
+];
+
+function ClientReviewsCustomPage() {
+  return (
+    <div className="flex flex-col gap-1.5 h-full w-full justify-between overflow-hidden pb-1">
+      {/* Corner tab / section index marker */}
+      <div className="flex items-center justify-between">
+        <span
+          aria-hidden
+          className="flex h-5 w-5 items-center justify-center rounded bg-brand-cyan text-[9px] font-bold tabular-nums text-white"
+        >
+          04
+        </span>
+        <div className="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-widest text-brand-cyan font-bold">
+          <span>04</span>
+          <span className="text-[var(--ink-faint)]">—</span>
+          <span className="text-[var(--ink)]">CLIENT REVIEWS</span>
+        </div>
+      </div>
+
+      {/* 7 Equal Height Cards (6 Review Cards + 1 Bottom Callout Banner) */}
+      <div className="grid grid-cols-1 grid-rows-7 gap-1.5 flex-1 w-full min-h-0">
+        {MAGAZINE_CLIENT_REVIEWS.map((rev) => (
+          <article
+            key={rev.name + rev.org}
+            className="relative flex flex-col justify-between overflow-hidden rounded-xl bg-[#1c2452] p-2.5 sm:p-3 text-white shadow-xs min-h-0"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-cyan text-white text-[9px] font-bold">
+                  {rev.initial}
+                </span>
+                <div className="flex items-center gap-0.5 text-brand-cyan text-[9px]">
+                  ★★★★★
+                </div>
+              </div>
+              <span className="text-brand-cyan/40 font-serif text-lg font-bold leading-none">
+                &rdquo;
+              </span>
+            </div>
+
+            <p className="font-serif text-[11.5px] sm:text-[12.5px] font-medium leading-tight text-white line-clamp-2">
+              {rev.quote}
+            </p>
+
+            <div className="flex items-center gap-1.5 font-serif text-[9.5px] sm:text-[10px] font-bold leading-none">
+              <span className="text-white">{rev.name}</span>
+              <span className="text-brand-cyan uppercase tracking-wider font-mono text-[8px]">
+                {rev.org}
+              </span>
+            </div>
+          </article>
+        ))}
+
+        {/* 7th Card: Bottom Banner Callout matching EXACT height of review cards */}
+        <div className="relative flex flex-col justify-between overflow-hidden rounded-xl border border-[var(--paper-line)] bg-brand-navy p-2.5 sm:p-3 text-white shadow-xs min-h-0">
+          <img
+            src="/images/why-us-team.png"
+            alt="Trusted across industries"
+            className="absolute inset-0 h-full w-full object-cover opacity-20 pointer-events-none"
+          />
+          <div className="relative z-10 flex flex-col justify-center pt-0.5">
+            <h3 className="font-serif text-sm sm:text-base font-bold text-white leading-none">
+              Trusted across industries
+            </h3>
+          </div>
+          <Link
+            href="/works"
+            className="relative z-10 flex items-center justify-between font-mono text-[9px] sm:text-[9.5px] font-bold uppercase tracking-wider text-brand-cyan hover:text-white transition-colors leading-none"
+          >
+            <span>READ ALL CLIENT REVIEWS</span>
+            <span aria-hidden className="text-xs">&rarr;</span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PageFace({ page }: { page: MagazinePage }) {
   return (
     <div
-      className={`mag-page mag-page--${page.variant}${
-        page.image ? " mag-page--art" : ""
-      }`}
+      className={`mag-page mag-page--${page.variant}${page.image ? " mag-page--art" : ""
+        }`}
     >
       {page.image && <PageArt art={page.image} />}
       {page.logo && (
@@ -938,11 +1465,21 @@ function PageFace({ page }: { page: MagazinePage }) {
           />
         </div>
       )}
-      {page.variant === "editorial" && page.section && (
+      {page.variant === "editorial" && page.section && page.folio !== 2 && page.folio !== 3 && page.folio !== 4 && page.folio !== 5 && (
         <span className="mag-runhead">{page.section}</span>
       )}
       <div className="mag-page__inner">
-        <Blocks blocks={page.blocks} />
+        {page.folio === 2 ? (
+          <WhoWeAreCustomPage />
+        ) : page.folio === 3 ? (
+          <ContentsCustomPage />
+        ) : page.folio === 4 ? (
+          <WhyUsCustomPage />
+        ) : page.folio === 5 ? (
+          <ClientReviewsCustomPage />
+        ) : (
+          <Blocks blocks={page.blocks} />
+        )}
       </div>
       {/* running foot — plain text, not a link, so it can't fight the
           click-to-turn handler on the book */}
@@ -968,9 +1505,9 @@ export default function Magazine() {
   /* leaves ------------------------------------------------------------- */
   const leaves: Leaf[] = spread
     ? Array.from({ length: Math.ceil(magazinePages.length / 2) }, (_, i) => ({
-        front: magazinePages[i * 2] ?? null,
-        back: magazinePages[i * 2 + 1] ?? null,
-      }))
+      front: magazinePages[i * 2] ?? null,
+      back: magazinePages[i * 2 + 1] ?? null,
+    }))
     : magazinePages.map((p) => ({ front: p, back: null }));
 
   const leafCount = leaves.length;
@@ -1022,7 +1559,7 @@ export default function Magazine() {
     const fit = () => {
       const avail = stage.clientWidth;
       const byWidth = avail / bookW;
-      const byHeight = (window.innerHeight * 0.78) / PAGE_H;
+      const byHeight = (window.innerHeight * 0.86) / PAGE_H;
       setScale(clamp(Math.min(byWidth, byHeight), 0.3, 1.25));
     };
     fit();

@@ -257,17 +257,12 @@ export const magazinePages: MagazinePage[] = [
     folio: null,
     variant: "cover",
     image: {
-      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786003361/hghg_uqjniu.png",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786263212/set_e5em1p.png",
       alt: "Comfinity Technologies front cover",
-      fit: "cover",
+      fit: "fill",
+      position: "center",
     },
-    logo: {
-      src: "/magazine/comfinity-logo-white.png",
-      alt: "Comfinity Technologies",
-    },
-    blocks: [
-      { type: "masthead", title: "Our Company", sub: "Corporate Profile" },
-    ],
+    blocks: [],
   },
 
 
