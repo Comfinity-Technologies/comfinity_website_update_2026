@@ -7,13 +7,14 @@ import { projectsData, projectCategories, type Project } from "@/lib/worksData";
 import PageHero from "../_components/PageHero";
 import CtaBand from "../_components/CtaBand";
 
-export default function WorksClient() {
+export default function WorksClient({ initialProjects }: { initialProjects?: Project[] } = {}) {
+  const allProjects = initialProjects ?? projectsData;
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
   // Filter projects based on category and search query
-  const filteredProjects = projectsData.filter((project) => {
+  const filteredProjects = allProjects.filter((project) => {
     const matchesCategory =
       selectedCategory === "All" || project.category === selectedCategory;
     const matchesSearch =

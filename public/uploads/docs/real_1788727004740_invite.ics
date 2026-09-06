@@ -1,0 +1,30 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REPLY
+BEGIN:VEVENT
+DTSTART:20260904T063000Z
+DTEND:20260904T073000Z
+DTSTAMP:20260829T111425Z
+ORGANIZER;CN=Comfinity Technologies:mailto:comfinityindia@gmail.com
+UID:2go434oqq57gue9n3r7297797i@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=MUPPAL
+ A POOJA;X-NUM-GUESTS=0:mailto:muppalapooja03@gmail.com
+X-GOOGLE-CONFERENCE:https://meet.google.com/rfb-cbro-kzq
+CREATED:20260829T110636Z
+DESCRIPTION:<a href="https://meet.google.com/pza-iest-mbg?pli=1">https://me
+ et.google.com/pza-iest-mbg?pli=1</a>\n\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-\nJoin with Google Meet
+ : https://meet.google.com/rfb-cbro-kzq\n\nLearn more about Meet at: https:/
+ /support.google.com/a/users/answer/9282720\n\nPlease do not edit this secti
+ on.\n-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:
+ ~:~:~:~:~::~:~::-
+LAST-MODIFIED:20260829T111425Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:mock - interview 
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

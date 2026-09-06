@@ -18,7 +18,7 @@ export type PageImage = {
   /** CSS object-position, e.g. "center top" */
   position?: string;
   /** `contain` for illustrations/SVGs that must not be cropped */
-  fit?: "cover" | "contain";
+  fit?: "cover" | "contain" | "fill";
   /** >1 crops inward — used to isolate the cover face out of a mockup render */
   zoom?: number;
 };
@@ -524,7 +524,7 @@ export const magazinePages: MagazinePage[] = [
     variant: "product",
     section: "Products",
     image: {
-      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956468/minute_bazaar_qc0d70.jpg",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/f_auto,q_auto,w_1600/v1785956468/minute_bazaar_qc0d70.jpg",
       alt: "Minute Bazaar hyperlocal commerce app on a phone",
       position: "center top",
     },
@@ -539,7 +539,7 @@ export const magazinePages: MagazinePage[] = [
         fill: true,
         bare: true,
         image: {
-          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786114624/Gemini_Generated_Image_pt3eb5pt3eb5pt3e_zabfeg.png",
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/f_auto,q_auto,w_1600/v1786114624/Gemini_Generated_Image_pt3eb5pt3eb5pt3e_zabfeg.png",
           alt: "Minute Bazaar — the all-in-one platform for modern life in Palakkad, with home services, restaurants, taxi, supermarket and health care",
           fit: "contain",
         },
@@ -666,7 +666,7 @@ export const magazinePages: MagazinePage[] = [
     variant: "product",
     section: "Products",
     image: {
-      src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1785956469/reztos_nf6uzf.jpg",
+      src: "https://res.cloudinary.com/xnulqi5v/image/upload/f_auto,q_auto,w_1600/v1785956469/reztos_nf6uzf.jpg",
       alt: "Reztos restaurant operating system on a tablet",
       position: "center top",
     },
@@ -680,7 +680,7 @@ export const magazinePages: MagazinePage[] = [
         type: "figure",
         fill: true,
         image: {
-          src: "https://res.cloudinary.com/xnulqi5v/image/upload/v1786124222/Gemini_Generated_Image_tyml81tyml81tyml_vhwbpt.png",
+          src: "https://res.cloudinary.com/xnulqi5v/image/upload/f_auto,q_auto,w_1600/v1786124222/Gemini_Generated_Image_tyml81tyml81tyml_vhwbpt.png",
           alt: "Reztos on the floor — menu, live tables, feedback and billing across five screens",
           position: "center 30%",
         },

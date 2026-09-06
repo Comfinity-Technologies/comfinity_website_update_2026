@@ -6,11 +6,7 @@ import {
   Instrument_Serif,
 } from "next/font/google";
 import "./globals.css";
-import Navbar from "./_components/Navbar";
-import Footer from "./_components/Footer";
-import SmoothScroll from "./_components/SmoothScroll";
-import ScrollProgress from "./_components/anim/ScrollProgress";
-import Preloader from "./_components/Preloader";
+import PublicChrome from "./_components/PublicChrome";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -64,13 +60,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full font-sans antialiased">
-        <Preloader />
-        <ScrollProgress />
-        <Navbar />
-        <SmoothScroll>
-          {children}
-          <Footer />
-        </SmoothScroll>
+        <PublicChrome>{children}</PublicChrome>
       </body>
     </html>
   );

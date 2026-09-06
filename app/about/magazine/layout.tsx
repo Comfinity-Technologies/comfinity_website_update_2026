@@ -1,36 +1,11 @@
-import { Fraunces, Newsreader, Archivo } from "next/font/google";
-
-/* The magazine sets its own editorial faces — a display serif, a text serif
-   and a grotesque for the small caps labels. They are declared here rather
-   than in the root layout so the rest of the site does not pay to download
-   three families it never renders. Consumed by the .mag-* rules in
-   globals.css via --mag-display / --mag-text / --mag-label. */
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-  axes: ["SOFT", "WONK", "opsz"],
-});
-
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
-  style: ["normal", "italic"],
-});
-
-const archivo = Archivo({
-  variable: "--font-archivo",
-  subsets: ["latin"],
-});
-
+/* The magazine runs on the site's own faces — Instrument Serif for headings
+   and copy, Geist Mono for the small-caps labels — so that the hand-built
+   opening pages and the data-driven pages read as one book. Both families
+   are already loaded by the root layout; this wrapper only carries the
+   .mag-type class that maps them onto --mag-display / --mag-text /
+   --mag-label for the .mag-* rules in globals.css. */
 export default function MagazineLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  return (
-    <div
-      className={`mag-type ${fraunces.variable} ${newsreader.variable} ${archivo.variable}`}
-    >
-      {children}
-    </div>
-  );
+  return <div className="mag-type">{children}</div>;
 }

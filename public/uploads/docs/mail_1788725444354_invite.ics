@@ -1,0 +1,83 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Asia/Kolkata
+X-LIC-LOCATION:Asia/Kolkata
+BEGIN:STANDARD
+TZOFFSETFROM:+0530
+TZOFFSETTO:+0530
+TZNAME:GMT+5:30
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Asia/Kolkata:20260817T110000
+DTEND;TZID=Asia/Kolkata:20260817T120000
+DTSTAMP:20260817T050318Z
+ORGANIZER;CN=Krishnasree RINK:mailto:krishnasree@fellow.startupmission.in
+UID:2q1t51koojli9fgfanidqidre0@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=Krishnasree RINK;X-NUM-GUESTS=0:mailto:krishnasree@fellow.startupmissio
+ n.in
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=Deepu Krishnan P R;X-NUM-GUESTS=0:mailto:deepu@startupmission.in
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=ammuprakash@cheshiretechcorp.com;X-NUM-GUESTS=0:mailto:ammuprakash@
+ cheshiretechcorp.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=blessymmani@gmail.com;X-NUM-GUESTS=0:mailto:blessymmani@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=ceo@viinnovations.com;X-NUM-GUESTS=0:mailto:ceo@viinnovations.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=comfinityindia@gmail.com;X-NUM-GUESTS=0:mailto:comfinityindia@gmail
+ .com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=corporate.legal@travidux.com;X-NUM-GUESTS=0:mailto:corporate.legal@
+ travidux.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=madhukishor@gmail.com;X-NUM-GUESTS=0:mailto:madhukishor@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=pradeep@cogitx.ai;X-NUM-GUESTS=0:mailto:pradeep@cogitx.ai
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=sakalyatech@gmail.com;X-NUM-GUESTS=0:mailto:sakalyatech@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=vivestygreen@gmail.com;X-NUM-GUESTS=0:mailto:vivestygreen@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=director@uralstech.in;X-NUM-GUESTS=0:mailto:director@uralstech.in
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=jerom@rexindynamics.com;X-NUM-GUESTS=0:mailto:jerom@rexindynamics.c
+ om
+X-GOOGLE-CONFERENCE:https://meet.google.com/ner-ybnk-rhg
+X-MICROSOFT-CDO-OWNERAPPTID:-164855035
+CREATED:20260817T050058Z
+DESCRIPTION:Kerala Startup Mission is inviting you to a scheduled Zoom meet
+ ing.\nJoin Zoom Meeting\nhttps://us02web.zoom.us/w/87265798438?tk=GrlNg9Y0j
+ IfXgtZ809WyuX833pw9X03NU1fahR7-y4w.DQkAAAAUUXJpJhZVZ3djdU1HN1RJV0RPQXYwOTNI
+ bFZnAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&pwd=2bVyMpRM4iHDBJicyd9tylw
+ aVzwhkg.1\n\nMeeting chat link\nhttps://us02web.zoom.us/launch/jc/872657984
+ 38\n\nMeeting ID: 872 6579 8438\nPasscode: 304716\n\n---\n\nOne tap mobile\
+ n+17193594580\,\,87265798438#\,\,\,\,*304716# US\n+12532050468\,\,872657984
+ 38#\,\,\,\,*304716# US\n\n\n---\n\nJoin by SIP\n• 87265798438@zoomcrc.com\n
+ \nJoin instructions\nhttps://us02web.zoom.us/meetings/87265798438/invitatio
+ ns?signature=js1_4VMMdROOQAAyMgbg5BxOEHk0TJEidYkXNAZUwWA\n\n\n\n-::~:~::~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::
+ -\nJoin with Google Meet: https://meet.google.com/ner-ybnk-rhg\nOr dial: (U
+ S) +1 865-413-0209 PIN: 879845722#\nMore phone numbers: https://tel.meet/ne
+ r-ybnk-rhg?pin=6346825591682&hs=7\n\nLearn more about Meet at: https://supp
+ ort.google.com/a/users/answer/9282720\n\nPlease do not edit this section.\n
+ -::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~::~:~::-
+LAST-MODIFIED:20260817T050316Z
+LOCATION:https://us02web.zoom.us/w/87265798438?tk=GrlNg9Y0jIfXgtZ809WyuX833
+ pw9X03NU1fahR7-y4w.DQkAAAAUUXJpJhZVZ3djdU1HN1RJV0RPQXYwOTNIbFZnAAAAAAAAAAAA
+ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&pwd=2bVyMpRM4iHDBJicyd9tylwaVzwhkg.1\; http
+ s://meet.google.com/ner-ybnk-rhg
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Patent Facilitation Program | Program Briefing Session
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

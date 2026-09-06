@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import WorksClient from "./WorksClient";
+import { getProjects } from "@/app/admin/(dashboard)/projects/_helpers";
 
 export const metadata: Metadata = {
   title: "Our Works & Case Studies | Comfinity Technologies",
@@ -8,5 +9,6 @@ export const metadata: Metadata = {
 };
 
 export default function WorksPage() {
-  return <WorksClient />;
+  const projects = getProjects();
+  return <WorksClient initialProjects={projects} />;
 }

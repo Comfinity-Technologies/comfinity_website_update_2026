@@ -3,6 +3,7 @@ import PageHero from "@/app/_components/PageHero";
 import CtaBand from "@/app/_components/CtaBand";
 import Magazine from "@/app/_components/about/Magazine";
 import { MAGAZINE_EDITION } from "@/lib/magazineData";
+import { getMagazinePages } from "@/app/admin/(dashboard)/magazine/_helpers";
 
 export const metadata: Metadata = {
   title: "Company Magazine — 2026 Edition",
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function MagazinePage() {
+  const pages = getMagazinePages();
+
   return (
     <main>
       <PageHero
@@ -27,7 +30,7 @@ export default function MagazinePage() {
       <section className="border-b border-line">
         <div className="mx-auto max-w-[90rem] px-6 py-20 md:px-10 md:py-28">
           <p className="section-label mb-12 text-center">{MAGAZINE_EDITION}</p>
-          <Magazine />
+          <Magazine initialPages={pages} />
         </div>
       </section>
 

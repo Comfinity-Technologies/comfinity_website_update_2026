@@ -75,16 +75,24 @@
   --font-serif: var(--font-instrument), ui-serif, Georgia, serif;
 }
 
-/* Magazine-only editorial stack — a display serif, a text serif and a
-   grotesque for small-caps labels. Set apart from the site UI faces on
-   purpose: the book should read as print, not as an app screen.
+/* Magazine type — the same faces the hand-built opening pages use, so the
+   whole book reads in one voice: Instrument Serif for every heading and
+   every run of copy, Geist Mono for the small-caps labels, run-heads and
+   folios. (Pages 1-5 are components rather than data, and they set these
+   through the site's own font-serif / font-mono utilities.)
    Declared on the same element that carries the next/font variables
    (app/about/magazine/layout.tsx), since a custom property is substituted
    against the element it is declared on. */
 .mag-type {
-  --mag-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
-  --mag-text: var(--font-newsreader), Georgia, "Times New Roman", serif;
-  --mag-label: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --mag-display: var(--font-instrument), ui-serif, Georgia, serif;
+  --mag-text: var(--font-instrument), ui-serif, Georgia, serif;
+  --mag-label: var(--font-geist-mono), ui-monospace, monospace;
+
+  /* Instrument Serif ships a single 400 weight. The display rules below ask
+     for 500/600, which the browser would otherwise smear into a faux bold —
+     the opening pages set it light and let the face carry itself, so keep
+     that here rather than synthesising weights the family does not have. */
+  font-synthesis-weight: none;
 }
 
 html {

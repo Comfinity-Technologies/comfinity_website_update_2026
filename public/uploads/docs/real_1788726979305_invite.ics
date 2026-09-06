@@ -1,0 +1,42 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Asia/Kolkata
+X-LIC-LOCATION:Asia/Kolkata
+BEGIN:STANDARD
+TZOFFSETFROM:+0530
+TZOFFSETTO:+0530
+TZNAME:GMT+5:30
+DTSTART:19700101T000000
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART;TZID=Asia/Kolkata:20260906T163000
+DTEND;TZID=Asia/Kolkata:20260906T173000
+DTSTAMP:20260906T103630Z
+ORGANIZER;CN=Kayalvizhi T:mailto:kayalvizhit44@gmail.com
+UID:3ulgdkaadl5346o8q3cib01pg4@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;RSVP=TRUE
+ ;CN=Kayalvizhi T;X-NUM-GUESTS=0:mailto:kayalvizhit44@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=
+ TRUE;CN=comfinityindia@gmail.com;X-NUM-GUESTS=0:mailto:comfinityindia@gmail
+ .com
+X-GOOGLE-CONFERENCE:https://meet.google.com/sjg-hhxi-mqr
+X-MICROSOFT-CDO-OWNERAPPTID:-874128675
+CREATED:20260906T103615Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nJoin with Google Meet: https://meet.google.com/sj
+ g-hhxi-mqr\n\nLearn more about Meet at: https://support.google.com/a/users/
+ answer/9282720\n\nPlease do not edit this section.\n-::~:~::~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20260906T103627Z
+LOCATION:https://meet.google.com/sjg-hhxi-mqr
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Sooraj - Kayal Discussion
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

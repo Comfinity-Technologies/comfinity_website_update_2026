@@ -1491,7 +1491,8 @@ function PageFace({ page }: { page: MagazinePage }) {
 
 /* --------------------------------------------------------------- magazine */
 
-export default function Magazine() {
+export default function Magazine({ initialPages }: { initialPages?: MagazinePage[] } = {}) {
+  const pages = initialPages ?? magazinePages;
   const [spread, setSpread] = useState(true);
   const [current, setCurrent] = useState(0); // number of leaves turned
   const [scale, setScale] = useState(1);
@@ -1504,11 +1505,11 @@ export default function Magazine() {
 
   /* leaves ------------------------------------------------------------- */
   const leaves: Leaf[] = spread
-    ? Array.from({ length: Math.ceil(magazinePages.length / 2) }, (_, i) => ({
-      front: magazinePages[i * 2] ?? null,
-      back: magazinePages[i * 2 + 1] ?? null,
+    ? Array.from({ length: Math.ceil(pages.length / 2) }, (_, i) => ({
+      front: pages[i * 2] ?? null,
+      back: pages[i * 2 + 1] ?? null,
     }))
-    : magazinePages.map((p) => ({ front: p, back: null }));
+    : pages.map((p) => ({ front: p, back: null }));
 
   const leafCount = leaves.length;
   const maxCurrent = spread ? leafCount : leafCount - 1;
@@ -1546,11 +1547,11 @@ export default function Magazine() {
         spread ? Math.ceil(c / 2) : c * 2,
         0,
         spread
-          ? Math.ceil(magazinePages.length / 2)
-          : magazinePages.length - 1
+          ? Math.ceil(pages.length / 2)
+          : pages.length - 1
       )
     );
-  }, [spread]);
+  }, [spread, pages.length]);
 
   /* fit-to-container scaling ------------------------------------------- */
   useEffect(() => {
@@ -1766,8 +1767,8 @@ export default function Magazine() {
 
   const state = current === 0 ? "closed" : current >= leafCount ? "end" : "open";
   const currentFolio = spread
-    ? magazinePages[Math.min(current * 2, magazinePages.length - 1)]?.folio
-    : magazinePages[current]?.folio;
+    ? pages[Math.min(current * 2, pages.length - 1)]?.folio
+    : pages[current]?.folio;
 
   return (
     <div className="mag-root">
@@ -1862,7 +1863,7 @@ export default function Magazine() {
           {currentFolio ? `Page ${currentFolio}` : state === "closed" ? "Cover" : "Back"}
           <span className="mag-counter__total">
             {" "}
-            / {magazinePages.length}
+            / {pages.length}
           </span>
         </span>
 
