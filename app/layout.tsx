@@ -7,6 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import PublicChrome from "./_components/PublicChrome";
+import { getGlobalSettings } from "@/lib/global-store";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,6 +47,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const globalSettings = getGlobalSettings();
+
   return (
     <html
       lang="en"
@@ -60,7 +63,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full font-sans antialiased">
-        <PublicChrome>{children}</PublicChrome>
+        <PublicChrome globalSettings={globalSettings}>{children}</PublicChrome>
       </body>
     </html>
   );

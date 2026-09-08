@@ -3,6 +3,7 @@ import PageHero from "@/app/_components/PageHero";
 import TextReveal from "@/app/_components/anim/TextReveal";
 import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
+import { getLeadership } from "@/lib/team-store";
 
 export const metadata: Metadata = {
   title: "Leadership Team",
@@ -11,6 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function LeadershipPage() {
+  const leaders = getLeadership();
+
   return (
     <main>
       <PageHero
@@ -27,93 +30,54 @@ export default function LeadershipPage() {
 
       <section className="mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-40">
         <div className="space-y-6">
-          {/* CEO */}
-          <Reveal>
-            <article className="glass card-hover grid gap-10 rounded-3xl p-8 md:grid-cols-[1fr_1.6fr] md:p-14">
-              <div>
-                <div
-                  className="flex aspect-[4/5] items-end rounded-2xl border border-line p-6"
-                  style={{
-                    background:
-                      "linear-gradient(160deg, rgba(79,124,255,0.18), rgba(167,139,250,0.08) 60%, transparent)",
-                  }}
-                >
-                  <p className="font-mono text-[10px] tracking-[0.25em] text-muted">
-                    PORTRAIT — COMING SOON
-                  </p>
+          {leaders.map((leader) => (
+            <Reveal key={leader.id}>
+              <article className="glass card-hover grid gap-10 rounded-3xl p-8 md:grid-cols-[1fr_1.6fr] md:p-14">
+                <div>
+                  <div
+                    className="relative flex aspect-[4/5] items-end overflow-hidden rounded-2xl border border-line p-6"
+                    style={{
+                      background:
+                        "linear-gradient(160deg, rgba(79,124,255,0.18), rgba(167,139,250,0.08) 60%, transparent)",
+                    }}
+                  >
+                    {leader.portraitUrl ? (
+                      <img
+                        src={leader.portraitUrl}
+                        alt={leader.name}
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
+                    ) : (
+                      <p className="font-mono text-[10px] tracking-[0.25em] text-muted">
+                        PORTRAIT — COMING SOON
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft">
-                  FOUNDER &amp; CHIEF EXECUTIVE OFFICER
-                </p>
-                <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                  Sooraj Sudevan
-                </h2>
-                <p className="font-serif-accent mt-2 text-lg text-muted">
-                  Visionary. Builder. Believer in Dreamers.
-                </p>
-                <p className="mt-6 text-sm leading-relaxed text-muted md:text-base">
-                  The founding architect of Comfinity&rsquo;s vision. Driven by
-                  a belief that technology must serve human dignity — and that
-                  the world&rsquo;s best ideas often come from people who have
-                  been told &ldquo;no.&rdquo; Before founding Comfinity, he
-                  spent years experimenting with technology, building
-                  relationships, and learning what it means to have your dreams
-                  dismissed — and then keep going anyway. He oversees strategy,
-                  vision, business development, and the human culture of the
-                  company.
-                </p>
-                <blockquote className="mt-8 border-l-2 border-accent pl-6 text-base leading-relaxed text-foreground md:text-lg">
-                  &ldquo;We did not build Comfinity to become successful. We
-                  built it because the world needed this — and we were the ones
-                  willing to try.&rdquo;
-                </blockquote>
-              </div>
-            </article>
-          </Reveal>
-
-          {/* CTO */}
-          <Reveal>
-            <article className="glass card-hover grid gap-10 rounded-3xl p-8 md:grid-cols-[1fr_1.6fr] md:p-14">
-              <div>
-                <div
-                  className="flex aspect-[4/5] items-end rounded-2xl border border-line p-6"
-                  style={{
-                    background:
-                      "linear-gradient(160deg, rgba(167,139,250,0.16), rgba(79,124,255,0.08) 60%, transparent)",
-                  }}
-                >
-                  <p className="font-mono text-[10px] tracking-[0.25em] text-muted">
-                    PORTRAIT — COMING SOON
+                <div className="flex flex-col justify-center">
+                  <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft">
+                    {leader.role}
                   </p>
+                  <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                    {leader.name}
+                  </h2>
+                  {leader.tagline && (
+                    <p className="font-serif-accent mt-2 text-lg text-muted">
+                      {leader.tagline}
+                    </p>
+                  )}
+                  <p className="mt-6 text-sm leading-relaxed text-muted md:text-base">
+                    {leader.bio}
+                  </p>
+                  {leader.quote && (
+                    <blockquote className="mt-8 border-l-2 border-accent pl-6 text-base leading-relaxed text-foreground md:text-lg">
+                      &ldquo;{leader.quote}&rdquo;
+                    </blockquote>
+                  )}
                 </div>
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft">
-                  CO-FOUNDER &amp; CHIEF TECHNOLOGY OFFICER
-                </p>
-                <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                  Ajay Krishna
-                </h2>
-                <p className="font-serif-accent mt-2 text-lg text-muted">
-                  The Engineer of Ideas. The Architect of Systems.
-                </p>
-                <p className="mt-6 text-sm leading-relaxed text-muted md:text-base">
-                  Ajay is the conceptual and technical backbone of Comfinity.
-                  He translates the founder&rsquo;s vision into engineering
-                  decisions — creating the bridge between what is imagined and
-                  what can be built. A quiet, focused thinker with deep
-                  technical capability and genuine belief in the
-                  company&rsquo;s mission.
-                </p>
-                <blockquote className="mt-8 border-l-2 border-accent pl-6 text-base leading-relaxed text-foreground md:text-lg">
-                  &ldquo;Technology is a language. What matters is what you
-                  choose to say with it.&rdquo;
-                </blockquote>
-              </div>
-            </article>
-          </Reveal>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </section>
 

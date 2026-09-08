@@ -1,13 +1,28 @@
-﻿import "server-only"
-import { readJSON } from "@/lib/data-store"
+import "server-only";
+import { readJSON, writeJSON } from "@/lib/data-store";
+
+export interface JobOpening {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  experience: string;
+  description: string;
+  requirements?: string[];
+  status: "Active" | "Draft" | "Closed";
+  order?: number;
+}
 
 export interface CareersData {
-  lookingFor: string[]
-  offers: { t: string; d: string }[]
-  studentPrograms: { t: string; d: string }[]
+  openings?: JobOpening[];
+  lookingFor: string[];
+  offers: { t: string; d: string }[];
+  studentPrograms: { t: string; d: string }[];
 }
 
 export const CAREERS_DEFAULT: CareersData = {
+  openings: [],
   lookingFor: [
     "People who are curious before they are skilled",
     "Builders who finish what they start",
@@ -29,8 +44,40 @@ export const CAREERS_DEFAULT: CareersData = {
     { t: "Student Ambassador", d: "Represent Comfinity at your university — gain network, experience, and recognition" },
     { t: "Innovation Fellowship (Student Track)", d: "Dedicate focused time to a high-potential project within the Labs" },
   ],
-}
+};
+
+const CAREERS_FILE = "careers.json";
 
 export function readCareers(): CareersData {
-  return readJSON<CareersData>("careers.json", CAREERS_DEFAULT)
+  const data = readJSON<CareersData>(CAREERS_FILE, CAREERS_DEFAULT);
+  if (!data.openings) data.openings = [];
+  return data;
+}
+
+export function saveCareers(data: CareersData): void {
+  writeJSON(CAREERS_FILE, data);
+}
+
+export function getJobOpenings(): JobOpening[] {
+  const data = readCareers();
+  return (data.openings || []).sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+}
+
+export function saveJobOpening(job: JobOpening): void {
+  const data = readCareers();
+  const list = data.openings || [];
+  const idx = list.findIndex((j) => j.id === job.id);
+  if (idx >= 0) {
+    list[idx] = job;
+  } else {
+    list.push(job);
+  }
+  data.openings = list;
+  saveCareers(data);
+}
+
+export function deleteJobOpening(id: string): void {
+  const data = readCareers();
+  data.openings = (data.openings || []).filter((j) => j.id !== id);
+  saveCareers(data);
 }

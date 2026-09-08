@@ -6,6 +6,7 @@ import Reveal from "@/app/_components/anim/Reveal";
 import Marquee from "@/app/_components/anim/Marquee";
 import SkewMarquee from "@/app/_components/anim/SkewMarquee";
 import CtaBand from "@/app/_components/CtaBand";
+import { getLabsData } from "@/lib/labs-store";
 
 export const metadata: Metadata = {
   title: "Comfinity Labs | Where Ideas Become Impact",
@@ -26,7 +27,7 @@ const journey = [
   { t: "Impact", d: "The measurable change created in the world" },
 ];
 
-const domains = [
+const fallbackDomains = [
   "AI & Autonomous Agents",
   "Electronics & Embedded Systems",
   "Internet of Things",
@@ -40,7 +41,7 @@ const domains = [
   "Future Interfaces",
 ];
 
-const programs = [
+const fallbackPrograms = [
   {
     t: "Innovation Fellowship",
     d: "A structured program for individuals who want dedicated time and resources to pursue a high-potential research or innovation project within the Comfinity ecosystem.",
@@ -80,6 +81,12 @@ const partnerTypes = [
 ];
 
 export default function LabsPage() {
+  const data = getLabsData();
+  const liveDomains = data.domains && data.domains.length > 0 ? data.domains : fallbackDomains;
+  const livePrograms =
+    data.programs && data.programs.length > 0
+      ? data.programs.map((p) => ({ t: p.title, d: p.desc }))
+      : fallbackPrograms;
   return (
     <main>
       <PageHero
@@ -140,7 +147,7 @@ export default function LabsPage() {
         <p className="section-label mb-10 text-center">Technology Domains</p>
         <SkewMarquee>
           <Marquee duration="44s">
-            {domains.map((d) => (
+            {liveDomains.map((d) => (
               <span key={d} className="flex items-center">
                 <span className="font-display px-8 text-2xl font-medium tracking-tight text-faint md:text-4xl">
                   {d}
@@ -195,7 +202,7 @@ export default function LabsPage() {
             <span className="font-serif-accent text-gradient">serious builders.</span>
           </TextReveal>
           <div className="mt-16 grid gap-6 md:grid-cols-2">
-            {programs.map((p, i) => (
+            {livePrograms.map((p, i) => (
               <Reveal key={p.t} delay={(i % 2) * 0.08}>
                 <div className="glass card-hover h-full rounded-3xl p-8 md:p-10">
                   <p className="font-mono text-xs text-faint">

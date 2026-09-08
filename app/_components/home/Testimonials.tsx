@@ -53,7 +53,22 @@ const clientReviews = [
   },
 ];
 
-export default function Testimonials() {
+interface TestimonialItem {
+  id?: string;
+  name: string;
+  org: string;
+  avatar: string;
+  stars: number;
+  quote: string;
+}
+
+export default function Testimonials({
+  initialReviews,
+}: {
+  initialReviews?: TestimonialItem[];
+}) {
+  const reviews = initialReviews && initialReviews.length > 0 ? initialReviews : clientReviews;
+
   return (
     <section className="mx-auto max-w-[90rem] px-6 py-20 md:px-10 md:py-32">
       <p className="section-label mb-4 text-center text-blue-400 font-mono tracking-widest uppercase">
@@ -71,7 +86,7 @@ export default function Testimonials() {
 
       {/* Top-to-bottom vertical zigzag stream (one by one alternating left/right) */}
       <Reveal stagger={0.12} className="flex flex-col gap-6 md:gap-8 max-w-4xl mx-auto">
-        {clientReviews.map((review, idx) => {
+        {reviews.map((review, idx) => {
           const isEven = idx % 2 === 0;
           return (
             <div

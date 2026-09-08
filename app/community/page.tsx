@@ -4,6 +4,7 @@ import PageHero from "@/app/_components/PageHero";
 import TextReveal from "@/app/_components/anim/TextReveal";
 import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
+import { getCommunityData } from "@/lib/community-store";
 
 export const metadata: Metadata = {
   title: "Community — A Place for Builders and Dreamers",
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
     "Join the Comfinity Community — a global ecosystem of students, researchers, startup founders, and changemakers building with purpose.",
 };
 
-const programs = [
+const fallbackPrograms = [
   {
     id: "ambassador",
     t: "Student Ambassador Program",
@@ -50,7 +51,7 @@ const programs = [
   },
 ];
 
-const values = [
+const fallbackValues = [
   "We build each other up — not over each other",
   "We share knowledge freely",
   "We welcome the overlooked and the underestimated",
@@ -59,6 +60,12 @@ const values = [
 ];
 
 export default function CommunityPage() {
+  const data = getCommunityData();
+  const livePrograms =
+    data.programs && data.programs.length > 0
+      ? data.programs.map((p) => ({ id: p.id, t: p.title, d: p.desc, items: p.items }))
+      : fallbackPrograms;
+  const liveValues = data.values && data.values.length > 0 ? data.values : fallbackValues;
   return (
     <main>
       <PageHero
@@ -90,7 +97,7 @@ export default function CommunityPage() {
         </TextReveal>
 
         <div className="mt-16 grid gap-6 lg:grid-cols-2">
-          {programs.map((p, i) => (
+          {livePrograms.map((p, i) => (
             <Reveal key={p.id} delay={(i % 2) * 0.08}>
               <article
                 id={p.id}
@@ -131,7 +138,7 @@ export default function CommunityPage() {
             <span className="font-serif-accent text-gradient">each other.</span>
           </TextReveal>
           <Reveal stagger={0.08} className="mx-auto mt-16 max-w-3xl space-y-4">
-            {values.map((v) => (
+            {liveValues.map((v) => (
               <div key={v} className="glass card-hover rounded-2xl px-8 py-6">
                 <p className="text-base leading-relaxed text-foreground md:text-lg">
                   {v}

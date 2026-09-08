@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Marquee from "./anim/Marquee";
+import { getPartners } from "@/lib/partners-store";
 
 type LogoItem = {
   name: string;
@@ -16,7 +17,7 @@ type LogoItem = {
   };
 };
 
-const logos: LogoItem[] = [
+const fallbackLogos: LogoItem[] = [
   {
     name: "GATES",
     role: "Sponsor",
@@ -43,9 +44,6 @@ const logos: LogoItem[] = [
 /* Marquee only duplicates its children once; with three logos each half
    would be narrower than the viewport and the loop would show a gap,
    so repeat the set a few times per half. */
-const REPEAT = 3;
-const track = Array.from({ length: REPEAT }, () => logos).flat();
-
 type Props = {
   duration?: string;
   className?: string;
@@ -56,6 +54,28 @@ type Props = {
  * full colour. Reusable on any page.
  */
 export default function LogoCarousel({ duration = "32s", className = "" }: Props) {
+  const livePartners = getPartners().filter((p) => p.status === "active");
+  const effectiveLogos: LogoItem[] =
+    livePartners.length > 0
+      ? livePartners.map((p) => ({
+          name: p.name,
+          role: p.role,
+          href: p.href || undefined,
+          img: p.logoUrl
+            ? {
+                src: p.logoUrl,
+                srcDark: p.logoDarkUrl || p.logoUrl,
+                width: 317,
+                height: 156,
+                showName: !p.logoDarkUrl?.includes("gates"),
+              }
+            : undefined,
+        }))
+      : fallbackLogos;
+
+  const REPEAT = Math.max(2, Math.ceil(6 / Math.max(1, effectiveLogos.length)));
+  const track = Array.from({ length: REPEAT }, () => effectiveLogos).flat();
+
   return (
     <Marquee duration={duration} className={className}>
       {track.map((logo, i) => {

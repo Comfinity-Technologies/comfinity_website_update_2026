@@ -1,6 +1,7 @@
 import Counter from "../anim/Counter";
 import Reveal from "../anim/Reveal";
 import TextReveal from "../anim/TextReveal";
+import { getHomepageSections } from "@/lib/homepage-store";
 
 const stats = [
   { value: 6, suffix: "", label: "Active divisions", sub: "across technology and innovation" },
@@ -11,6 +12,9 @@ const stats = [
 ];
 
 export default function Stats() {
+  const sections = getHomepageSections();
+  const liveStats = sections.stats && sections.stats.length > 0 ? sections.stats : stats;
+
   return (
     <section className="border-y border-line bg-surface">
       <div className="mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-36">
@@ -29,7 +33,7 @@ export default function Stats() {
         </Reveal>
 
         <Reveal stagger={0.1} className="mt-16 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-5">
-          {stats.map((s) => (
+          {liveStats.map((s) => (
             <div key={s.label} className="bg-background p-8 text-center">
               <p className="font-display text-4xl font-semibold text-gradient md:text-5xl">
                 <Counter value={s.value} suffix={s.suffix} />

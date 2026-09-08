@@ -5,6 +5,7 @@ import TextReveal from "@/app/_components/anim/TextReveal";
 import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
 import LogoCarousel from "@/app/_components/LogoCarousel";
+import { getPartnersData } from "@/lib/partners-store";
 
 export const metadata: Metadata = {
   title: "Partner with Comfinity | Build the Future Together",
@@ -21,7 +22,7 @@ const whyPoints = [
   "Early-stage partnership = long-term strategic relationship",
 ];
 
-const types = [
+const fallbackTypes = [
   {
     t: "Research Collaboration",
     d: "Partner with Comfinity Labs to co-develop research programs, access a diverse innovation talent pool, and translate academic findings into applied technologies. Ideal for universities, research institutes, and government science bodies.",
@@ -64,7 +65,7 @@ const types = [
   },
 ];
 
-const sponsorships = [
+const fallbackSponsorships = [
   { t: "Innovation Sponsor", d: "Fund a technology domain or research program" },
   { t: "Challenge Sponsor", d: "Fund a specific innovation challenge with defined outcomes" },
   { t: "Fellowship Sponsor", d: "Support researchers through an Innovation or Research Fellowship" },
@@ -80,6 +81,15 @@ const aseanPoints = [
 ];
 
 export default function PartnersPage() {
+  const data = getPartnersData();
+  const liveTypes =
+    data.types && data.types.length > 0
+      ? data.types.map((t) => ({ t: t.title, d: t.desc, items: t.items || [] }))
+      : fallbackTypes;
+  const liveSponsorships =
+    data.sponsorships && data.sponsorships.length > 0
+      ? data.sponsorships.map((s) => ({ t: s.title, d: s.desc }))
+      : fallbackSponsorships;
   return (
     <main>
       <PageHero
@@ -139,7 +149,7 @@ export default function PartnersPage() {
             <span className="font-serif-accent text-gradient">work together.</span>
           </TextReveal>
           <div className="mt-16 grid gap-6 lg:grid-cols-2">
-            {types.map((ty, i) => (
+            {liveTypes.map((ty, i) => (
               <Reveal key={ty.t} delay={(i % 2) * 0.08}>
                 <article className="glass card-hover flex h-full flex-col rounded-3xl p-8 md:p-12">
                   <p className="font-mono text-xs text-faint">
@@ -187,7 +197,7 @@ export default function PartnersPage() {
           </p>
         </Reveal>
         <Reveal stagger={0.07} className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-          {sponsorships.map((s) => (
+          {liveSponsorships.map((s) => (
             <div key={s.t} className="group bg-background p-8 transition-colors duration-500 hover:bg-surface-2">
               <h3 className="font-display text-lg font-medium tracking-tight transition-colors group-hover:text-accent-soft">
                 {s.t}

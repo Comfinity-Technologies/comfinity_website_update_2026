@@ -13,6 +13,7 @@ import Testimonials from "./_components/home/Testimonials";
 import CtaBand from "./_components/CtaBand";
 
 import VisionSection from "./_components/home/VisionSection";
+import { getTestimonials } from "@/lib/testimonials-store";
 
 export const metadata: Metadata = {
   title: "Comfinity Technologies | Technology & Innovation Group",
@@ -21,6 +22,8 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const testimonials = getTestimonials();
+
   return (
     <main>
       <Hero />
@@ -34,7 +37,7 @@ export default function Home() {
       <LabsPreview />
       <Stats />
       <TeamCulture />
-      <Testimonials />
+      <Testimonials initialReviews={testimonials} />
       <CtaBand />
     </main>
   );

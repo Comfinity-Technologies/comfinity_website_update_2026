@@ -1,13 +1,19 @@
-﻿"use client";
+"use client";
 
 import { usePathname } from "next/navigation";
 import Navbar from "./Navbar";
-import Footer from "./Footer";
+import Footer, { type FooterSettings } from "./Footer";
 import SmoothScroll from "./SmoothScroll";
 import ScrollProgress from "./anim/ScrollProgress";
 import Preloader from "./Preloader";
 
-export default function PublicChrome({ children }: { children: React.ReactNode }) {
+export default function PublicChrome({
+  children,
+  globalSettings,
+}: {
+  children: React.ReactNode;
+  globalSettings?: FooterSettings;
+}) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 
@@ -22,7 +28,7 @@ export default function PublicChrome({ children }: { children: React.ReactNode }
       <Navbar />
       <SmoothScroll>
         {children}
-        <Footer />
+        <Footer settings={globalSettings} />
       </SmoothScroll>
     </>
   );

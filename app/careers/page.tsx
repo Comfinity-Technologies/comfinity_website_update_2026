@@ -4,7 +4,7 @@ import PageHero from "@/app/_components/PageHero";
 import TextReveal from "@/app/_components/anim/TextReveal";
 import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
-import { readCareers } from "@/app/admin/(dashboard)/careers/_helpers";
+import { readCareers, getJobOpenings } from "@/app/admin/(dashboard)/careers/_helpers";
 
 export const metadata: Metadata = {
   title: "Careers — Join the Team Building the Future",
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 
 export default function CareersPage() {
   const { lookingFor, offers, studentPrograms } = readCareers();
+  const openings = getJobOpenings().filter((j) => j.status === "Active");
 
   return (
     <main>
@@ -30,11 +31,62 @@ export default function CareersPage() {
         body="Comfinity is not for everyone. It is for people who find conventional career paths too small — who want their work to mean something beyond output. We are building something that will matter. And we want to build it with people who understand why that matters."
       >
         <div className="mt-10 flex flex-wrap gap-4">
-          <a href="#students" className="btn-primary">
+          <a href="#openings" className="btn-primary">
+            View Open Positions ({openings.length})
+          </a>
+          <a href="#students" className="btn-ghost">
             Explore Internships
           </a>
         </div>
       </PageHero>
+
+      {/* open positions */}
+      {openings.length > 0 && (
+        <section id="openings" className="mx-auto max-w-[90rem] scroll-mt-24 px-6 py-28 md:px-10 md:py-36">
+          <p className="section-label mb-6">Open Roles</p>
+          <TextReveal
+            as="h2"
+            className="font-display max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl"
+          >
+            Join our mission-driven{" "}
+            <span className="font-serif-accent text-gradient">engineering teams.</span>
+          </TextReveal>
+          <div className="mt-14 space-y-4">
+            {openings.map((job) => (
+              <div
+                key={job.id}
+                className="glass card-hover flex flex-col justify-between gap-6 rounded-3xl p-8 transition md:flex-row md:items-center"
+              >
+                <div className="space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-xs text-accent-soft">{job.department}</span>
+                    <span className="text-faint">·</span>
+                    <span className="font-mono text-xs text-muted">{job.location}</span>
+                    <span className="text-faint">·</span>
+                    <span className="font-mono text-xs text-muted">{job.type}</span>
+                    <span className="text-faint">·</span>
+                    <span className="font-mono text-xs text-muted">{job.experience}</span>
+                  </div>
+                  <h3 className="font-display text-2xl font-medium tracking-tight text-foreground">
+                    {job.title}
+                  </h3>
+                  <p className="max-w-2xl text-sm leading-relaxed text-muted">
+                    {job.description}
+                  </p>
+                </div>
+                <div className="shrink-0">
+                  <Link
+                    href={`/contact?role=${encodeURIComponent(job.title)}`}
+                    className="btn-primary !px-6 !py-3 !text-sm whitespace-nowrap"
+                  >
+                    Apply Now <span aria-hidden>→</span>
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* who + what we offer */}
       <section className="mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-36">

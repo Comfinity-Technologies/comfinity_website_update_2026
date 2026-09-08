@@ -5,6 +5,7 @@ import TextReveal from "@/app/_components/anim/TextReveal";
 import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
 import OfferingsExplorer from "@/app/_components/solutions/OfferingsExplorer";
+import { getSolutions, getIndustries } from "@/lib/solutions-store";
 
 export const metadata: Metadata = {
   title: "Business Solutions — AI, Software & Innovation",
@@ -116,6 +117,11 @@ const why = [
 ];
 
 export default function SolutionsPage() {
+  const liveSolutions = getSolutions();
+  const displayOfferings = liveSolutions.length > 0 ? liveSolutions : offerings;
+  const liveIndustries = getIndustries();
+  const displayIndustries = liveIndustries.length > 0 ? liveIndustries : industries;
+
   return (
     <main>
       <PageHero
@@ -146,7 +152,7 @@ export default function SolutionsPage() {
           <span className="font-serif-accent text-gradient">leverage.</span>
         </TextReveal>
 
-        <OfferingsExplorer offerings={offerings} />
+        <OfferingsExplorer offerings={displayOfferings} />
       </section>
 
       {/* process */}
@@ -191,7 +197,7 @@ export default function SolutionsPage() {
           <span className="font-serif-accent text-gradient">generic playbooks.</span>
         </TextReveal>
         <div className="mt-16">
-          {industries.map((ind, i) => (
+          {displayIndustries.map((ind, i) => (
             <Reveal key={ind.t} delay={i * 0.02}>
               <div className="group grid gap-2 border-t border-line py-7 transition-colors hover:bg-wash md:grid-cols-[1fr_1.4fr] md:gap-10 md:px-4">
                 <h3 className="font-display text-lg font-medium tracking-tight transition-colors group-hover:text-accent-soft md:text-xl">

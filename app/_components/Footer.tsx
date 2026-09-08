@@ -1,5 +1,18 @@
 import Link from "next/link";
 
+export interface FooterSettings {
+  social?: {
+    linkedin?: string;
+    twitter?: string;
+    github?: string;
+    youtube?: string;
+  };
+  branding?: {
+    tagline?: string;
+    copyrightText?: string;
+  };
+}
+
 const columns: { title: string; links: { label: string; href: string }[] }[] = [
   {
     title: "Company",
@@ -56,7 +69,14 @@ const columns: { title: string; links: { label: string; href: string }[] }[] = [
   },
 ];
 
-export default function Footer() {
+export default function Footer({ settings }: { settings?: FooterSettings }) {
+  const socialLinks = [
+    { name: "LinkedIn", href: settings?.social?.linkedin || "#" },
+    { name: "X", href: settings?.social?.twitter || "#" },
+    { name: "GitHub", href: settings?.social?.github || "#" },
+    { name: "YouTube", href: settings?.social?.youtube || "#" },
+  ];
+
   return (
     <footer className="relative border-t border-line bg-surface">
       <div className="mx-auto max-w-[90rem] px-6 py-20 md:px-10">
@@ -66,17 +86,19 @@ export default function Footer() {
               comfinity<span className="text-accent">.</span>
             </Link>
             <p className="mt-5 max-w-xs text-sm leading-relaxed text-muted">
-              Technology &amp; Innovation Group — Building the Future Through
-              Technology, Research, and Community.
+              {settings?.branding?.tagline ||
+                "Technology & Innovation Group — Building the Future Through Technology, Research, and Community."}
             </p>
             <div className="mt-8 flex gap-3">
-              {["LinkedIn", "X", "GitHub", "YouTube"].map((s) => (
+              {socialLinks.map((s) => (
                 <a
-                  key={s}
-                  href="#"
+                  key={s.name}
+                  href={s.href}
+                  target={s.href !== "#" ? "_blank" : undefined}
+                  rel={s.href !== "#" ? "noopener noreferrer" : undefined}
                   className="rounded-full border border-line px-4 py-2 text-xs text-muted transition-colors hover:border-line-strong hover:text-foreground"
                 >
-                  {s}
+                  {s.name}
                 </a>
               ))}
             </div>
@@ -103,8 +125,8 @@ export default function Footer() {
 
         <div className="mt-20 flex flex-col items-start justify-between gap-6 border-t border-line pt-8 md:flex-row md:items-center">
           <p className="text-xs text-faint">
-            © {new Date().getFullYear()} Comfinity Technologies. All rights
-            reserved.
+            © {new Date().getFullYear()}{" "}
+            {settings?.branding?.copyrightText || "Comfinity Technologies. All rights reserved."}
           </p>
           <div className="flex flex-wrap gap-6 text-xs text-faint">
             <Link href="/privacy" className="transition-colors hover:text-foreground">

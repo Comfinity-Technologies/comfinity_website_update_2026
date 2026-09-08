@@ -1,6 +1,7 @@
 import Image from "next/image";
 import TextReveal from "../anim/TextReveal";
 import Reveal from "../anim/Reveal";
+import { getProductsCatalog } from "@/lib/products-store";
 
 const products = [
   {
@@ -73,6 +74,9 @@ const solutions = [
 ];
 
 export default function ServicesGrid() {
+  const liveProducts = getProductsCatalog();
+  const displayProducts = liveProducts.length > 0 ? liveProducts : products;
+
   return (
     <section className="mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-40">
       <div className="mb-20 flex flex-col justify-between gap-8 md:flex-row md:items-end">
@@ -84,7 +88,7 @@ export default function ServicesGrid() {
           >
             Products we ship.{" "}
             <span className="font-serif-accent text-gradient">
-              Solutions we craft.
+               Solutions we craft.
             </span>
           </TextReveal>
         </div>
@@ -108,7 +112,7 @@ export default function ServicesGrid() {
         stagger={0.08}
         className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
       >
-        {products.map((p) => (
+        {displayProducts.map((p) => (
           <article
             key={p.name}
             className="glass card-hover group flex flex-col overflow-hidden rounded-2xl"
@@ -116,7 +120,7 @@ export default function ServicesGrid() {
             <div className="relative aspect-video overflow-hidden border-b border-line">
               <Image
                 src={p.image}
-                alt={p.alt}
+                alt={p.name}
                 fill
                 sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 92vw"
                 unoptimized={p.image.endsWith(".svg")}
