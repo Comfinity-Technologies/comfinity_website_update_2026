@@ -1,6 +1,7 @@
 import Link from "next/link";
 import TextReveal from "../anim/TextReveal";
 import Reveal from "../anim/Reveal";
+import { getLabDomains } from "@/lib/labs-store";
 
 const domains = [
   "AI & Agents",
@@ -14,6 +15,8 @@ const domains = [
 ];
 
 export default function LabsPreview() {
+  const liveDomains = getLabDomains();
+  const displayDomains = liveDomains.length > 0 ? liveDomains.slice(0, 8) : domains;
   return (
     <section className="relative overflow-hidden">
       <div
@@ -46,7 +49,7 @@ export default function LabsPreview() {
           </div>
 
           <Reveal stagger={0.06} className="grid grid-cols-2 gap-3">
-            {domains.map((d, i) => (
+            {displayDomains.map((d, i) => (
               <div
                 key={d}
                 data-lag={(0.04 + (i % 4) * 0.05).toFixed(2)}

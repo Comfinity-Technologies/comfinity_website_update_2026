@@ -6,7 +6,7 @@ const cards = [
   {
     title: "Products",
     desc: "Intelligent software products built for the future",
-    href: "/about/divisions",
+    href: "/products",
     num: "01",
   },
   {

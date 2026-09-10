@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const SITE_PAGES = [
   { path: "/", name: "Homepage", template: "Standard", status: "Published", updated: "Recently" },
+  { path: "/products", name: "Products Showcase", template: "Catalog & Roadmap", status: "Published", updated: "Recently" },
   { path: "/about", name: "About Us", template: "Corporate", status: "Published", updated: "Recently" },
   { path: "/about/divisions", name: "Divisions", template: "Directory", status: "Published", updated: "Recently" },
   { path: "/about/leadership", name: "Leadership", template: "Team Grid", status: "Published", updated: "Recently" },

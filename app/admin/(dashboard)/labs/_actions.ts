@@ -31,6 +31,7 @@ export async function saveLabInitiativeAction(formData: FormData) {
   };
 
   saveLabInitiative(initiative);
+  revalidatePath("/");
   revalidatePath("/labs");
   revalidatePath("/admin/labs");
   return { success: true };
@@ -38,6 +39,7 @@ export async function saveLabInitiativeAction(formData: FormData) {
 
 export async function deleteLabInitiativeAction(id: string) {
   deleteLabInitiative(id);
+  revalidatePath("/");
   revalidatePath("/labs");
   revalidatePath("/admin/labs");
   return { success: true };
@@ -57,6 +59,7 @@ export async function saveLabProgramAction(formData: FormData) {
   };
 
   saveLabProgram(prog);
+  revalidatePath("/");
   revalidatePath("/labs");
   revalidatePath("/admin/labs");
   return { success: true };
@@ -64,6 +67,7 @@ export async function saveLabProgramAction(formData: FormData) {
 
 export async function deleteLabProgramAction(id: string) {
   deleteLabProgram(id);
+  revalidatePath("/");
   revalidatePath("/labs");
   revalidatePath("/admin/labs");
   return { success: true };
@@ -77,6 +81,7 @@ export async function saveLabDomainsAction(formData: FormData) {
     .filter(Boolean);
 
   saveLabDomains(domains);
+  revalidatePath("/");
   revalidatePath("/labs");
   revalidatePath("/admin/labs");
   return { success: true };

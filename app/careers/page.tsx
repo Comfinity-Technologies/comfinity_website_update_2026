@@ -6,6 +6,8 @@ import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
 import { readCareers, getJobOpenings } from "@/app/admin/(dashboard)/careers/_helpers";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Careers — Join the Team Building the Future",
   description:

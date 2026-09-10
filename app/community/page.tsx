@@ -6,6 +6,8 @@ import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
 import { getCommunityData } from "@/lib/community-store";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Community — A Place for Builders and Dreamers",
   description:

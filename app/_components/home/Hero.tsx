@@ -65,10 +65,69 @@ const slides: Slide[] = [
   },
 ];
 
-export default function Hero() {
+import { type HomepageSections } from "@/lib/homepage-store";
+
+export default function Hero({ initialSections }: { initialSections?: HomepageSections }) {
   const ref = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
   const goToRef = useRef<(i: number) => void>(null);
+
+  const effectiveSlides: Slide[] =
+    initialSections?.hero && initialSections.hero.length > 0
+      ? initialSections.hero.map((s, idx) => {
+          let titleNode: ReactNode = s.title;
+          const low = s.title.toLowerCase();
+          if (s.id === "comfinity" && low.includes("future")) {
+            titleNode = (
+              <>
+                Building the <span className="font-serif-accent">future</span> through
+                technology &amp; <span className="text-gradient">innovation</span>
+              </>
+            );
+          } else if (s.id === "asean-summit" && low.includes("asean")) {
+            titleNode = (
+              <>
+                Representing <span className="font-serif-accent">innovation</span> at
+                the <span className="text-gradient">ASEAN Summit</span>
+              </>
+            );
+          } else if (s.id === "partners" && low.includes("together")) {
+            titleNode = (
+              <>
+                Alliances that build the future,{" "}
+                <span className="font-serif-accent text-gradient">together</span>
+              </>
+            );
+          } else {
+            const words = s.title.split(" ");
+            if (words.length > 2) {
+              const main = words.slice(0, -1).join(" ");
+              const last = words[words.length - 1];
+              titleNode = (
+                <>
+                  {main} <span className="font-serif-accent text-gradient">{last}</span>
+                </>
+              );
+            }
+          }
+
+          const ctas = [];
+          if (s.ctaPrimaryLabel) {
+            ctas.push({ label: s.ctaPrimaryLabel, href: s.ctaPrimaryHref || "/about/divisions", primary: true });
+          }
+          if (s.ctaSecondaryLabel) {
+            ctas.push({ label: s.ctaSecondaryLabel, href: s.ctaSecondaryHref || "/contact", primary: false });
+          }
+
+          return {
+            id: s.id,
+            badge: s.badge,
+            title: titleNode,
+            body: s.body,
+            ctas: ctas.length > 0 ? ctas : (slides[idx]?.ctas || []),
+          };
+        })
+      : slides;
 
   useGSAP(
     () => {
@@ -223,7 +282,7 @@ export default function Hero() {
         className="relative z-20 mx-auto w-full max-w-6xl px-6 text-center"
       >
         <div className="grid">
-          {slides.map((s, i) => (
+          {effectiveSlides.map((s, i) => (
             <div
               key={s.id}
               data-hero-slide
@@ -289,7 +348,7 @@ export default function Hero() {
           data-hero-dots
           className="mt-12 flex items-center justify-center gap-2.5"
         >
-          {slides.map((s, i) => (
+          {effectiveSlides.map((s, i) => (
             <button
               key={s.id}
               type="button"
@@ -355,26 +414,34 @@ export default function Hero() {
       </div>
 
       {/* announce strip */}
-      <div
-        data-hero-scroll
-        className="absolute inset-x-0 bottom-0 z-20 border-t border-line bg-background/50 backdrop-blur-md"
-      >
-        <Link
-          href="/labs"
-          className="group mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-6 py-4 md:px-10"
+      {(!initialSections?.announcement || initialSections.announcement.enabled) && (
+        <div
+          data-hero-scroll
+          className="absolute inset-x-0 bottom-0 z-20 border-t border-line bg-background/50 backdrop-blur-md"
         >
-          <p className="text-sm text-muted">
-            <span className="mr-3 rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[10px] tracking-[0.2em] text-accent-soft">
-              NEW
+          <Link
+            href={initialSections?.announcement?.ctaHref || "/labs"}
+            className="group mx-auto flex max-w-[90rem] items-center justify-between gap-6 px-6 py-4 md:px-10"
+          >
+            <p className="text-sm text-muted">
+              <span className="mr-3 rounded-full bg-accent/15 px-2.5 py-1 font-mono text-[10px] tracking-[0.2em] text-accent-soft">
+                {initialSections?.announcement?.label || "NEW"}
+              </span>
+              {initialSections?.announcement?.heading ? (
+                <>
+                  <strong className="text-foreground font-medium">{initialSections.announcement.heading}</strong>
+                  {initialSections.announcement.description && ` — ${initialSections.announcement.description}`}
+                </>
+              ) : (
+                initialSections?.announcement?.description || "Comfinity Innovation Labs is now open — submit your idea and join the ecosystem."
+              )}
+            </p>
+            <span className="shrink-0 text-sm text-accent-soft transition-transform group-hover:translate-x-1">
+              {initialSections?.announcement?.ctaLabel ? `${initialSections.announcement.ctaLabel} →` : "Learn more →"}
             </span>
-            Comfinity Innovation Labs is now open — submit your idea and join
-            the ecosystem.
-          </p>
-          <span className="shrink-0 text-sm text-accent-soft transition-transform group-hover:translate-x-1">
-            Learn more →
-          </span>
-        </Link>
-      </div>
+          </Link>
+        </div>
+      )}
     </section>
   );
 }

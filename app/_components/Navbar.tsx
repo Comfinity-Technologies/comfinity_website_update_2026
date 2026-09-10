@@ -10,7 +10,7 @@ import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { href: "/about/magazine", label: "Magazine 📖" },
-  { href: "/about/story", label: "About" },
+  { href: "/products", label: "Products" },
   { href: "/solutions", label: "Services" },
   { href: "/labs", label: "Labs" },
   { href: "/partners", label: "Partners" },
@@ -54,6 +54,7 @@ const services = [
 const menuLinks = [
   { href: "/", label: "Home" },
   { href: "/about/magazine", label: "Company Magazine 📖" },
+  { href: "/products", label: "Products" },
   { href: "/about/story", label: "Our Story" },
   { href: "/about/mission", label: "Mission & Values" },
   { href: "/about/divisions", label: "Divisions" },

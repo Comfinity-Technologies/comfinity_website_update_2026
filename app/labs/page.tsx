@@ -8,6 +8,8 @@ import SkewMarquee from "@/app/_components/anim/SkewMarquee";
 import CtaBand from "@/app/_components/CtaBand";
 import { getLabsData } from "@/lib/labs-store";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Comfinity Labs | Where Ideas Become Impact",
   description:

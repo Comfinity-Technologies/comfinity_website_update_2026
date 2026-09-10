@@ -14,6 +14,10 @@ import CtaBand from "./_components/CtaBand";
 
 import VisionSection from "./_components/home/VisionSection";
 import { getTestimonials } from "@/lib/testimonials-store";
+import { getHomepageSections } from "@/lib/homepage-store";
+import { getProjects } from "@/app/admin/(dashboard)/projects/_helpers";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Comfinity Technologies | Technology & Innovation Group",
@@ -23,17 +27,19 @@ export const metadata: Metadata = {
 
 export default function Home() {
   const testimonials = getTestimonials();
+  const sections = getHomepageSections();
+  const projects = getProjects();
 
   return (
     <main>
-      <Hero />
+      <Hero initialSections={sections} />
       <TrustBar />
       <VisionSection />
       <ExploreGrid />
       <FeatureSplits />
       <CapabilitiesTabs />
       <ServicesGrid />
-      <CaseStudies />
+      <CaseStudies initialProjects={projects} />
       <LabsPreview />
       <Stats />
       <TeamCulture />

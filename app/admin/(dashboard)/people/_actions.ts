@@ -33,6 +33,7 @@ export async function saveLeaderAction(formData: FormData) {
   };
 
   saveLeader(leader);
+  revalidatePath("/");
   revalidatePath("/about/leadership");
   revalidatePath("/admin/people");
   revalidatePath("/admin");
@@ -40,6 +41,7 @@ export async function saveLeaderAction(formData: FormData) {
 
 export async function deleteLeaderAction(id: string) {
   deleteLeader(id);
+  revalidatePath("/");
   revalidatePath("/about/leadership");
   revalidatePath("/admin/people");
   revalidatePath("/admin");

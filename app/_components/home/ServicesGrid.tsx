@@ -1,7 +1,9 @@
+import Link from "next/link";
 import Image from "next/image";
 import TextReveal from "../anim/TextReveal";
 import Reveal from "../anim/Reveal";
 import { getProductsCatalog } from "@/lib/products-store";
+import { getSolutions } from "@/lib/solutions-store";
 
 const products = [
   {
@@ -77,8 +79,20 @@ export default function ServicesGrid() {
   const liveProducts = getProductsCatalog();
   const displayProducts = liveProducts.length > 0 ? liveProducts : products;
 
+  const liveSolutions = getSolutions();
+  const displaySolutions =
+    liveSolutions.length > 0
+      ? liveSolutions.map((s, i) => ({
+          title: s.title,
+          icon: ["🤖", "📊", "🏗️", "⚡", "🔧", "🚀"][i % 6] || "✦",
+          tag: s.items?.[0] || "Enterprise",
+          desc: s.desc,
+        }))
+      : solutions;
+
   return (
-    <section className="mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-40">
+    <section id="products" className="scroll-mt-24 mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-40 relative">
+      <span id="services" className="absolute -top-24" aria-hidden="true" />
       <div className="mb-20 flex flex-col justify-between gap-8 md:flex-row md:items-end">
         <div>
           <p className="section-label mb-6">What We Build</p>
@@ -93,19 +107,36 @@ export default function ServicesGrid() {
           </TextReveal>
         </div>
         <Reveal>
-          <p className="max-w-sm text-sm leading-relaxed text-muted">
-            We build and own products — and we build custom systems for
-            businesses that need something the market doesn&rsquo;t offer.
-          </p>
+          <div className="space-y-4">
+            <p className="max-w-sm text-sm leading-relaxed text-muted">
+              We build and own products — and we build custom systems for
+              businesses that need something the market doesn&rsquo;t offer.
+            </p>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-1.5 text-xs font-mono tracking-wider text-accent-soft hover:text-accent transition"
+            >
+              <span>Explore Products Showcase ({displayProducts.length})</span>
+              <span aria-hidden>→</span>
+            </Link>
+          </div>
         </Reveal>
       </div>
 
       {/* our products */}
-      <Reveal className="mb-10 flex items-center gap-6">
-        <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft">
-          01 — OUR PRODUCTS
-        </p>
-        <span aria-hidden className="h-px flex-1 bg-line" />
+      <Reveal className="mb-10 flex items-center justify-between gap-6">
+        <div className="flex items-center gap-6 flex-1">
+          <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft whitespace-nowrap">
+            01 — OUR PRODUCTS
+          </p>
+          <span aria-hidden className="h-px flex-1 bg-line" />
+        </div>
+        <Link
+          href="/products"
+          className="shrink-0 text-xs font-mono text-muted hover:text-accent-soft transition"
+        >
+          View all →
+        </Link>
       </Reveal>
 
       <Reveal
@@ -143,18 +174,26 @@ export default function ServicesGrid() {
       </Reveal>
 
       {/* custom solutions */}
-      <Reveal className="mb-10 mt-24 flex items-center gap-6">
-        <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft">
-          02 — CUSTOM SOLUTIONS
-        </p>
-        <span aria-hidden className="h-px flex-1 bg-line" />
+      <Reveal className="mb-10 mt-24 flex items-center justify-between gap-6">
+        <div className="flex items-center gap-6 flex-1">
+          <p className="font-mono text-[10px] tracking-[0.25em] text-accent-soft whitespace-nowrap">
+            02 — CUSTOM SOLUTIONS
+          </p>
+          <span aria-hidden className="h-px flex-1 bg-line" />
+        </div>
+        <Link
+          href="/solutions"
+          className="shrink-0 text-xs font-mono text-muted hover:text-accent-soft transition"
+        >
+          Explore solutions →
+        </Link>
       </Reveal>
 
       <Reveal
         stagger={0.06}
         className="grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3"
       >
-        {solutions.map((s) => (
+        {displaySolutions.map((s) => (
           <div
             key={s.title}
             className="group relative flex min-h-64 flex-col justify-between bg-background p-7 transition-colors duration-500 hover:bg-surface-2"

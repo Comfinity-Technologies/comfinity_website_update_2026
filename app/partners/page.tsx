@@ -7,6 +7,8 @@ import CtaBand from "@/app/_components/CtaBand";
 import LogoCarousel from "@/app/_components/LogoCarousel";
 import { getPartnersData } from "@/lib/partners-store";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Partner with Comfinity | Build the Future Together",
   description:

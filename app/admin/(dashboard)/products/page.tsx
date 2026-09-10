@@ -13,12 +13,12 @@ export default function ProductsAdmin() {
     <AdminModuleScaffold
       title="Products"
       category="Showcase"
-      description="Manage Comfinity hardware, intelligent platforms, and product literature with real-time homepage sync."
+      description="Manage Comfinity hardware, intelligent platforms, and product literature with real-time sync across /products and the homepage."
       icon={Rocket}
-      liveUrl="/#services"
+      liveUrl="/products"
       stats={[
         { label: "Listed Products", value: products.length },
-        { label: "Production (Live)", value: `${products.filter((p) => p.status === "Live").length} Products`, subtext: "Homepage showcase" },
+        { label: "Production (Live)", value: `${products.filter((p) => p.status === "Live").length} Products`, subtext: "Homepage & /products" },
         { label: "Product Magazine", value: `${magazinePages.length} Pages`, subtext: "Interactive 2026 Edition" },
         { label: "Storage", value: "products.json", subtext: "Live atomic store" },
       ]}

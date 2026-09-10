@@ -47,12 +47,35 @@ const studies = [
     result: "Delivered a citizen-facing digital platform for a local authority.",
     metric: "Public",
     metricLabel: "digital service",
-  },
-];
+type StudyItem = {
+  tag: string;
+  title: string;
+  result: string;
+  metric: string;
+  metricLabel: string;
+};
 
-export default function CaseStudies() {
+export default function CaseStudies({ initialProjects }: { initialProjects?: any[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+
+  const activeProjects =
+    initialProjects && initialProjects.length > 0
+      ? initialProjects.filter((p) => p.featured).length > 0
+        ? initialProjects.filter((p) => p.featured)
+        : initialProjects
+      : [];
+
+  const displayStudies: StudyItem[] =
+    activeProjects.length > 0
+      ? activeProjects.map((p) => ({
+          tag: p.category || "Case Study",
+          title: p.title,
+          result: p.tagline || (p.results && p.results[0]) || p.summary || "",
+          metric: p.metric || "Impact",
+          metricLabel: p.metricLabel || "Outcome",
+        }))
+      : studies;
 
   useGSAP(
     () => {
@@ -116,10 +139,10 @@ export default function CaseStudies() {
           ref={trackRef}
           className="flex w-max cursor-grab select-none items-stretch gap-6 pl-6 active:cursor-grabbing motion-reduce:w-auto motion-reduce:overflow-x-auto"
         >
-          {[...studies, ...studies].map((s, i) => (
+          {[...displayStudies, ...displayStudies].map((s, i) => (
             <article
               key={`${s.title}-${i}`}
-              aria-hidden={i >= studies.length || undefined}
+              aria-hidden={i >= displayStudies.length || undefined}
               className="glass card-hover group relative flex h-[24rem] w-[19rem] shrink-0 flex-col justify-between rounded-3xl p-8 md:w-[24rem] lg:h-[26rem] lg:w-[26rem]"
             >
               <div className="flex items-center justify-between">
@@ -127,7 +150,7 @@ export default function CaseStudies() {
                   {s.tag.toUpperCase()}
                 </span>
                 <span className="font-mono text-xs text-faint">
-                  {String((i % studies.length) + 1).padStart(2, "0")} / 06
+                  {String((i % displayStudies.length) + 1).padStart(2, "0")} / {String(displayStudies.length).padStart(2, "0")}
                 </span>
               </div>
               <div className="mt-10">

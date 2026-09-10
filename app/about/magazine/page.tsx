@@ -5,6 +5,8 @@ import Magazine from "@/app/_components/about/Magazine";
 import { MAGAZINE_EDITION } from "@/lib/magazineData";
 import { getMagazinePages } from "@/app/admin/(dashboard)/magazine/_helpers";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Company Magazine — 2026 Edition",
   description:

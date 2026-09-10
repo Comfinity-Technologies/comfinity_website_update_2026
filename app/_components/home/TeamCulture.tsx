@@ -1,5 +1,6 @@
 import TextReveal from "../anim/TextReveal";
 import Reveal from "../anim/Reveal";
+import { getLeadership } from "@/lib/team-store";
 
 const gradients = [
   "linear-gradient(135deg, rgba(79,124,255,0.9), rgba(138,216,255,0.55))",
@@ -53,6 +54,20 @@ const team = [
 ];
 
 export default function TeamCulture() {
+  const leaders = getLeadership();
+  const displayTeam =
+    leaders.length > 0
+      ? [
+          ...leaders.map((l) => ({
+            name: l.name,
+            role: l.role,
+            bio: l.bio,
+            tags: [l.tagline || "Leadership", "Executive"],
+            avatar: l.name.split(" ").map((n) => n[0]).join("").slice(0, 2),
+          })),
+          ...team,
+        ].slice(0, 6)
+      : team;
   return (
     <section className="border-t border-line bg-surface">
       <div className="mx-auto max-w-[90rem] px-6 py-28 md:px-10 md:py-40">
@@ -81,7 +96,7 @@ export default function TeamCulture() {
           stagger={0.07}
           className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
         >
-          {team.map((m, i) => (
+          {displayTeam.map((m, i) => (
             <article
               key={m.name}
               className="glass card-hover flex flex-col rounded-3xl p-8"

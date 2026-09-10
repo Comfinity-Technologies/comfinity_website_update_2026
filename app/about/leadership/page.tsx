@@ -5,6 +5,8 @@ import Reveal from "@/app/_components/anim/Reveal";
 import CtaBand from "@/app/_components/CtaBand";
 import { getLeadership } from "@/lib/team-store";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Leadership Team",
   description:

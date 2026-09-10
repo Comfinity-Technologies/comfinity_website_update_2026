@@ -35,12 +35,14 @@ export async function saveSolutionAction(formData: FormData) {
   };
 
   saveSolution(solution);
+  revalidatePath("/");
   revalidatePath("/solutions");
   revalidatePath("/admin/solutions");
 }
 
 export async function deleteSolutionAction(id: string) {
   deleteSolution(id);
+  revalidatePath("/");
   revalidatePath("/solutions");
   revalidatePath("/admin/solutions");
 }

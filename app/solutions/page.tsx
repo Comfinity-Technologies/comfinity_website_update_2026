@@ -7,6 +7,8 @@ import CtaBand from "@/app/_components/CtaBand";
 import OfferingsExplorer from "@/app/_components/solutions/OfferingsExplorer";
 import { getSolutions, getIndustries } from "@/lib/solutions-store";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Business Solutions — AI, Software & Innovation",
   description:

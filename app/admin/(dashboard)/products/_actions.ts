@@ -44,6 +44,7 @@ export async function saveProductAction(formData: FormData) {
 
   saveProduct(product);
   revalidatePath("/");
+  revalidatePath("/products");
   revalidatePath("/admin/products");
   revalidatePath("/admin");
 }
@@ -51,6 +52,7 @@ export async function saveProductAction(formData: FormData) {
 export async function deleteProductAction(id: string) {
   deleteProduct(id);
   revalidatePath("/");
+  revalidatePath("/products");
   revalidatePath("/admin/products");
   revalidatePath("/admin");
 }
@@ -77,6 +79,7 @@ export async function saveRoadmapItemAction(formData: FormData) {
   };
 
   saveRoadmapItem(item);
+  revalidatePath("/products");
   revalidatePath("/admin/products/roadmap");
 }
 
@@ -86,11 +89,13 @@ export async function updateRoadmapStatusAction(id: string, status: RoadmapStatu
   if (target) {
     target.status = status;
     saveRoadmapItem(target);
+    revalidatePath("/products");
     revalidatePath("/admin/products/roadmap");
   }
 }
 
 export async function deleteRoadmapItemAction(id: string) {
   deleteRoadmapItem(id);
+  revalidatePath("/products");
   revalidatePath("/admin/products/roadmap");
 }

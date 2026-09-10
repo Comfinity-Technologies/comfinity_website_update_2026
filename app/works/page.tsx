@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import WorksClient from "./WorksClient";
 import { getProjects } from "@/app/admin/(dashboard)/projects/_helpers";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Our Works & Case Studies | Comfinity Technologies",
   description:

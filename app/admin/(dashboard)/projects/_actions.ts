@@ -1,4 +1,4 @@
-﻿"use server"
+"use server"
 
 import { revalidatePath } from "next/cache"
 import { readJSON, writeJSON } from "@/lib/data-store"
@@ -47,6 +47,7 @@ export async function saveProject(_prev: unknown, formData: FormData) {
     }
   }
 
+  revalidatePath("/")
   revalidatePath("/admin/projects")
   revalidatePath("/works")
   return { success: true }
@@ -55,6 +56,7 @@ export async function saveProject(_prev: unknown, formData: FormData) {
 export async function deleteProject(id: string) {
   const projects = getProjects()
   writeJSON(FILE, projects.filter((p: Project) => p.id !== id))
+  revalidatePath("/")
   revalidatePath("/admin/projects")
   revalidatePath("/works")
 }
