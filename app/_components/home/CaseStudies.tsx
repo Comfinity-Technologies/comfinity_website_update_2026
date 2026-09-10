@@ -47,6 +47,9 @@ const studies = [
     result: "Delivered a citizen-facing digital platform for a local authority.",
     metric: "Public",
     metricLabel: "digital service",
+  },
+];
+
 type StudyItem = {
   tag: string;
   title: string;
